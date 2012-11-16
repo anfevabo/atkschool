@@ -87,7 +87,7 @@ class Frontend extends ApiFrontend {
         $this->addLayout('UserMenu');
         
         $name=$this->api->auth->model['username'];
-         $this->add('h5')->set('Welcome : '.$name);
+         $this->add('H5')->set('Welcome : '.$name);
     }
     function layout_UserMenu(){
         if($this->auth->isLoggedIn()){
