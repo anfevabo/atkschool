@@ -11,7 +11,7 @@ class Model_Hostel_StudentGuardian extends  Model_Table
        // $s->addField('fname');
         $this->addField('scholar_id');
         $this->addField('gname')->caption('Guardian');
-      $this->addExpression('Guardian')->set('gname');
+        $this->addExpression('Guardian')->set('gname');
         $this->add("filestore/Field_Image","image");
         $this->addField('relation');
         $this->addField('contact');

@@ -42,9 +42,9 @@ class Frontend extends ApiFrontend {
 //              ->allow('nitin','bvmsss')
 //              
             // use check() and allowPage for white-list based auth checking
-        $auth=$this->add('BasicAuth');
-          $auth->setModel('Users','username','password');
-          $auth->check()
+        // $auth=$this->add('BasicAuth');
+        //   $auth->setModel('Users','username','password');
+        //   $auth->check()
             ;
         // This method is executed for ALL the peages you are going to add,
         // before the page class is loaded. You can put additional checks
@@ -87,7 +87,7 @@ class Frontend extends ApiFrontend {
         $this->addLayout('UserMenu');
         
         $name=$this->api->auth->model['username'];
-         $this->add('h5')->set('Welcome : '.$name);
+         $this->add('H5')->set('Welcome : '.$name);
     }
     function layout_UserMenu(){
         if($this->auth->isLoggedIn()){

@@ -70,7 +70,7 @@ if($s_name=="")
             
             
             $p= $this->add('View')->addClass('atk-box ui-widget-content ui-corner-all')->addStyle('background','#ddd');
-           $h=$p->add('h1')->set("Total:".$total);
+           $h=$p->add('H1')->set("Total:".$total);
             $grid=$p->add('Grid');
             $grid->addColumn('template','item')->setTemplate('<div class="hindi"><?$item?></div>');
             $grid->addColumn('text','quantity');

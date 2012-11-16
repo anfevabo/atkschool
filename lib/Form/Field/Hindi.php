@@ -22,22 +22,18 @@
  http://agiletoolkit.org/commercial
 
  *****************************************************ATK4**/
-class Grid extends Grid_Advanced 
-{
-    function format_diff($field)
-    {
-        $this->current_row[$field] = $this->current_row['capacity'] - $this->current_row['alloted'];
-    }
-    function format_mul($field)
-    {
-        $this->current_row[$field] = $this->current_row['quantity'] * floatval($this->current_row['rate']);
-    }
-   function format_instock($field)
-    {
-        $this->current_row[$field] = $this->current_row['Total'] - floatval($this->current_row['Issued']);
-    }
+/**
+ * Text input with Javascript Date picker
+ * It draws date in locale format (taken from $config['locale']['date'] setting) and stores it in
+ * MySQL acceptable date format (YYYY-MM-DD)
+ */
+class Form_Field_Hindi extends Form_Field_Line {
 
-    function format_hindi($field){
-      $this->setTDParam($field,'class','hindi');
-    }
+	function getInput($attr=array()){
+		return parent::getInput(array_merge(
+					array(
+						'class'=>'hindi',
+					     ),$attr
+					));
+	}
 }
