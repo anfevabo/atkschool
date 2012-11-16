@@ -7,7 +7,7 @@ class page_reports_hostel_store_recieptR extends Page
          $this->api->stickyGET('month');
          $this->api->stickyGET('store_no');
 //============================== Name of school=====================         
-         $this->add('HTML')->set('
+         $this->add('Html')->set('
 <style type="text/css">
 <!--
 .style1 {

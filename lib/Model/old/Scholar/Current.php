@@ -19,7 +19,7 @@ class Model_Scholar_Current extends Model_Scholar {
 
         //$g = $st->join('scholar_guardian.scholar_id', null, 'left');
         $this->addCondition('session_id', $this->add('Model_Session_Current')->dsql()->field('id'));
-        $this->_dsql()->order(array('class_id','fname'));
+        // $this->_dsql()->order(array('class_id','fname'));
         
     }
 

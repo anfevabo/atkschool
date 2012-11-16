@@ -1,6 +1,11 @@
 <?php
 
-class Model_Subject extends Model_Table{
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class Model_Subject extends Model_Table {
 
     var $table = 'subject_master';
 
@@ -13,9 +18,9 @@ class Model_Subject extends Model_Table{
        // $this->addField('max_marks')->type('int');
        //$this->addField('pass_marks')->type('int');
 
-        $this->hasMany('RelatedClass','subject_id');
+        $this->hasMany('SubjectClassMap','subject_id');
         
 
     }
-
 }
+?>
