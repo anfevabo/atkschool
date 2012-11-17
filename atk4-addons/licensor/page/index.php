@@ -1,5 +1,5 @@
 <?php
-//namespace licensor;
+namespace licensor;
 class page_index extends \Page {
     function init(){
         parent::init();

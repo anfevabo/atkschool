@@ -12,34 +12,19 @@ class page_masters_class extends Page {
 	function page_subjects(){
 		$this->api->stickyGET('class_master_id');
 
-		$p=$this->add('View')->addClass('atk-box ui-widget-content ui-corner-all')
-        ->addStyle('background','#eee');
-
 		$class=$this->add('Model_Class');
 		$class->load($_GET['class_master_id']);
-
-		$grid=$p->add('Grid');
-		$grid->setModel('Subject',array('name','code'));
-
-		$form=$this->add('Form');
-		$sel=$form->addField('line','sel');
-		$sel->js(true)->closest('.atk-form-row')->hide();
-
-		$map=$class->ref('SubjectClassMap');
-		$sel->set(json_encode($map->dsql()->del('field')->field('subject_id')->execute()->stmt->fetchAll(PDO::FETCH_COLUMN)));
-		$grid->addSelectable($sel);
-
-		$form->addSubmit('Save');
-
-		if($form->isSubmitted()){
-			$this->api->db->beginTransaction();
-
-            // delete old mappings
-            $map->deleteAll();
-            $class->setSubjects(json_decode($form->get('sel')));
-
-            $this->api->db->commit();
-            $this->js()->univ()->closeExpander()->successMessage('Mapping saved')->execute();
-		}
+	
+		$options=array(
+				'leftModel' => $class,
+				'mappingModel' => 'SubjectClassMap',
+				'leftField' => 'class_id',
+				'rightField' => 'subject_id',
+				'rightModel' => 'Subject',
+				'deleteFirst' => true,
+				'maintainSession' => true
+			);		
+		// $this->add('View')->set('Hi');
+		$p=$this->add('View_Mapping',$options);
 	}
 }

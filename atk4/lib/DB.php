@@ -46,6 +46,9 @@ class DB extends AbstractController {
                 // don't be too worried about properly parsing it
                 preg_match('|([a-z]+)://([^:]*)(:(.*))?@([A-Za-z0-9\.-]*)(/([0-9a-zA-Z_/\.]*))|',$dsn,$matches);
 
+                // check if PDO_MySQL is enabled
+                if (!defined('PDO::MYSQL_ATTR_INIT_COMMAND'))
+                    throw $this->exception('PDO_MYSQL unavailable',DB);
 
                 $dsn=array(
                     $matches[1].':host='.$matches[5].';dbname='.$matches[7].
@@ -102,17 +105,28 @@ class DB extends AbstractController {
 
         if(is_object($query))$query=(string)$query;
 
-        $statement = $this->dbh->prepare($query);
+        $e=null;
+        for($i=0;$i<2;$i++){
+            try {
+                $statement = $this->dbh->prepare($query);
 
-        foreach($params as $key=>$val){
-            if (!$statement->bindValue($key,$val,is_int($val)?(PDO::PARAM_INT):(PDO::PARAM_STR))){
-                throw $this->exception('Could not bind parameter ' . $key)
-                    ->addMoreInfo('val',$val)
-                    ->addMoreInfo('query',$query);
+                foreach($params as $key=>$val){
+                    if (!$statement->bindValue($key,$val,is_int($val)?(PDO::PARAM_INT):(PDO::PARAM_STR))){
+                        throw $this->exception('Could not bind parameter ' . $key)
+                            ->addMoreInfo('val',$val)
+                            ->addMoreInfo('query',$query);
+                    }
+                }
+
+                $statement->execute();
+                return $statement;
+            }catch(PDOException $e){
+                if ($e->errorInfo[1] === 17 && !$i){
+                    continue;
+                }
+                throw $e;
             }
         }
-        $statement->execute();
-        return $statement;
     }
 
     /** Executes query and returns first column of first row */
@@ -128,23 +142,23 @@ class DB extends AbstractController {
     }
 
     public $transaction_depth=0;
-	public function beginTransaction() {
-		$this->transaction_depth++;
-		// transaction starts only if it was not started before
-		if($this->transaction_depth==1)return $this->dbh->beginTransaction();
-		return false;
-	}
-	public function commit() {
-		$this->transaction_depth--;
-		if($this->transaction_depth==0)return $this->dbh->commit();
-		return false;
-	}
-	public function inTransaction(){
-		return $this->transaction_depth>0;
-	}
-	public function rollBack($option=null) {
-		$this->transaction_depth=0;
-		return $this->dbh->rollBack();
-	}
+    public function beginTransaction() {
+        $this->transaction_depth++;
+        // transaction starts only if it was not started before
+        if($this->transaction_depth==1)return $this->dbh->beginTransaction();
+        return false;
+    }
+    public function commit() {
+        $this->transaction_depth--;
+        if($this->transaction_depth==0)return $this->dbh->commit();
+        return false;
+    }
+    public function inTransaction(){
+        return $this->transaction_depth>0;
+    }
+    public function rollBack($option=null) {
+        $this->transaction_depth=0;
+        return $this->dbh->rollBack();
+    }
     // }}}
 }

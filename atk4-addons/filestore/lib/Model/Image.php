@@ -27,7 +27,7 @@ class Model_Image extends Model_File {
 	function performImport(){
 		parent::performImport();
 
-		$this->createThumbnail('thumb_file_id',$this->default_thumb_height,$this->default_thumb_width);
+        $this->createThumbnails();
 
 		// Now that the origninal is imported, lets generate thumbnails
         /*
@@ -37,37 +37,76 @@ class Model_Image extends Model_File {
         */
         return $this;
 	}
+    function createThumbnails(){
+        if($this->id)$this->load($this->id);// temporary
+        $this->createThumbnail('thumb_file_id',$this->default_thumb_height,$this->default_thumb_width);
+    }
 	function createThumbnail($field,$x,$y){
         // Create entry for thumbnail.
-        $thumb=$this->ref($field,false);
+        $thumb=$this->ref($field,'link');
         if(!$thumb->loaded()){
             $thumb->set('filestore_volume_id',$this->get('filestore_volume_id'));
             $thumb->set('original_filename','thumb_'.$this->get('original_filename'));
             $thumb->set('filestore_type_id',$this->get('filestore_type_id'));
+            $thumb['filename']=$thumb->generateFilename();
         }
 
         if(class_exists('\Imagick',false)){
             $image=new \Imagick($this->getPath());
-            $image->resizeImage($x,$y,\Imagick::FILTER_LANCZOS,1,true);
+            //$image->resizeImage($x,$y,\Imagick::FILTER_LANCZOS,1,true);
+            $image->cropThumbnailImage($x,$y);
             $this->hook("beforeThumbSave", array($thumb));
-            $thumb->save(); // generates filename 
             $image->writeImage($thumb->getPath());
-            $thumb->import(null,'none');
+        }elseif(function_exists('imagecreatefromjpeg')){
+            list($width, $height, $type) = getimagesize($this->getPath());
+            ini_set("memory_limit","1000M");
+            
+
+            $a=array(null,'gif','jpeg','png');
+            $type=@$a[$type];
+            if(!$type)throw $this->exception('This file type is not supported');
+
+            //saving the image into memory (for manipulation with GD Library)
+            $fx="imagecreatefrom".$type;
+            $myImage = $fx($this->getPath());
+
+            $thumbSize = $x;    // only supports rectangles
+            if($x!=$y && 0)throw $this->exception('Model_Image currently does not support non-rectangle thumbnails with GD extension')
+                ->addMoreInfo('x',$x)
+                ->addMoreInfo('y',$y);
+
+            // calculating the part of the image to use for thumbnail
+            if ($width > $height) {
+                $y = 0;
+                $x = ($width - $height) / 2;
+                $smallestSide = $height;
+            } else {
+                $x = 0;
+                $y = ($height - $width) / 2;
+                $smallestSide = $width;
+            }
+
+            // copying the part into thumbnail
+            $myThumb = imagecreatetruecolor($thumbSize, $thumbSize);
+            imagecopyresampled($myThumb, $myImage, 0, 0, $x, $y, $thumbSize, $thumbSize, $smallestSide, $smallestSide);
+
+            //final output
+            imagejpeg($myThumb, $thumb->getPath());
+            imageDestroy($myThumb);
+            imageDestroy($myImage);
         }else{
             // No Imagemagick support. Ignore resize
             $thumb->import($this->getPath(),'copy');
         }
-		$thumb->save();  // update size and chmod
+        $thumb->save();  // update size and chmod
+    }
+    function afterImport(){
+        // Called after original is imported. You can do your resizes here
 
-        $this->set($field,$thumb->get('id'));
-	}
-	function afterImport(){
-		// Called after original is imported. You can do your resizes here
+        $f=$this->getPath();
 
-		$f=$this->getPath();
-		
-		$gd_info=getimagesize($f);
-	}
-	function setMaxResize(){
-	}
+        $gd_info=getimagesize($f);
+    }
+    function setMaxResize(){
+    }
 }

@@ -179,6 +179,7 @@ class SMlite extends AbstractModel {
         $new=$this->add($class_name);
         try {
             $new->template=unserialize(serialize($this->tags[$tag][0]));
+            if(is_string($new->template))$new->template=array($new->template);
         }catch(PDOException $e){
             var_Dump($this->tags);
             throw $this->exception('PDO got stuck in template')
@@ -253,7 +254,8 @@ class SMlite extends AbstractModel {
             return $this;
         }
         if(!isset($this->tags[$tag]) || !is_array($this->tags[$tag])){
-            $this->fatal("Cannot append to tag $tag");
+            throw $this->exception("Cannot append to tag $tag")
+                ->addMoreInfo('by',$this->owner);
         }
         foreach($this->tags[$tag] as $key=>$_){
 
@@ -290,6 +292,7 @@ class SMlite extends AbstractModel {
          * ALTERNATIVE USE(3) of this function is to pass 2 arrays. First array
          * will contain tag names and 2nd array will contain their values.
          */
+        if(is_object($tag))$tag=$tag->get();
         if(is_array($tag)){
             if(is_null($value)){
                 // USE(2)
@@ -459,23 +462,25 @@ class SMlite extends AbstractModel {
             $text = $this->myStrTok($this->tmp_template,$this->settings['ldelim']);
             if($text!=='')$template[]=$text;
             $tag=trim($this->myStrTok($this->tmp_template,$this->settings['rdelim']));
-            if(substr($tag,0,1)=='$'){
-                $tag = substr($tag,1);
-                $template[$tag.'#'.$c]=array();
-                $this->registerTag($tag,$c,$template[$tag.'#'.$c]);
-            }elseif(substr($tag,0,1)=='/'){
-                $tag = substr($tag,1);
-                return $tag;
-            }elseif(substr($tag,-1,1)=='/'){
-                $tag = substr($tag,0,-1);
-                $template[$tag.'#'.$c]=array();
-                $this->registerTag($tag,$c,$template[$tag.'#'.$c]);
-            }elseif(isset($tag) && $tag){
-                $template[$tag.'#'.$c]=array();
-                $this->registerTag($tag,$c,$template[$tag.'#'.$c]);
-                $xtag = $this->parseTemplate($template[$tag.'#'.$c],$level+1,$c);
-                if($xtag && $tag!=$xtag){
-                    throw new BaseException("Tag missmatch. $tag is closed with $xtag");
+            if(isset($tag)&&$tag){
+                if($tag[0]=='$'){
+                    $tag = substr($tag,1);
+                    $template[$tag.'#'.$c]=array();
+                    $this->registerTag($tag,$c,$template[$tag.'#'.$c]);
+                }elseif($tag[0]=='/'){
+                    $tag = substr($tag,1);
+                    return $tag;
+                }elseif(substr($tag,-1)=='/'){
+                    $tag = substr($tag,0,-1);
+                    $template[$tag.'#'.$c]=array();
+                    $this->registerTag($tag,$c,$template[$tag.'#'.$c]);
+                }else{
+                    $template[$tag.'#'.$c]=array();
+                    $this->registerTag($tag,$c,$template[$tag.'#'.$c]);
+                    $xtag = $this->parseTemplate($template[$tag.'#'.$c],$level+1,$c);
+                    if($xtag && $tag!=$xtag){
+                        throw new BaseException("Tag missmatch. $tag is closed with $xtag");
+                    }
                 }
             }
             $c++;
@@ -506,7 +511,7 @@ class SMlite extends AbstractModel {
     }
     function rebuildTagsRegion(&$branch){
         if(!isset($branch))throw new BaseException("Cannot rebuild tags, because template is empty");
-        if(!is_array($branch))throw $this->exception('blah');
+        if(!is_array($branch))throw $this->exception('System problem with SMLite. Incorrect use of branch');
         foreach($branch as $key=>$val){
             if(is_int($key))continue;
             list($real_key,$junk)=explode('#',$key);

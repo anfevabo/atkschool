@@ -8,7 +8,7 @@ class Model_Class extends Model_Table{
 		parent::init();
 
 		$this->addField('class_name', 'name')->mandatory("Please give a class name")->caption('Class Name');
-        $this->addField('section')->mandatory('give a class name')->display('hindi');
+        $this->addField('section')->mandatory('give a class name')->display(array('form'=>'hindi','grid'=>'hindi'));
         $this->hasMany('Student','class_id');
         $this->hasMany('RelatedSubject','class_id');
         $this->hasmany('SubjectClassMap','class_id');

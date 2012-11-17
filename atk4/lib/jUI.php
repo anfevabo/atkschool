@@ -42,13 +42,19 @@ class jUI extends jQuery {
     }
     function addDefaultIncludes(){
         $this->addInclude('start-atk4');
-        $this->addInclude('jquery-ui-'.$this->api->getConfig('js/versions/jqueryui','1.9.0m8.min'));
+
+        /* $config['js']['jquery']='http://code.jquery.com/jquery-1.8.2.min.js'; // to use CDN */
+        if($v=$this->api->getConfig('js/versions/jqueryui',null))$v='jquery-ui-'.$v;
+        else($v=$this->api->getConfig('js/jqueryui','jquery-ui-1.9.1.min'));
+
+        $this->addInclude($v);
+
         $this->addInclude('ui.atk4_loader');
         $this->addInclude('ui.atk4_notify');
         $this->addInclude('atk4_univ');
     }
     function addInclude($file,$ext='.js'){
-        if(substr($file,0,4)=='http'){
+        if(strpos($file,'http')===0){
             parent::addOnReady('$.atk4.includeJS("'.$file.'")');
             return $this;
         }
@@ -94,19 +100,5 @@ class jUI extends jQuery {
     function addStdWidget($name){
         // if we can we should load jUI_widget_name <-- TODO
         return $this->add('jUI_stdWidget',$name);
-    }
-    function cutRender(){
-        $x=$this->api->template->get('document_ready');
-        if(is_array($x))$x=join('',$x);
-        echo '<script type="text/javascript">'.$x.'</script>';
-        return;
-        echo "
-            <script>
-            $(function(){
-                    ".$x."
-                    });
-        </script>
-
-            ";
     }
 }

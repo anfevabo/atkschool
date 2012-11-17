@@ -46,6 +46,14 @@ class ApiCLI extends AbstractView {
      * how your application works, but slightly improving performance */
     /**/public $pr;
 
+    /** Maximum length of the name arguments (for SUHOSIN) */
+    public $max_name_length=60;
+
+    /** Contains list of hashes which used for name shortening */
+    public $unique_hashes=array();
+
+    public $logger_class='Logger';
+
     // {{{ Start-up of application
     /** Initializes properties of the application. Redefine init() instead of this */
     function __construct($realm=null){
@@ -56,8 +64,6 @@ class ApiCLI extends AbstractView {
 
         // Profiler is a class for benchmarking your application. All calls to pr 
         /**/$this->pr=new Dummy();
-
-        set_error_handler("error_handler");
 
         try {
             $this->add($this->pathfinder_class);
@@ -144,9 +150,8 @@ class ApiCLI extends AbstractView {
         }
         $url=$this->add('URL','url_'.$this->url_object_count++);
         unset($this->elements[$url->short_name]);   // garbage collect URLs
-        if(substr($page,0,7)=='http://')$url->setURL($page);elseif
-            (substr($page,0,8)=='https://')$url->setURL($page);else
-                $url->setPage($page);
+        if(strpos($page,'http://')===0 || strpos($page,'https://')===0) $url->setURL($page);
+        else $url->setPage($page);
         return $url->setArguments($arguments);
     }
     /** @obsolete use url() */
@@ -155,9 +160,9 @@ class ApiCLI extends AbstractView {
 
     // {{{ Error handling
     /** Initialize logger or return existing one */
-    function getLogger($class_name='Logger'){
+    function getLogger($class_name=undefined){
         if(is_null($this->logger)){
-            $this->logger=$this->add($class_name);
+            $this->logger=$this->add($class_name===undefined?$this->logger_class:$class_name);
         }
         return $this->logger;
     }

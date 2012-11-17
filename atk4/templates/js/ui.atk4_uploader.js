@@ -112,7 +112,9 @@ $.widget("ui.atk4_uploader", {
 
 		$.each(data,function(i,row){
 			var tpl=tb.find('.template')
-				.clone().attr('rel',row['id'])// <--easier to debug
+				.clone()
+				.attr('rel',row['id'])// <--easier to debug
+				.attr('data-url',row['url'])// <--easier to debug
 				.removeClass('template')
 				.show();
 			$.each(row,function(key,val){
@@ -135,7 +137,7 @@ $.widget("ui.atk4_uploader", {
 			})
 			tpl.find('.add_image_elrte').click(function(ev){
 				ev.preventDefault();
-				var url='/img/' + $(this).closest('div').attr('rel');
+				var url=$(this).closest('div').attr('data-url');
 				$('.elrte_editor').elrte()[0].elrte.selection.insertText('<img src="'+url+'"/>');
 			})
 			tpl.find('.thumbnail').each(function(){
@@ -181,6 +183,7 @@ $.widget("ui.atk4_uploader", {
 			tb.find('[rel='+id+']').remove();
 		});
 		self.updateToken();
+		this.element.trigger('file_remove');
 		this.element.show();
 	},
 	updateToken: function(){
@@ -198,6 +201,7 @@ $.widget("ui.atk4_uploader", {
 			return;
 		}
 		$('#'+this.name+'_progress').remove();
+        this.element.data(data);
 		this.element.trigger('upload');
 		this.element.attr('disabled',false);
 		this.addFiles([data]);

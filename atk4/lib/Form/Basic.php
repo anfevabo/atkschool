@@ -28,9 +28,9 @@ if(!class_exists('Form_Field',false))include_once'Form/Field.php';
  * This class implements generic form, which you can actually use without
  * redeclaring it. Just add fields, buttons and use execute method.
  *
- * @author		Romans <romans@adevel.com>
- * @copyright	See file COPYING
- * @version		$Id$
+ * @author      Romans <romans@adevel.com>
+ * @copyright   See file COPYING
+ * @version     $Id$
  */
 class Form_Basic extends View {
     protected $form_template = null;
@@ -54,8 +54,8 @@ class Form_Basic extends View {
     protected $loaded_from_db = false;     // if true, update() will try updating existing row. if false - it would insert new
     public $onsubmit = null;
     public $onload = null;
-    protected $ajax_submits=array();	// contains AJAX instances assigned to buttons
-    protected $get_field=null;			// if condition was passed to a form throough GET, contains a GET field name
+    protected $ajax_submits=array();    // contains AJAX instances assigned to buttons
+    protected $get_field=null;          // if condition was passed to a form throough GET, contains a GET field name
     protected $conditions=array();
 
     public $js_widget='ui.atk4_form';
@@ -154,8 +154,12 @@ class Form_Basic extends View {
     function addField($type,$name,$caption=null,$attr=null){
         if($caption===null)$caption=ucwords(str_replace('_',' ',$name));
 
+        switch(strtolower($type)){
+            case'dropdown':$type='DropDown';break;
+            case'line':$type='Line';break;
+        }
         $class=$type;
-        if(is_string($class)&&substr($class,0,strlen('Form_Field_'))!='Form_Field_'){
+        if(is_string($class)&&strpos($class,'Form_Field_')!==0){
             $class=preg_replace('|^(.*/)?(.*)$|','\1Form_Field_\2',$class);
         }
         $last_field=$this->add($class,$name,null,'form_line')
@@ -260,57 +264,30 @@ class Form_Basic extends View {
         return $data;
     }
      */
-    function addSubmit($label='Save',$name=null,$color=null){
+    function addSubmit($label='Save',$name=null){
         if(!$name)$name=str_replace(' ','_',$label);
 
         $submit = $this->add('Form_Submit',isset($name)?$name:$label,'form_buttons')
             ->setLabel($label)
             ->setNoSave();
-        if (!is_null($color))
-            $submit->setColor($color);
 
         return $submit;
     }
-    function addButton($label){
-        // Now add the regular button first
-        $name=preg_replace('/[^a-zA-Z0-9_-]/','',$label);
-        if(!$name)$name=null;
-        return $this->add('Button',$name,'form_buttons')
+    function addButton($label='Button',$name=null){
+        if(!$name)$name=str_replace(' ','_',$label);
+        $name = preg_replace('/[^a-zA-Z0-9_-]/','', isset($name)?$name:$label);
+
+        $button = $this->add('Button',$name,'form_buttons')
             ->setLabel($label);
+
+       return $button;
     }
 
-    function setConditionFromGET($field='id',$get_field=null){
-        // If GET pases an argument you need to put into your where clause, this is the function you should use.
-        if(!isset($get_field))$get_field=$field;
-        $this->get_field=$field;
-        $this->api->stickyGET($get_field);
-        return $this->setCondition($field,$_GET[$get_field]);
-    }
-    function addConditionFromGET($field='id',$get_field=null){
-        $this->setConditionFromGET($field,$get_field);
-    }
-    function addCondition($field,$value=null){
-        return $this->setCondition($field,$value);
-    }
     function loadData(){
         /**
          * This call will be sent to fields, and they will initialize their values from $this->data
          */
         if(!is_null($this->bail_out))return;
-        if($this->dq){
-            // TODO: move into Controller / hook
-
-            /*
-            // if no condition set, use id is null condition
-            if(empty($this->conditions))$this->setCondition('id',null);
-            // we actually initialize data from database
-            $data = $this->dq->do_getHash();
-            if($data){
-                $this->set($data);
-                $this->loaded_from_db=true;
-            }
-             */
-        }
         $this->hook('post-loadData');
     }
 
@@ -332,7 +309,6 @@ class Form_Basic extends View {
         $m->save();
     }
     function submitted(){
-        /* downcall from ApiWeb */
         /**
          * Default down-call submitted will automatically call this method if form was submitted
          */
@@ -341,12 +317,13 @@ class Form_Basic extends View {
         // On Windows platform mod_rewrite is lowercasing all the urls.
         if($_GET['submit']!=$this->name)return;
         if(!is_null($this->bail_out))return $this->bail_out;
-        $this->hook('loadPOST');
-        $this->hook('validate');
 
-        //TODO: handle errors properly
-        if(!empty($this->errors))return false;
+        $this->hook('loadPOST');
         try{
+            $this->hook('validate');
+
+            if(!empty($this->errors))return false;
+            
             if(($output=$this->hook('submit',array($this)))){
                 /* checking if anything usefull in output */
                 if(is_array($output)){
@@ -367,14 +344,14 @@ class Form_Basic extends View {
                 if($has_output)$this->js(null,$output)->execute();
             }
         }catch (BaseException $e){
-            if($e instanceof Exception_ForUser){
-                $this->js()->univ()->alert($e->getMessage())->execute();
-            }
             if($e instanceof Exception_ValidityCheck){
                 $f=$e->getField();
                 if($f && is_string($f) && $fld=$this->hasElement($f)){
                     $fld->displayFieldError($e->getMessage());
                 } else $this->js()->univ()->alert($e->getMessage().' in undefined field')->execute();
+            }
+            if($e instanceof Exception_ForUser){
+                $this->js()->univ()->alert($e->getMessage())->execute();
             }
             throw $e;
         }
@@ -446,7 +423,7 @@ class Form_Basic extends View {
             $this->template->setHTML('Content',$this->template_chunks['custom_layout']->render());
         }
         $this->template_chunks['form']
-            ->set('form_action',$this->api->getDestinationURL(null,array('submit'=>$this->name)));
+            ->set('form_action',$this->api->url(null,array('submit'=>$this->name)));
         $this->owner->template->appendHTML($this->spot,$r=$this->template_chunks['form']->render());
     }
     function hasField($name){

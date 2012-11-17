@@ -21,7 +21,13 @@ class Model_Hostel extends Model_Table{
 			return $m->refSQL('HostelRoom')->dsql()->del('field')->field($q->dsql()->expr('sum((select count(*) from `hostel_allotement` where `hostel_allotement`.`room_id` = `rooms`.`id` ))'));
 		});
 
+		// $this->addExpression('alloted')->set(function ($m,$q){
+		// 	$x= $m->refSQL('HostelRoom')->sum('');
+		// 	echo $x;
+		// 	return $x;
+		// });
+
 		  $this->addExpression("vacant")->set('id')->type('diff');
-		
+
 	}
 }

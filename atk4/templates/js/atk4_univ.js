@@ -5,7 +5,7 @@
 //
 
 ;
-$||console.error("jQuery must be loaded");
+jQuery||console.error("jQuery must be loaded");
 (function($){
 
 
@@ -37,11 +37,11 @@ $.each({
 		if(!url)document.location.reload(true);else
 		document.location=url;
 	},
-	page: function(page,fn){
+    page: function(page,fn){
         $c=$('#Content');
         if(!$c.length)$c=this.jquery;
         $c.atk4_load(page,fn);
-	},
+    },
 	log: function(arg1){
 		if(console)console.log(arg1);
    	},
@@ -109,6 +109,7 @@ $.each({
 						w.document.write(response_text);
 						w.document.write('<center><input type=button onclick="window.close()" value="Close"></center>');
 					}else{
+                        console.log(response_text, e);
 						showMessage("Error in AJAX response: "+e+"\n"+response_text);
 					}
 					try{
@@ -145,7 +146,6 @@ $.each({
 	},
 	reloadArgs: function(url,key,value){
 		var u=$.atk4.addArgument(url,key+'='+value);
-		console.log(url);
 		this.jquery.atk4_load(u);
 	},
 	reload: function(url,arg,fn){
@@ -242,7 +242,7 @@ dialogPrepare: function(options){
  * This function creates a new dialog and makes sure other dialog-related functions will
  * work perfectly with it
  */
-	var dialog=$('<div class="dialog dialog_autosize" title="Untitled">Loading<div></div></div>').appendTo('body');
+    var dialog=$('<div class="dialog dialog_autosize" title="Untitled"><div style="min-height: 300px"></div>').appendTo('body');
 	if(options.noAutoSizeHack)dialog.removeClass('dialog_autosize');
 	dialog.dialog(options);
 	if(options.customClass){
@@ -288,7 +288,11 @@ dialogBox: function(options){
 				$(this).dialog('close');
 			}
 		},
+		open: function(){
+			$("body").css({ overflow: 'hidden' });
+		},
 		close: function(){
+			$("body").css({ overflow: 'inherit' });
 			$(this).dialog('destroy');
 			$(this).remove();
 		}
@@ -296,6 +300,7 @@ dialogBox: function(options){
 },
 dialogURL: function(title,url,options,callback){
 	var dlg=this.dialogBox($.extend(options,{title: title,autoOpen: true}));
+    dlg.closest('.ui-dialog').hide().fadeIn('slow');
 	dlg.atk4_load(url,callback);
 	return dlg.dialog('open');
 },
@@ -328,19 +333,10 @@ dialogConfirm: function(title,text,fn,options){
 	/*
 	 * Displays confirmation dialogue.
 	 */
-	var dlg=this.dialogBox($.extend({title: title, width: 450, height: 200,
-	buttons: {
-		'Ok': function(){
-			$(this).dialog('close');
-			if(fn)fn();
-		},
-		'Cancel': function(){
-			$(this).dialog('close');
-		}
-	}},options));
+	var dlg=this.dialogBox($.extend({title: title, width: 450, height: 200},options));
 
 	dlg.html("<form></form>"+text);
-	dlg.find('form').submit(function(ev){ ev.preventDefault(); console.log('ok clicked'); fn; dlg.dialog('close'); });
+	dlg.find('form').submit(function(ev){ ev.preventDefault(); if(fn)fn(); dlg.dialog('close'); });
 	dlg.dialog('open');
 },
 dialogError: function(text,options,fn){
@@ -401,7 +397,7 @@ closeDialog: function(){
 getjQuery: function(){
 	return this.jquery;
 },
-ajaxec: function(url,data){
+ajaxec: function(url,data,fn){
 	// Combination of ajax and exec. Will pull provided url and execute returned javascript.
 	region=this.jquery;
 	$.atk4.get(url,data,function(ret){
@@ -414,7 +410,8 @@ ajaxec: function(url,data){
 		*/
 		if(!$.atk4._checkSession(ret))return;
 		try{
-			eval(ret)
+			eval(ret);
+            if(fn)fn();
 		}catch(e){
 			w=window.open(null,null,'height=400,width=700,location=no,menubar=no,scrollbars=yes,status=no,titlebar=no,toolbar=no');
 			if(w){
@@ -422,7 +419,8 @@ ajaxec: function(url,data){
 				w.document.write(ret);
 				w.document.write('<center><input type=button onclick="window.close()" value="Close"></center>');
 			}else{
-				showMessage("Error in AJAXec response: "+e+"\n"+response_text);
+                console.log("Error in ajaxec response", e,ret);
+				showMessage("Error in AJAXec response: "+e+"\n"+ret);
 			}
 		}
 
@@ -430,7 +428,6 @@ ajaxec: function(url,data){
 },
 newWindow: function(url,name,options){
 	window.open(url,name,options);
-        
 },
 loadingInProgress: function(){
 	this.successMessage('Loading is in progress. Please wait');
@@ -481,6 +478,15 @@ numericField: function(){
 		if(t != this.value)this.value=t;
 	});
 },
+onKey: function(code,fx,modifier,modival){
+	this.jquery.bind('keydown',function(e){
+		if(e.which==code && (!modifier || e[modifier]==modival)){
+			e.preventDefault();
+			e.stopPropagation();
+			return fx();
+		}
+	});
+},
 disableEnter: function(){
 	this.jquery.bind('keydown keypress',function (e) {
 		if(e.which==13){
@@ -494,17 +500,17 @@ bindConditionalShow: function(conditions,tag){
 	//   when element A hides element B which should also hide
 	//   element C. You may end up with B hidden and C still showing.
 	var f=this.jquery;
-	var n=f.closest('form');
+	var n=f.closest('form').parent();
 	if(!n.attr('id'))n=n.parent();
 	n=n.attr('id');
 
-	if(typeof tag == 'undefined')tag='div';
+	if(typeof tag == 'undefined')tag='div.atk-row';
 
 	var sel=function(name){
 		var s=[]
 		fid=n;
 		$.each(name,function(){
-			var dom=$(a='#'+fid+'_'+this)[0];
+			var dom=(this[0]=='#'?$(this+'')[0]:$(a='#'+fid+'_'+this)[0]);
 			if(dom){
 				s.push(dom);
 			}else{
@@ -560,6 +566,8 @@ bindConditionalShow: function(conditions,tag){
 				exact_match=sel(conditions['*']);
 			}
 		}
+
+        console.log(exact_match);
 
 		if(exact_match && exact_match.length){
 			if(exact_match instanceof Array){
@@ -735,4 +743,4 @@ $.fn.extend({
 		return u;
 	}
 });
-})($);
+})(jQuery);

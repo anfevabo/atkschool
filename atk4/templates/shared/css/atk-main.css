@@ -33,7 +33,6 @@
   /* IE9 and down */
 
 }
-
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
 .ui-state-focus,
@@ -96,7 +95,6 @@
 
 }
 .ui-widget-header {
-  
   background-color: #002d5e;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#00070f), to(#002d5e));
@@ -124,7 +122,6 @@
   /* IE9 and down */
 
 }
-
 /* Additional Effects */
 .ui-dialog {
   -webkit-box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
@@ -442,7 +439,6 @@ table {
 	Features
    ============================================== */
 .atk-wrapper {
-  box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -498,6 +494,56 @@ body #atk-layout #atk-footer-guard {
 }
 .clearwrap {
   overflow: hidden;
+}
+/* ==============================================
+	Loader
+   ============================================== */
+@-webkit-keyframes rotate-i1 {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-i2 {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-360deg);
+  }
+}
+.loading {
+  position: absolute;
+  margin: auto;
+  background: gray;
+  opacity: 0.7;
+}
+.loading.centred {
+  background: white;
+}
+.loading i:first-child {
+  -webkit-animation-name: rotate-i1;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-transition-timing-function: linear;
+  margin: 10px 10px;
+  position: absolute;
+  background: url(../images/gear-32x32.png);
+  width: 32px;
+  height: 32px;
+}
+.loading i:last-child {
+  -webkit-animation-name: rotate-i2;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-transition-timing-function: linear;
+  margin: 35px 27px;
+  position: absolute;
+  background: url(../images/gear-32x32.png);
+  width: 32px;
+  height: 32px;
 }
 /* ==============================================
 	Typography
@@ -556,7 +602,7 @@ menu {
 }
 ol,
 ul {
-  margin-left: 20px;
+  margin-left: 2em;
 }
 ol {
   list-style-type: decimal;
@@ -568,16 +614,18 @@ ol ul,
 ul ol,
 ul ul,
 ol ol {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 1em;
 }
 ul li,
 ol li {
   margin-bottom: 0.8em;
 }
+ul.simple,
+ul.simple ul {
+  list-style-type: none;
+}
 ul.simple {
   margin-left: 0;
-  list-style-type: none;
 }
 dl dt {
   width: 7em;
@@ -681,8 +729,8 @@ input[type="reset"]::-moz-focus-inner {
 input[type=text],
 input[type=password],
 textarea {
-  font-size: 16px;
-  /*font-family: "Helvetica Neue", "Helvetica", sans-serif;*/
+  font-size: 12px;
+  font-family: "Helvetica Neue", "Helvetica", sans-serif;
   line-height: 1.4;
   background: #ffffff;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
@@ -693,7 +741,6 @@ textarea {
   -moz-border-radius: 5px;
   border-radius: 5px;
   padding: 0.4em;
-  box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -765,7 +812,7 @@ textarea:focus {
 }
 .atk-form fieldset .atk-form-row > .atk-form-field textarea {
   display: block;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.4em;
 }
 .atk-form fieldset .atk-form-row > .atk-form-field input + input {
   margin-left: 0.4em;
@@ -858,7 +905,10 @@ textarea:focus {
 .input-row .input-cell.expanded input {
   width: 100%;
 }
-.input-row .input-cell .ui-button {
+.input-row .input-cell .ui-buttonset {
+  white-space: nowrap;
+}
+.input-row .input-cell > .ui-button {
   margin-left: 0;
   margin-right: 0;
 }
@@ -950,10 +1000,6 @@ textarea:focus {
   border-collapse: separate;
   width: 100%;
 }
-/*.atk-grid>table>thead
-{
-    display: table-header-group;
-}*/
 .atk-grid > table > thead > tr > th {
   border: none;
   text-align: left;
@@ -962,6 +1008,9 @@ textarea:focus {
 .atk-grid > table > tbody > tr > td {
   border-bottom: 1px solid #e5e5e5;
   padding: 0.6666666666666666em;
+}
+.atk-grid > table > tbody > tr > td > img {
+  vertical-align: middle;
 }
 .atk-grid > table > tbody > tr > td .atk-dropmenu {
   filter: alpha(opacity=0);
@@ -1059,7 +1108,6 @@ textarea:focus {
 .atk-flexy > div {
   display: table-cell;
   vertical-align: top;
-  box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -1200,7 +1248,7 @@ textarea:focus {
 	jQueryUI Tweaks
    ============================================== */
 .ui-widget {
- /* font-family: "Helvetica Neue", "Helvetica", sans-serif;*/
+  font-family: "Helvetica Neue", "Helvetica", sans-serif;
   font-size: 12px;
   line-height: 1.6;
 }
@@ -1292,7 +1340,6 @@ input.ui-button,
 .ui-button-icons-only .ui-button-icon-secondary {
   right: 0.5em;
 }
-/* .ui-dialog {padding:@padding/10;top:@dialogMargin !important;} moved into JS */
 .ui-dialog .ui-dialog-titlebar {
   padding: 0.4em 0.6666666666666666em;
 }
@@ -1326,35 +1373,4 @@ input.ui-button,
 /* with multiple calendars */
 .ui-datepicker-multi .ui-datepicker-group table {
   margin: 0 auto 0.4em;
-}
-
-.hindi
-{
-    color :#00070f;
-    font-family : 'Kruti Dev 010';
-    font-size: 20px;
-    
-}
-
-.hindid
-{
-    color: #00070f;
-    font-family : 'Kruti Dev 010';
-    font-size : X-large;
-}
-
-.inward{
-    background-color: #41d941;
-}
-
-.outward{
-    background-color: #ff3333;
-}
-.hw
-{
-    color :#00070f;
-    font-family : 'Kruti Dev 010';
-    font-size: 20px;
-    width: 20px
-    
 }

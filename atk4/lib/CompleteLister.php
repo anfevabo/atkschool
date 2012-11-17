@@ -42,35 +42,35 @@ class CompleteLister extends Lister {
     protected $item_tag='row';
     protected $container_tag='rows';
 
-	protected $row_t;
+    public $row_t;
 
     /** Will contain accumulated totals for all fields */
-	public $totals=false;
+    public $totals=false;
 
     /** Will be initialized to "totals" template when addTotals() is called */
-	public $totals_t=false;
+    public $totals_t=false;
 
-	function init(){
-		parent::init();
+    function init(){
+        parent::init();
         if(!$this->template->is_set($this->item_tag))
             throw $this->exception('Template must have "'.$this->item_tag.'" tag');
 
-		$this->row_t=$this->template->cloneRegion($this->item_tag);
-	}
+        $this->row_t=$this->template->cloneRegion($this->item_tag);
+    }
 
     /** Enable total calculation for specified array of fields. If not specified, all field totals are calculated */
-	function addTotals($fields=null){
-		if($this->template->is_set('totals')){
-			$this->totals_t=$this->template->cloneRegion('totals');
-		}
+    function addTotals($fields=null){
+        if($this->template->is_set('totals')){
+            $this->totals_t=$this->template->cloneRegion('totals');
+        }
 
         if($fields){
             foreach($fields as $field)$this->totals[$field]=0;
         }elseif($this->totals===false){
             $this->totals=array();
         }
-		return $this;
-	}
+        return $this;
+    }
 
     /** Update totals on rows. Called at the start of formatRow() */
     function updateTotals(){
@@ -107,7 +107,7 @@ class CompleteLister extends Lister {
             $this->formatRow();
             $this->template->appendHTML($this->container_tag,$this->rowRender($this->row_t));
         }
-
+        $this->current_row = $this->current_row_html = array();
         if($this->totals!==false && $this->totals_t){
             $this->current_row = $this->totals;
             $this->formatTotalsRow();

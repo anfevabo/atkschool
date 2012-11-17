@@ -8,6 +8,8 @@ class Model_SubjectClassMap extends Model_Table{
 		$this->hasOne('Class','class_id');
 		$this->hasOne('Subject','subject_id');
 		$this->hasOne('Session','session_id');
+
+		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 		
 	}
 }
