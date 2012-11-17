@@ -27,7 +27,7 @@
  * It draws date in locale format (taken from $config['locale']['date'] setting) and stores it in
  * MySQL acceptable date format (YYYY-MM-DD)
  */
-class Form_Field_Hindi extends Form_Field_Line {
+class Form_Field_hindi extends Form_Field_Line {
 
 	function getInput($attr=array()){
 		return parent::getInput(array_merge(

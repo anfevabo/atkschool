@@ -38,6 +38,7 @@ class page_data_store_billInward extends Page
          $f->setModel($m);
          $f->form->getElement('item_id')->setAttr('class','hindi')->setEmptyText('p;u');
         }
+        
         function page_ed()
         {
         $this->api->stickyGET('id');
