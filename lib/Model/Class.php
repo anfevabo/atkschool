@@ -13,6 +13,7 @@ class Model_Class extends Model_Table{
         $this->hasMany('RelatedSubject','class_id');
         $this->hasMany('SubjectClassMap','class_id');
         $this->hasMany('ExamClassMap','class_id');
+		$this->hasmany('FeeClassMap','class_id');
         $this->addExpression('name')->set('(concat(name," - ",section))')->display('hindi');
 	}
 

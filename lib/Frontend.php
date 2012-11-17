@@ -64,10 +64,10 @@ class Frontend extends ApiFrontend {
           
         
           $m->addMenuItem('index','Welcome');
-        if($pp==1)
-        {
-          $m->addMenuItem('master','Master');
-        }
+        // if($pp==1)
+        // {
+          $m->addMenuItem('masters','Master');
+        // }
        
         if($dd==1 )
         {

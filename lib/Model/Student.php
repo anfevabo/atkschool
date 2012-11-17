@@ -15,6 +15,7 @@ class Model_Student extends Model_Table{
         $this->addField('isScholared')->type('boolean');
 	
         $this->hasMany('RoomAllotement','student_id');
+        $this->hasMany('Item_Issue','student_id');
 	}
 
 }

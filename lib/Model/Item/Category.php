@@ -6,6 +6,6 @@ class Model_Item_Category extends Model_Table{
 		parent::init();
 
 		$this->hasMany('Item','category_id');
-		$this->addField('name')->caption('Category');
+		$this->addField('name')->caption('Category')->display(array("grid"=>'hindi'));
 	}
 }
