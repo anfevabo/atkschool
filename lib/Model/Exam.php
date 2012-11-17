@@ -7,7 +7,7 @@ class Model_Exam  extends Model_Table
     function init()
     {
         parent::init();
-        $this->addField('name')->display(array('form'=>'hindi','grid'=>'hindi'));
-        // $this->hasMany("ExamMap","exam_id");
+        $this->addField('name')->display('hindi');
+        $this->hasMany("ExamClassMap","exam_id");
     }
 }

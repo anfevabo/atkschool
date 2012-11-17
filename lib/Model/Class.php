@@ -11,7 +11,8 @@ class Model_Class extends Model_Table{
         $this->addField('section')->mandatory('give a class name')->display(array('form'=>'hindi','grid'=>'hindi'));
         $this->hasMany('Student','class_id');
         $this->hasMany('RelatedSubject','class_id');
-        $this->hasmany('SubjectClassMap','class_id');
+        $this->hasMany('SubjectClassMap','class_id');
+        $this->hasMany('ExamClassMap','class_id');
         $this->addExpression('name')->set('(concat(name," - ",section))')->display('hindi');
 	}
 
