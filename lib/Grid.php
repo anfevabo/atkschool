@@ -34,7 +34,7 @@ class Grid extends Grid_Advanced
     }
    function format_instock($field)
     {
-        $this->current_row[$field] = $this->current_row['Total'] - floatval($this->current_row['Issued']);
+        $this->current_row[$field] = $this->current_row['TotalInward'] - floatval($this->current_row['TotalIssued']);
     }
 
     function format_hindi($field){

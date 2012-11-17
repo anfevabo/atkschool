@@ -16,6 +16,9 @@ class Model_Session extends Model_Table
         $this->hasMany('Student','session_id');       
         $this->hasMany('SubjectClassMap','session_id');
         $this->hasMany('RoomAllotement','session_id');       
+        $this->hasMany('Item_Inward','session_id');       
+        $this->hasMany('Item_Issue','session_id');       
+        $this->hasMany('FeeClassMapping','session_id');       
     }
     
     function markCurrent(){
