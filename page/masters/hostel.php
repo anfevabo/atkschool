@@ -1,18 +1,17 @@
 <?php
 
 class page_masters_hostel extends Page{
-	function initmainpage(){
-		parent::init();
+	function page_index(){
 
 		$crud=$this->add('CRUD');
 		$crud->setModel('Hostel');
-		 $crud->grid->addColumn('expander','room','Add Rooms');
+		if($crud->grid)
+			 $crud->grid->addColumn('expander','room','Add Rooms');
 		
 	}
 
 	function page_room(){
 
-		// $this->add('Text')->set("Hello");
 		$this->api->stickyGET('hostel_master_id');
 		
 		$hostel=$this->add('Model_Hostel');

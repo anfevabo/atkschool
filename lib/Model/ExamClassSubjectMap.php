@@ -5,7 +5,7 @@ class Model_ExamClassSubjectMap extends Model_Table {
 		parent::init();
 		$this->hasOne('ExamClassMap','exammap_id');
 		$this->hasOne('Subject','subject_id');
-		$this->hasOne('Sessions_Current');
+		$this->hasOne('Sessions_Current','session_id');
 
 		$this->addField('min_marks');
 		$this->addField('max_marks');

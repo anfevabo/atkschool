@@ -69,11 +69,11 @@ class Frontend extends ApiFrontend {
           $m->addMenuItem('masters','Master');
         // }
        
-        // if($dd==1 )
-        // {
-        $m->addMenuItem('data','Data Entry');
+        if($dd==1 )
+        {
+        $m->addMenuItem('schooldata','School Data');
        
-        // }
+        }
         if($rr==1)
         {
              $m->addMenuItem('reports','Reports');
