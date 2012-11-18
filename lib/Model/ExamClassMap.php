@@ -9,5 +9,14 @@ class Model_ExamClassMap extends Model_Table {
 		$this->hasOne('Sessions_Current','session_id');
 
 		$this->hasMany('ExamClassSubjectMap','exammap_id');
+
+		$this->addHook('beforeDelete',$this);
+		$this->addHook('beforeSave',$this);
+	}
+
+	function beforeDelete(){
+	}
+
+	function beforeSave(){
 	}
 }

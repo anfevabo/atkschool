@@ -9,7 +9,5 @@ class Model_RoomAllotement extends Model_Table{
 		$this->hasOne('Student','student_id');
 		$this->hasOne('HostelRoom','room_id');
 		$this->hasOne('Session','session_id');
-
-		$
 	}
 }

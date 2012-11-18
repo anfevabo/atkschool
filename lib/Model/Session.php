@@ -5,11 +5,9 @@
  * and open the template in the editor.
  */
 
-class Model_Session extends Model_Table
-{
+class Model_Session extends Model_Table{
     var $table='session_master';
-    function init() 
-    {
+    function init(){
         parent::init();
         $this->addField('name')->mandatory("Name of a session is must like [2011-2012]");
         $this->addField('iscurrent')->type('boolean')->defaultValue(false)->caption("Is current");

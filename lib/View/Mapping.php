@@ -51,20 +51,25 @@ class View_Mapping extends View {
 				$this->api->db->beginTransaction();
 
 	            // delete old mappings
-	            if($this->deleteFirst) $map->deleteAll();
+	            if($this->deleteFirst){
+	            	$clone_map= $this->leftModel->ref($this->mappingModel);
+	            	foreach($clone_map as $junk)
+	            		$clone_map->delete();	
+	            } 
 
 	            $ids= json_decode($form->get('sel'));
 
 	            $session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
-		    	foreach($ids as $id){
-		    		$tmp=array($this->leftField => $this->leftModel->id, $this->rightField=>$id);
-		    		if($this->maintainSession){
-		    			$tmp += array('session_id' => $session);
-		    		}
-		    		$res[]=$tmp;
-		    	}
+	            $newRow=$this->add('Model_'.$this->mappingModel);
 
-		    	$this->leftModel->ref($this->mappingModel)->dsql()->insertAll($res);
+		    	foreach($ids as $id){
+		    		$newRow[$this->leftField] = $this->leftModel->id;
+		    		$newRow[$this->rightField] = $id;
+		    		if($this->maintainSession){
+		    			$newRow['session_id'] = $session;
+		    		}
+		    		$newRow->saveAndUnload();
+		    	}
 
 	            $this->api->db->commit();
 	            $this->js()->univ()->closeExpander()->successMessage('Mapping saved')->execute();
