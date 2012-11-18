@@ -1,5 +1,5 @@
 <?php
-class Model_ExamClassSubjectMap extends Model_table {
+class Model_ExamClassSubjectMap extends Model_Table {
 	var $table= "examsub_map";
 	function init(){
 		parent::init();

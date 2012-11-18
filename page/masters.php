@@ -12,6 +12,7 @@ class page_masters extends Page{
 		$tab->addTabURL('masters_category','Category');
 		$tab->addTabURL('masters_item','Item');
 		$tab->addTabURL('masters_party','Party');
-		$tab->addTabURL('masters_feehead','Fees Head');
+		$tab->addTabURL('masters_feeshead','Fees Head');
+		$tab->addTabURL('masters_fee','Fees');
 	}
 }

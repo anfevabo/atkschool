@@ -17,5 +17,11 @@ class Model_HostelRoom extends Model_Table{
 		$this->addExpression('alloted')->set(function ($m,$q){
 			return $m->refSQL('RoomAllotement')->count();
 		});
+
+		$this->addExpression('name')->set('room_no');
+
+		
 	}
+
+	
 }

@@ -42,9 +42,9 @@ class Frontend extends ApiFrontend {
 //              ->allow('nitin','bvmsss')
 //              
             // use check() and allowPage for white-list based auth checking
-        // $auth=$this->add('BasicAuth');
-        //   $auth->setModel('Users','username','password');
-        //   $auth->check()
+        $auth=$this->add('BasicAuth');
+          $auth->setModel('Users','username','password');
+          $auth->check()
             ;
         // This method is executed for ALL the peages you are going to add,
         // before the page class is loaded. You can put additional checks
@@ -69,11 +69,11 @@ class Frontend extends ApiFrontend {
           $m->addMenuItem('masters','Master');
         // }
        
-        if($dd==1 )
-        {
+        // if($dd==1 )
+        // {
         $m->addMenuItem('data','Data Entry');
        
-        }
+        // }
         if($rr==1)
         {
              $m->addMenuItem('reports','Reports');

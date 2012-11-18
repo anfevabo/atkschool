@@ -54,7 +54,7 @@ class page_data_hostel_allotment extends Page
         $r=$this->add('Model_Hostel_Rooms');
         
         $drp_room=$f->addField('dropdown','room','Room Number');
-       $drp_room->setModel($r,array('room_no'));
+       $drp_room->setModel($r);
          
         $hstl = array("%" => "Select Hostel");
          $m=$this->add('Model_Hostel');

@@ -1,6 +1,6 @@
 <?php
 
-class Model_FeeClassMapping extends Mode_Table{
+class Model_FeeClassMapping extends Model_Table{
 	var $table="fee_class_mapping";
 
 	function init(){

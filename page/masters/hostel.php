@@ -12,6 +12,7 @@ class page_masters_hostel extends Page{
 
 	function page_room(){
 
+		// $this->add('Text')->set("Hello");
 		$this->api->stickyGET('hostel_master_id');
 		
 		$hostel=$this->add('Model_Hostel');

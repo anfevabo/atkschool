@@ -5,7 +5,7 @@ class Model_Fee extends Model_Table{
 	
 		parent::init();
 
-		$this->hasOne('FeesHead','feeshead_id');
+		$this->hasOne('FeesHead','feehead_id');
 		$this->addField('name');
 		$this->addField('isOptional')->type('boolean');
 		$this->addField('scholaredamount');
