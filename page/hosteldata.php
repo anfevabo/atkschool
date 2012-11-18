@@ -1,6 +1,6 @@
 <?php
 
-class page_data extends Page{
+class page_hosteldata extends Page{
 	function init(){
 		parent::init();
 
