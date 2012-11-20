@@ -40,4 +40,8 @@ class Grid extends Grid_Advanced
     function format_hindi($field){
       $this->setTDParam($field,'class','hindi');
     }
+
+    function format_attendance($field){
+      if($this->current_row[$field] == 'inward') $this->columns[$field]['tdparam']= 'style="color: red"';
+    }
 }
