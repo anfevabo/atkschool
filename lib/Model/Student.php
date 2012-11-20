@@ -16,6 +16,11 @@ class Model_Student extends Model_Table{
 	
         $this->hasMany('RoomAllotement','student_id');
         $this->hasMany('Item_Issue','student_id');
+
+        $this->addExpression('name')->set(function ($m,$q){
+                return $m->refSQL('scholar_id')->dsql()->del('field')->field('hname');
+        })->display('hindi');
+
 	}
 
 }
