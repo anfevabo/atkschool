@@ -19,9 +19,20 @@ class page_staff_movement extends Page {
 		$filter_field->js('change',$form->js()->atk4_form('reloadField','staff',array($this->api->getDestinationURL(), 'filter_duty'=>$filter_field->js()->val())));
 
 		if($form->isSubmitted()){
+			$staff = $this->add('Model_Staff');
+			$staff->load($form->get('staff'));
+			$m=$staff->ref('Staff_Movement');
 
+			if($form->isClicked('mark_in')){
+				if($staff['attendance_status'] == 'inward') $form->displayError('staff','Already In');
+				$m['action']="inward";
+			}
+			if($form->isClicked('mark_out')){
+				if($staff['attendance_status'] == 'outward') $form->displayError('staff','Already Out');
+				$m['action']="outward";
+			}
+			$m->save();
+			$form->js(null,$form->js()->univ()->successMessage('Movement Recorded'))->reload()->execute();
 		}
-
-
 	}
 }

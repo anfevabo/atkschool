@@ -12,7 +12,7 @@ class Model_Scholars_Guardian extends Model_Table{
         $this->add("filestore/Field_Image","image");
         $this->addField('relation')->display('hindi');
         $this->addField('contact');
-        $this->addField('address');	
+        $this->addField('address')->display('hindi');	
         $this->hasMany('Students_Movement','scholar_id');
     }
 }
