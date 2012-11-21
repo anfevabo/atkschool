@@ -28,6 +28,7 @@ class page_hostel_studentmovement extends Page{
 		$v->setModel($hm);
 
 		if($form->isSubmitted()){
+			// throw $this->exception($form->get('student'));
 			$v->js()->reload(array('hostler_id'=>$form->get('student')))->execute();
 		}
 
