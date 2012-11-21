@@ -10,7 +10,7 @@ class page_hostel_studentmovement extends Page{
 		$v=$this->add('View_StudentMovement');
 
 		$c=$this->add('Model_Class');
-		$s=$this->add('Model_Student');
+		$s=$this->add('Model_Hosteler');
 
 		if($_GET['class_id']){
 			$s->addCondition('class_id',$_GET['class_id']);
@@ -22,7 +22,7 @@ class page_hostel_studentmovement extends Page{
 
 		$hm=$this->add('Model_Hosteler');
 		if($_GET['hostler_id']){
-			$hm->load($_GET['hostler_id']);
+			$hm->addCondition('id',$_GET['hostler_id']);
 		}
 		
 		$v->setModel($hm);

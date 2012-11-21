@@ -14,5 +14,6 @@ class page_masters extends Page{
 		$tab->addTabURL('masters_party','Party');
 		$tab->addTabURL('masters_feeshead','Fees Head');
 		$tab->addTabURL('masters_fee','Fees');
+		$tab->addTabURL('masters_disease','Disease');
 	}
 }

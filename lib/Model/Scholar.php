@@ -27,6 +27,8 @@ class Model_Scholar extends Model_Table{
                 $this->hasMany('Student','scholar_id');
                 $this->hasMany('Scholars_Guardian','scholar_id');
                 $this->hasMany('Scholar','scholar_id');
+                $this->hasMany('Students_Movement','scholar_id');
+                $this->hasMany('Disease','scholar_id');
 
                 $this->addExpression('name')->set('hname');
                 $this->addExpression('Student_name')->set('fname');
