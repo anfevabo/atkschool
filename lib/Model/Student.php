@@ -13,7 +13,11 @@ class Model_Student extends Model_Table{
 		$this->addField('roll_no')->type('int')->caption('roll number');
         $this->addField('ishostler')->type('boolean')->defaultValue(false)->caption("Is Hostler");
         $this->addField('isScholared')->type('boolean');
-	
+        $this->addField('Section');
+        $this->addField('store_no');
+        $this->addField('isalloted')->type('boolean')->defaultValue(false);
+        $this->addField('bpl')->type('boolean')->defaultValue(false);
+
         $this->hasMany('RoomAllotement','student_id');
         $this->hasMany('Item_Issue','student_id');
         $this->hasMany('Students_Disease','student_id');
