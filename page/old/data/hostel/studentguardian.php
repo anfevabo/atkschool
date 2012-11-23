@@ -32,9 +32,9 @@ class page_data_hostel_studentguardian extends Page {
          $f=$this->add('InfiniteAddForm');
          $f->setModel($m,null,array('gname','image','relation'));//,array('gname','image','relaxtion'));
          //$f->form->getAllFields()->set('class','hindi'); 
-        $f->form->getElement('relation')->setAttr('class','hindi');
-        $f->form->getElement('gname')->setAttr('class','hindi');
-        $f->form->getElement('address')->setAttr('class','hindi');
+         $f->form->getElement('relation')->setAttr('class','hindi');
+         $f->form->getElement('gname')->setAttr('class','hindi');
+         $f->form->getElement('address')->setAttr('class','hindi');
         
        }          
         

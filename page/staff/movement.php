@@ -4,19 +4,29 @@ class page_staff_movement extends Page {
 	function init(){
 		parent::init();
 		$form=$this->add('Form',null,null,array('form_horizontal'));
-		// $grid=$this->add('Grid');
 		$filter_field=$form->addField('dropdown','filter_duty')->setValueList(array('h'=>'Hostel','s'=>'School','0'=>'All'))->set('0');
 		$staff_field=$form->addField('dropdown','staff')->setEmptyText('---')->setNotNull()->setAttr('class','hindi');
+		$grid=$form->add('Grid');
 		$form->addButton('Mark In')->js('click',$form->js()->atk4_form('submitForm','mark_in'));
 		$form->addButton('Mark Out')->js('click',$form->js()->atk4_form('submitForm','mark_out'));
 
 		$sm= $this->add('Model_Staff');
+		$sm4grid= $this->add('Model_Staff');
 		if($_GET['filter_duty']){
 			$sm->addCondition('ofhostel','like',($_GET['filter_duty']=='h')? '1':'0');
 		}
 
 		$staff_field->setModel($sm);
 		$filter_field->js('change',$form->js()->atk4_form('reloadField','staff',array($this->api->getDestinationURL(), 'filter_duty'=>$filter_field->js()->val())));
+		$staff_field->js('change',$grid->js()->reload(array($this->api->getDestinationURL(), 'filter_staff'=>$staff_field->js()->val())));
+
+		if($_GET['filter_staff']){
+			$sm4grid->addCondition('id',$_GET['filter_staff']);
+		}else{
+			$sm4grid->addCondition('id',-1);
+		}
+
+		$grid->setModel($sm4grid,array('hname','designation','contact','image'));
 
 		if($form->isSubmitted()){
 			$staff = $this->add('Model_Staff');

@@ -42,6 +42,11 @@ class Grid extends Grid_Advanced
     }
 
     function format_attendance($field){
-      if($this->current_row[$field] == 'inward') $this->current_row[$field]= 123; /*'<div style="color:red"><?$'.$field.'?></div>';*/
+      if($this->current_row[$field] == 'inward') 
+          $color='green';
+      else
+          $color='red';
+
+      $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
     }
 }

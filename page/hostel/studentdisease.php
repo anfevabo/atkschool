@@ -8,11 +8,13 @@ class page_hostel_studentdisease extends Page{
 		$crud->setModel($m);
 		if($crud->grid){
 			$crud->grid->setFormatter('student','hindi');
+			$crud->grid->setFormatter('disease','hindi');
 
 		}
 		if($crud->form){
 			$c=$this->add('Model_Class');
 			$crud->form->getElement('student_id')->setAttr('class','hindi');
+			$crud->form->getElement('disease_id')->setAttr('class','hindi');
 			$class_field=$crud->form->addField('dropdown','class')->setEmptyText("---");
 			$class_field->setModel($c);
 			if($_GET['class_idx']){
@@ -22,7 +24,7 @@ class page_hostel_studentdisease extends Page{
 			}
 			$class_field->js('change',$crud->form->js()->atk4_form('reloadField','student_id',array($this->api->getDestinationURL(), 'class_idx'=>$class_field->js()->val())));
 		
-
+			$crud->form->add('Order')->move('class','before','student_id')->now();
 		}
 	}
 }
