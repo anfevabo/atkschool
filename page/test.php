@@ -2,30 +2,16 @@
 
 class page_test extends Page {
 	function page_index(){
-		$crud=$this->add('CRUD');
-		$crud->setModel('Class',array('class_name','section'));
-		if($crud->grid){
-			$crud->grid->addColumn('Expander','subjects');
-		}
-	}
+		$m=$this->add('Model_ExamClassMap');
+		$m->load(4);
 
-	function page_subjects(){
-		$this->api->stickyGET('class_master_id');
+		$ecsm=$m->ref('ExamClassSubjectMap');
+		$ecsm->addCondition('subject_id','in',$m->ref('class_id')->ref('SubjectClassMap')->dsql()->del('field')->field('subject_id'));
+		$ecsm->debug();
+		$grid=$this->add('Grid');
+		$grid->setModel($ecsm);
 
-		$class=$this->add('Model_Class');
-		$class->load($_GET['class_master_id']);
-	
-		$options=array(
-				'leftModel' => $class,
-				'mappingModel' => 'SubjectClassMap',
-				'leftField' => 'class_id',
-				'rightField' => 'subject_id',
-				'rightModel' => 'Subject',
-				'deleteFirst' => true,
-				'maintainSession' => true
-			);		
-		// $this->add('View')->set('Hi');
-		$p=$this->add('View_Mapping',$options);
+		$grid->addFormatter('subject','hindi');
 
 	}
-}
+}	

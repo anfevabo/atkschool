@@ -5,6 +5,6 @@ class page_staff_add extends Page {
 		parent::init();
 
 		$crud = $this->add('CRUD');
-		$crud->setModel('Staff',null,array('hname','designation','contact'));
+		$crud->setModel('Staff',null,array('hname','designation','contact','image_url'));
 	}
 }

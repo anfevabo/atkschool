@@ -10,10 +10,10 @@ class page_hostel_studentgardian extends Page{
         // $grid->addFormatter('scholar','hindi');
         $grid->addPaginator();
 
-        $grid->addColumn('expander','editdelete','Manage');
+        $grid->addColumn('expander','manage','Manage');
 	}
 
-	function page_editdelete(){
+	function page_manage(){
 		$v=$this->add('View');
 		$v->addClass('atk-box ui-widget-content ui-corner-all')->addStyle('background','#eee');
 		$this->api->stickyGET('scholars_master_id');
@@ -22,6 +22,6 @@ class page_hostel_studentgardian extends Page{
 
 		$crud=$v->add('CRUD');
 		
-		$crud->setModel($sc->ref('Scholars_Guardian'),null,array('gname','contact','relation'));
+		$crud->setModel($sc->ref('Scholars_Guardian'),null,array('gname','contact','relation','image'));
 	}
 }

@@ -1,14 +1,7 @@
 <?php
-class Model_ExamClassSubjectMap extends Model_Table {
-	var $table= "examsub_map";
+class Model_ExamClassSubjectMap extends Model_ExamClassSubjectMapAll {
 	function init(){
 		parent::init();
-		$this->hasOne('ExamClassMap','exammap_id');
-		$this->hasOne('Subject','subject_id');
-		$this->hasOne('Sessions_Current','session_id');
-
-		$this->addField('min_marks');
-		$this->addField('max_marks');
-
+		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));		
 	}
 }

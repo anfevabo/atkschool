@@ -17,7 +17,7 @@ class Model_Hosteler extends Model_Student{
 		// 	// 		->where('scholar_id',$m->refSQL('scholar_id')->getField('id'))
 		// 	// 		->limit(1)
 		// 	// 		->order('id','desc');
-		// 	return $m->refSQL('scholar_id')->refSQL('Students_Movement')->dsql()->del('field')->field('purpose')->limit(1)->order('id','desc');
+		// 	return $m->refSQL('scholar_id/Students_Movement')->fieldQuery('purpose')->limit(1)->order('id','desc');
 		// });
 	}
 }

@@ -17,7 +17,7 @@ class Model_Scholar extends Model_Table{
                 $this->addField('guardian_name');
                 $this->addField('dob')->type('date')->mandatory("Required Field")->caption('Date of Birth');
                 $this->addField('contact')->mandatory("Required Field");
-                $this->add("filestore/Field_Image","student_image");//->type('image');//$this->add("filestore/Field_Image", "student_image"); 
+                $this->add("filestore/Field_Image","student_image")->type('image');//$this->add("filestore/Field_Image", "student_image"); 
                 $this->addField('p_address')->datatype('Text')->mandatory("Required Field")->caption('Permanent Address');
                 $this->addField('sex')->setValueList(array('M'=>'Male','F'=>'Female'));
                 $this->addField("isActive")->type('boolean')->mandatory("Is This Active")->defaultValue(true);
@@ -32,5 +32,13 @@ class Model_Scholar extends Model_Table{
 
                 $this->addExpression('name')->set('hname');
                 $this->addExpression('Student_name')->set('fname');
+
+                $fs=$this->join('filestore_file','student_image')
+                        ->join('filestore_image.original_file_id')
+                        ->join('filestore_file','thumb_file_id');
+                $fs->addField('image_url','filename')->display(array('grid'=>'picture'));
+
+
 	}
+        
 }

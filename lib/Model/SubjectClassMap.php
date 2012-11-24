@@ -1,14 +1,8 @@
 <?php
 
-class Model_SubjectClassMap extends Model_Table{
-	var $table="subject_class_map";
+class Model_SubjectClassMap extends Model_SubjectClassMapAll{
 	function init(){
 		parent::init();
-
-		$this->hasOne('Class','class_id');
-		$this->hasOne('Subject','subject_id');
-		$this->hasOne('Session','session_id');
-
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 		
 	}
