@@ -6,7 +6,7 @@ class Model_Hostel extends Model_Table{
 	function init(){
 		parent::init();
 
-		$this->addField('name','building_name');
+		$this->addField('name','building_name')->mandatory('Name is must');
 		$this->hasMany('HostelRoom','hostel_id');
 
 		$this->addExpression('Rooms')->set(function ($m,$q){
@@ -28,6 +28,7 @@ class Model_Hostel extends Model_Table{
 		// });
 
 		  $this->addExpression("vacant")->set('id')->type('diff');
+		  
 
 	}
 }
