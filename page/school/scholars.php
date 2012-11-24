@@ -5,7 +5,7 @@ class page_school_scholars extends Page {
 		parent::init();
 
 		$crud=$this->add('CRUD');
-		$crud->setModel('Scholars_Current',null,array('fname','hname','scholar_no','class'));
+		$crud->setModel('Scholars_Current',null,array('fname','hname','scholar_no','class','image_url'));
 		if($crud->grid){
 			$crud->grid->addFormatter('class','hindi');
             //  $crud->grid->add("misc/Controller_AutoPaginator")

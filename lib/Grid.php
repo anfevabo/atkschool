@@ -49,4 +49,8 @@ class Grid extends Grid_Advanced
 
       $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
     }
+
+    function format_picture($field){
+      $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="30%" height="30%"/>';
+    }
 }

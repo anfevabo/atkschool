@@ -26,7 +26,7 @@ class page_staff_movement extends Page {
 			$sm4grid->addCondition('id',-1);
 		}
 
-		$grid->setModel($sm4grid,array('hname','designation','contact','image'));
+		$grid->setModel($sm4grid,array('hname','designation','contact','image_url'));
 
 		if($form->isSubmitted()){
 			$staff = $this->add('Model_Staff');

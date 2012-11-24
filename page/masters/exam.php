@@ -65,16 +65,18 @@ class page_masters_exam extends Page {
 		$class=$this->add('Model_Class');
 		$class->load($examClassMap['class_id']);
 
+		$subject_class_map = $class->ref('SubjectClassMap');
 		$options=array(
 				'leftModel' => $examClassMap,
 				'mappingModel' => 'ExamClassSubjectMap',
 				'leftField' => 'exammap_id',
 				'rightField' => 'subject_id',
-				'rightModel' => $class->ref('SubjectClassMap'),
+				'rightModel' => $subject_class_map,
 				'deleteFirst' => true,
 				'maintainSession' => true,
 				'allowediting' => true,
-				'onlymapped' => false
+				'onlymapped' => false,
+				'field_other_then_id'=>'subject_id' //from right model HOPE SO ...
 			);		
 		$p=$this->add('View_Mapping',$options);
 		if($p->grid){

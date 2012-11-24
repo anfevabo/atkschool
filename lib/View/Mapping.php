@@ -17,6 +17,8 @@ class View_Mapping extends View {
 
 	var $onlymapped=false;
 
+	var $field_other_then_id=null;
+
 	var $grid;
 
 	function init(){
@@ -32,6 +34,9 @@ class View_Mapping extends View {
 	        $rm=$this->add("Model_".$this->rightModel);
 	    else
 	    	$rm=$this->rightModel;
+
+	    if($this->field_other_then_id)
+	    	$rm->id_field=$this->field_other_then_id;
 	    
         if(!$this->onlymapped)
 			$this->grid->setModel($rm);
@@ -50,21 +55,36 @@ class View_Mapping extends View {
 			if($form->isSubmitted()){
 				$this->api->db->beginTransaction();
 
+	            $ids= json_decode($form->get('sel'));
 	            // delete old mappings
 	            if($this->deleteFirst){
 	            	$clone_map= $this->leftModel->ref($this->mappingModel);
-	            	foreach($clone_map as $junk)
+	            	foreach($clone_map as $junk){
+	            		if($this->field_other_then_id){
+				    		if(in_array($clone_map[$this->rightField], $ids))
+		            			$clone_map->memorize('keep_added',true);
+			    		}else{
+			    			if(in_array($clone_map->id, $ids))
+		            			throw $this->exception('in array '. $clone_map->id . ' ');//$clone_map->memorize('keep_added',true);
+			    		}
 	            		$clone_map->delete();	
+	            	}
 	            } 
 
-	            $ids= json_decode($form->get('sel'));
 
 	            $session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
 	            $newRow=$this->add('Model_'.$this->mappingModel);
 
 		    	foreach($ids as $id){
+		    		if($this->field_other_then_id){
+			    		$clone_rm = clone $rm;
+			    		$clone_rm->unload()->load($id);
+			    		$newRow[$this->rightField] = $clone_rm->get($this->rightField);
+		    		}else{
+		    			$newRow[$this->rightField] = $id;
+		    		}
+
 		    		$newRow[$this->leftField] = $this->leftModel->id;
-		    		$newRow[$this->rightField] = $id;
 		    		if($this->maintainSession){
 		    			$newRow['session_id'] = $session;
 		    		}

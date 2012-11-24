@@ -8,14 +8,45 @@ class Model_Class extends Model_Table{
 		parent::init();
 
 		$this->addField('class_name', 'name')->mandatory("Please give a class name")->caption('Class Name');
-        $this->addField('section')->mandatory('give a class name')->display(array('form'=>'hindi','grid'=>'hindi'));
-        $this->hasMany('Student','class_id');
-        $this->hasMany('RelatedSubject','class_id');
+        $this->addField('section')->mandatory('Give section a name')->display(array('form'=>'hindi','grid'=>'hindi'));
+        $this->hasMany('Students_Current','class_id');
+        // $this->hasMany('RelatedSubject','class_id');
         $this->hasMany('SubjectClassMap','class_id');
         $this->hasMany('ExamClassMap','class_id');
 		$this->hasmany('FeeClassMap','class_id');
         $this->addExpression('name')->set('(concat(name," - ",section))')->display('hindi');
+        $this->addExpression('no_of_students')->set(function($m,$q){
+            return $m->refSQL('Students_Current')->count();
+        });
+
+        $this->addExpression('no_of_subjects')->set(function($m,$q){
+            return $m->refSQL('SubjectClassMap')->count();
+        });
+
+        $this->addHook('beforeSave',$this);
+        $this->addHook('beforeDelete',$this);
 	}
+
+    function beforeSave(){
+        $this->add('Controller_Unique',array('unique_fields'=>
+                            array(
+                                array('class_name'=>$this['class_name'],'section'=>$this['section'])
+                                )
+                            )
+                    );
+    }
+
+    function beforeDelete(){
+        $subject_class_map= $this->add('Model_SubjectClassMapAll');
+        $subject_class_map->addCondition('class_id',$this->id);
+        if($subject_class_map->count()->getOne() > 0)
+            throw $this->exception("This Class has Associated Subjects in any of Session, Kindly remove all subjects from all sessions and try again letter") ;
+
+        $student=$this->add('Model_Student');
+        $student->addCondition('class_id',$this->id);
+            if($student->count()->getOne()>0)
+            throw $this->exception("This Class has Associated Students in any of Session, Kindly remove all Students from all sessions and try again letter") ;
+    }
 
 	function setSubjects($ids)
     {

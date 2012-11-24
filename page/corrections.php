@@ -23,10 +23,13 @@ class page_corrections extends Page {
 					) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 			");
 
+		$this->query("ALTER TABLE `item_master` ADD `category_id` INT NOT NULL ");
+
 		// disease_master scholar_id to student_id and all id conversions
 		// Change all Scholars ID to Student ID
 		$this->query("ALTER TABLE `disease_master` CHANGE `scholar_id` `student_id` INT( 11 ) NOT NULL ");
 		$with_scholar = $this->add('Model_Students_Disease');
+		$this->query("ALTER TABLE `disease_master` ADD `disease_id` INT NOT NULL");
 
 		foreach($with_scholar as $dis_tab){
 			$s=$this->add('Model_Student');
@@ -36,8 +39,17 @@ class page_corrections extends Page {
 			$with_scholar->save();
 		}
 
-		$this->query("ALTER TABLE `disease_master` ADD `disease_id` INT NOT NULL");
-		
+		// DONET NEED TO USE THIS CORRECTION. OLD DATA WAS CORRECT
+		// $m=$this->add('Model_ExamClassSubjectMap');
+		// $t=$this->add('Model_SubjectClassMap');
+		// foreach($m as $junk){
+		// 	$t->load($m['subject_id']);
+		// 	$m['subject_id']=$t['subject_id'];
+		// 	$m->save();
+		// 	$t->unload();
+		// }
+ 
+
 	}
 
 	function query($q) {
