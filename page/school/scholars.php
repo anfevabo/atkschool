@@ -8,6 +8,7 @@ class page_school_scholars extends Page {
 		$crud->setModel('Scholars_Current',null,array('fname','hname','scholar_no','class','image_url'));
 		if($crud->grid){
 			$crud->grid->addFormatter('class','hindi');
+            $crud->grid->addQuickSearch(array('scholar_no','fname'));
             //  $crud->grid->add("misc/Controller_AutoPaginator")
             // ->setLimit(50);
             $crud->grid->addPaginator();

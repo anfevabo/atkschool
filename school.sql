@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2012 at 03:48 PM
+-- Generation Time: Nov 24, 2012 at 05:37 PM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -156,6 +156,18 @@ CREATE TABLE IF NOT EXISTS `complain_master` (
   `action_date` varchar(255) NOT NULL,
   `remarks` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`complain_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `diseases`
+--
+
+CREATE TABLE IF NOT EXISTS `diseases` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -4124,7 +4136,7 @@ CREATE TABLE IF NOT EXISTS `hosteller_outward` (
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `scholar_id` (`scholar_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3621 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3820 ;
 
 --
 -- Dumping data for table `hosteller_outward`
@@ -7669,7 +7681,206 @@ INSERT INTO `hosteller_outward` (`id`, `scholar_id`, `date`, `direction`, `withi
 (3617, 438, '2012-11-05 11:03:17', NULL, 1742, 'outward', ''),
 (3618, 170, '2012-11-05 11:49:00', NULL, NULL, 'outward', '9799734187 seatsh'),
 (3619, 126, '2012-11-05 13:39:10', NULL, 1306, 'outward', ''),
-(3620, 151, '2012-11-05 16:54:17', NULL, 650, 'outward', '');
+(3620, 151, '2012-11-05 16:54:17', NULL, 650, 'outward', ''),
+(3621, 233, '2012-11-06 10:40:58', NULL, 1560, 'outward', ''),
+(3622, 56, '2012-11-06 10:42:42', NULL, NULL, 'outward', 'raj'),
+(3623, 210, '2012-11-17 22:30:46', NULL, NULL, 'outward', 'out on date 06.11.2012'),
+(3624, 340, '2012-11-18 11:29:41', NULL, 1014, 'inward', ''),
+(3625, 191, '2012-11-18 11:29:57', NULL, 733, 'inward', ''),
+(3626, 310, '2012-11-18 12:39:33', NULL, 533, 'inward', ''),
+(3627, 311, '2012-11-18 12:39:51', NULL, 537, 'inward', ''),
+(3628, 316, '2012-11-18 12:48:50', NULL, 1385, 'inward', ''),
+(3629, 315, '2012-11-18 12:49:04', NULL, 1388, 'inward', ''),
+(3630, 57, '2012-11-18 13:12:12', NULL, 448, 'inward', ''),
+(3631, 392, '2012-11-18 13:43:32', NULL, 1236, 'inward', ''),
+(3632, 256, '2012-11-18 13:43:47', NULL, 1645, 'inward', ''),
+(3633, 82, '2012-11-18 13:44:02', NULL, 495, 'inward', ''),
+(3634, 47, '2012-11-18 13:44:18', NULL, 1734, 'inward', ''),
+(3635, 62, '2012-11-18 15:09:12', NULL, 459, 'inward', ''),
+(3636, 353, '2012-11-18 15:16:31', NULL, NULL, 'inward', 'hement'),
+(3637, 227, '2012-11-18 16:38:50', NULL, 1512, 'inward', ''),
+(3638, 323, '2012-11-18 16:43:41', NULL, 990, 'inward', ''),
+(3639, 32, '2012-11-18 16:55:55', NULL, NULL, 'inward', 'pradip bodat'),
+(3640, 341, '2012-11-18 16:59:18', NULL, 542, 'inward', ''),
+(3641, 304, '2012-11-18 17:00:51', NULL, 963, 'inward', ''),
+(3642, 156, '2012-11-18 17:01:06', NULL, 661, 'inward', ''),
+(3643, 256, '2012-11-18 17:20:01', NULL, 1735, 'outward', ''),
+(3644, 392, '2012-11-18 17:20:19', NULL, 1723, 'outward', ''),
+(3645, 47, '2012-11-18 17:20:57', NULL, 1736, 'outward', ''),
+(3646, 82, '2012-11-18 17:21:36', NULL, 1724, 'outward', ''),
+(3647, 285, '2012-11-18 17:47:21', NULL, 781, 'inward', ''),
+(3648, 283, '2012-11-18 17:47:38', NULL, NULL, 'inward', 'self'),
+(3649, 297, '2012-11-18 17:47:56', NULL, 1654, 'inward', ''),
+(3650, 174, '2012-11-18 18:04:03', NULL, 695, 'inward', ''),
+(3651, 73, '2012-11-18 18:04:14', NULL, 478, 'inward', ''),
+(3652, 91, '2012-11-18 18:04:30', NULL, 511, 'inward', ''),
+(3653, 251, '2012-11-18 18:49:01', NULL, NULL, 'inward', 'self'),
+(3654, 446, '2012-11-18 19:08:44', NULL, 1782, 'inward', ''),
+(3655, 80, '2012-11-18 19:27:07', NULL, NULL, 'inward', 'self'),
+(3656, 240, '2012-11-19 07:55:27', NULL, 835, 'inward', ''),
+(3657, 148, '2012-11-19 07:56:09', NULL, NULL, 'inward', 'self'),
+(3658, 394, '2012-11-19 07:56:32', NULL, 1435, 'inward', ''),
+(3659, 343, '2012-11-19 07:56:57', NULL, NULL, 'inward', 'self'),
+(3660, 69, '2012-11-19 11:34:34', NULL, 471, 'inward', ''),
+(3661, 272, '2012-11-19 12:27:06', NULL, 1622, 'inward', ''),
+(3662, 280, '2012-11-19 12:27:25', NULL, 1657, 'inward', ''),
+(3663, 237, '2012-11-19 12:27:57', NULL, 1522, 'inward', ''),
+(3664, 404, '2012-11-19 12:35:00', NULL, NULL, 'inward', 'self'),
+(3665, 412, '2012-11-19 12:43:30', NULL, NULL, 'inward', 'Vallabh Ji'),
+(3666, 273, '2012-11-19 12:43:49', NULL, NULL, 'inward', 'Vallabh Ji'),
+(3667, 337, '2012-11-19 12:46:40', NULL, NULL, 'inward', 'Bharti'),
+(3668, 216, '2012-11-19 12:47:45', NULL, 791, 'inward', ''),
+(3669, 448, '2012-11-19 12:51:03', NULL, 1793, 'inward', ''),
+(3670, 38, '2012-11-19 12:54:10', NULL, 1073, 'inward', ''),
+(3671, 107, '2012-11-19 12:54:32', NULL, 1094, 'inward', ''),
+(3672, 332, '2012-11-19 13:22:29', NULL, 1006, 'inward', ''),
+(3673, 396, '2012-11-19 13:33:11', NULL, 1603, 'inward', ''),
+(3674, 194, '2012-11-19 13:33:36', NULL, 1534, 'inward', ''),
+(3675, 300, '2012-11-19 13:33:59', NULL, 956, 'inward', ''),
+(3676, 301, '2012-11-19 13:34:15', NULL, 958, 'inward', ''),
+(3677, 329, '2012-11-19 13:38:25', NULL, 1002, 'inward', ''),
+(3678, 328, '2012-11-19 13:39:11', NULL, 1000, 'inward', ''),
+(3679, 221, '2012-11-19 13:43:07', NULL, 801, 'inward', ''),
+(3680, 58, '2012-11-19 13:47:20', NULL, 450, 'inward', ''),
+(3681, 442, '2012-11-19 13:47:33', NULL, 1770, 'inward', ''),
+(3682, 441, '2012-11-19 13:47:49', NULL, 1767, 'inward', ''),
+(3683, 443, '2012-11-19 13:48:01', NULL, 1769, 'inward', ''),
+(3684, 444, '2012-11-19 13:48:13', NULL, 1773, 'inward', ''),
+(3685, 342, '2012-11-19 13:49:13', NULL, 1575, 'inward', ''),
+(3686, 370, '2012-11-19 14:06:59', NULL, 1137, 'inward', ''),
+(3687, 369, '2012-11-19 14:07:17', NULL, 1136, 'inward', ''),
+(3688, 418, '2012-11-19 14:07:48', NULL, 1325, 'inward', ''),
+(3689, 236, '2012-11-19 14:15:25', NULL, 827, 'inward', ''),
+(3690, 388, '2012-11-19 14:22:12', NULL, 1230, 'inward', ''),
+(3691, 204, '2012-11-19 14:22:28', NULL, 759, 'inward', ''),
+(3692, 209, '2012-11-19 14:22:39', NULL, 1726, 'inward', ''),
+(3693, 307, '2012-11-19 14:23:57', NULL, 1104, 'inward', ''),
+(3694, 28, '2012-11-19 14:24:41', NULL, NULL, 'inward', 'ramesh ji '),
+(3695, 165, '2012-11-19 14:33:08', NULL, 1506, 'inward', ''),
+(3696, 158, '2012-11-19 14:33:47', NULL, NULL, 'inward', 'self'),
+(3697, 372, '2012-11-19 15:09:46', NULL, 1187, 'inward', ''),
+(3698, 382, '2012-11-19 15:15:48', NULL, 1317, 'inward', ''),
+(3699, 260, '2012-11-19 15:27:28', NULL, 871, 'inward', ''),
+(3700, 296, '2012-11-19 15:27:55', NULL, 933, 'inward', ''),
+(3701, 275, '2012-11-19 15:38:50', NULL, 1623, 'inward', ''),
+(3702, 360, '2012-11-19 15:39:49', NULL, NULL, 'inward', 'self'),
+(3703, 215, '2012-11-19 15:41:42', NULL, 1101, 'inward', ''),
+(3704, 230, '2012-11-19 15:42:03', NULL, 1097, 'inward', ''),
+(3705, 224, '2012-11-19 16:12:51', NULL, NULL, 'inward', '9460378073'),
+(3706, 234, '2012-11-19 16:13:10', NULL, 823, 'inward', ''),
+(3707, 88, '2012-11-19 16:13:35', NULL, NULL, 'inward', 'self'),
+(3708, 447, '2012-11-19 16:26:41', NULL, 1785, 'inward', ''),
+(3709, 233, '2012-11-19 16:52:26', NULL, 1561, 'inward', ''),
+(3710, 449, '2012-11-19 17:02:10', NULL, 1799, 'inward', ''),
+(3711, 295, '2012-11-19 17:25:42', NULL, 1647, 'inward', ''),
+(3712, 339, '2012-11-19 17:26:12', NULL, NULL, 'inward', 'self'),
+(3713, 392, '2012-11-19 17:34:15', NULL, 1723, 'inward', ''),
+(3714, 82, '2012-11-19 17:34:32', NULL, 1724, 'inward', ''),
+(3715, 256, '2012-11-19 17:34:42', NULL, 1735, 'inward', ''),
+(3716, 47, '2012-11-19 17:34:57', NULL, 1736, 'inward', ''),
+(3717, 255, '2012-11-19 17:36:05', NULL, 1650, 'inward', ''),
+(3718, 284, '2012-11-19 17:57:35', NULL, 1144, 'inward', ''),
+(3719, 293, '2012-11-19 17:57:57', NULL, 1149, 'inward', ''),
+(3720, 244, '2012-11-19 18:14:00', NULL, NULL, 'inward', 'self'),
+(3721, 431, '2012-11-19 18:49:34', NULL, 1447, 'inward', ''),
+(3722, 430, '2012-11-19 18:50:13', NULL, 1445, 'inward', ''),
+(3723, 259, '2012-11-19 18:51:33', NULL, NULL, 'inward', 'self'),
+(3724, 199, '2012-11-19 18:51:57', NULL, NULL, 'inward', 'self'),
+(3725, 290, '2012-11-19 19:11:50', NULL, NULL, 'inward', 'raj'),
+(3726, 99, '2012-11-20 07:54:12', NULL, 1373, 'inward', ''),
+(3727, 135, '2012-11-20 09:33:50', NULL, NULL, 'inward', 'self'),
+(3728, 354, '2012-11-20 10:41:56', NULL, 949, 'inward', ''),
+(3729, 365, '2012-11-20 10:42:21', NULL, 1391, 'inward', ''),
+(3730, 168, '2012-11-20 10:56:54', NULL, 1428, 'inward', ''),
+(3731, 254, '2012-11-20 11:13:48', NULL, 860, 'inward', ''),
+(3732, 292, '2012-11-20 11:14:11', NULL, 924, 'inward', ''),
+(3733, 95, '2012-11-20 11:22:27', NULL, 548, 'inward', ''),
+(3734, 93, '2012-11-20 11:22:43', NULL, 516, 'inward', ''),
+(3735, 326, '2012-11-20 11:27:00', NULL, 996, 'inward', ''),
+(3736, 263, '2012-11-20 11:30:29', NULL, 1109, 'inward', ''),
+(3737, 94, '2012-11-20 11:31:15', NULL, 546, 'inward', ''),
+(3738, 77, '2012-11-20 12:03:13', NULL, 485, 'inward', ''),
+(3739, 18, '2012-11-20 12:16:16', NULL, 333, 'inward', ''),
+(3740, 151, '2012-11-20 12:47:12', NULL, 650, 'inward', ''),
+(3741, 312, '2012-11-20 12:47:29', NULL, 974, 'inward', ''),
+(3742, 49, '2012-11-20 12:52:59', NULL, 431, 'inward', ''),
+(3743, 139, '2012-11-20 13:05:57', NULL, NULL, 'inward', 'vijya'),
+(3744, 355, '2012-11-20 13:08:00', NULL, 1438, 'inward', ''),
+(3745, 140, '2012-11-20 13:08:34', NULL, NULL, 'inward', 'harish ji 9571029627'),
+(3746, 249, '2012-11-20 13:27:38', NULL, 1102, 'inward', ''),
+(3747, 141, '2012-11-20 13:45:41', NULL, 632, 'inward', ''),
+(3748, 450, '2012-11-20 13:46:02', NULL, 1796, 'inward', ''),
+(3749, 451, '2012-11-20 13:46:32', NULL, 1803, 'inward', ''),
+(3750, 207, '2012-11-20 13:47:09', NULL, 766, 'inward', ''),
+(3751, 152, '2012-11-20 13:48:03', NULL, NULL, 'inward', 'thavar chand'),
+(3752, 102, '2012-11-20 13:52:23', NULL, NULL, 'inward', 'nati ram ji'),
+(3753, 109, '2012-11-20 13:52:41', NULL, 575, 'inward', ''),
+(3754, 217, '2012-11-20 14:06:35', NULL, 795, 'inward', ''),
+(3755, 436, '2012-11-20 14:06:52', NULL, 1721, 'inward', ''),
+(3756, 63, '2012-11-20 14:07:08', NULL, 1662, 'inward', ''),
+(3757, 253, '2012-11-20 14:10:08', NULL, 858, 'inward', ''),
+(3758, 212, '2012-11-20 14:15:34', NULL, NULL, 'inward', 'self'),
+(3759, 220, '2012-11-20 14:19:25', NULL, NULL, 'inward', 'self'),
+(3760, 19, '2012-11-20 14:22:47', NULL, 334, 'inward', ''),
+(3761, 31, '2012-11-20 14:22:55', NULL, 396, 'inward', ''),
+(3762, 51, '2012-11-20 14:26:40', NULL, 1455, 'inward', ''),
+(3763, 143, '2012-11-20 14:34:06', NULL, NULL, 'inward', 'self'),
+(3764, 239, '2012-11-20 14:34:31', NULL, NULL, 'inward', 'self'),
+(3765, 379, '2012-11-20 14:34:49', NULL, 1302, 'inward', ''),
+(3766, 416, '2012-11-20 14:35:11', NULL, NULL, 'inward', 'self'),
+(3767, 161, '2012-11-20 14:37:05', NULL, 1175, 'inward', ''),
+(3768, 90, '2012-11-20 14:37:16', NULL, 1178, 'inward', ''),
+(3769, 144, '2012-11-20 14:42:00', NULL, 1681, 'inward', ''),
+(3770, 318, '2012-11-20 14:47:24', NULL, 983, 'inward', ''),
+(3771, 60, '2012-11-20 14:48:00', NULL, 1366, 'inward', ''),
+(3772, 364, '2012-11-20 14:52:18', NULL, 1139, 'inward', ''),
+(3773, 81, '2012-11-20 14:57:39', NULL, 493, 'inward', ''),
+(3774, 160, '2012-11-20 15:14:23', NULL, 1741, 'inward', ''),
+(3775, 145, '2012-11-20 15:14:36', NULL, 1740, 'inward', ''),
+(3776, 409, '2012-11-20 15:14:52', NULL, 1279, 'inward', ''),
+(3777, 126, '2012-11-20 15:27:34', NULL, 1306, 'inward', ''),
+(3778, 381, '2012-11-20 15:54:20', NULL, 1695, 'inward', ''),
+(3779, 193, '2012-11-20 15:54:35', NULL, 1697, 'inward', ''),
+(3780, 157, '2012-11-20 15:56:34', NULL, NULL, 'inward', 'self'),
+(3781, 120, '2012-11-20 15:57:43', NULL, 1679, 'inward', ''),
+(3782, 279, '2012-11-20 16:00:00', NULL, 1626, 'inward', ''),
+(3783, 176, '2012-11-20 16:01:03', NULL, 699, 'inward', ''),
+(3784, 264, '2012-11-20 16:05:29', NULL, 877, 'inward', ''),
+(3785, 276, '2012-11-20 16:08:39', NULL, NULL, 'inward', 'self'),
+(3786, 197, '2012-11-20 16:10:55', NULL, 746, 'inward', ''),
+(3787, 186, '2012-11-20 16:17:26', NULL, 1690, 'inward', ''),
+(3788, 124, '2012-11-20 16:40:50', NULL, 1500, 'inward', ''),
+(3789, 192, '2012-11-20 16:41:31', NULL, NULL, 'inward', 'self'),
+(3790, 314, '2012-11-20 16:42:21', NULL, NULL, 'inward', 'self'),
+(3791, 395, '2012-11-20 16:58:11', NULL, NULL, 'inward', 'self'),
+(3792, 198, '2012-11-20 17:02:32', NULL, NULL, 'inward', 'lokesh'),
+(3793, 265, '2012-11-20 17:16:48', NULL, 1620, 'inward', ''),
+(3794, 371, '2012-11-20 17:17:06', NULL, 1147, 'inward', ''),
+(3795, 414, '2012-11-20 17:19:32', NULL, 1636, 'inward', ''),
+(3796, 413, '2012-11-20 17:19:46', NULL, 1638, 'inward', ''),
+(3797, 440, '2012-11-20 17:21:38', NULL, 1766, 'inward', ''),
+(3798, 291, '2012-11-20 17:25:58', NULL, NULL, 'inward', 'self'),
+(3799, 298, '2012-11-20 17:54:16', NULL, 937, 'inward', ''),
+(3800, 410, '2012-11-20 17:54:39', NULL, 1289, 'inward', ''),
+(3801, 262, '2012-11-20 17:55:15', NULL, NULL, 'inward', 'limba ram ji'),
+(3802, 250, '2012-11-20 18:16:15', NULL, 852, 'inward', ''),
+(3803, 248, '2012-11-20 18:16:27', NULL, 848, 'inward', ''),
+(3804, 434, '2012-11-20 18:16:56', NULL, 1708, 'inward', ''),
+(3805, 85, '2012-11-20 18:17:15', NULL, 1420, 'inward', ''),
+(3806, 79, '2012-11-20 18:27:48', NULL, NULL, 'inward', 'self'),
+(3807, 166, '2012-11-20 18:28:07', NULL, 1111, 'inward', ''),
+(3808, 127, '2012-11-20 18:28:47', NULL, 1117, 'inward', ''),
+(3809, 190, '2012-11-20 18:34:05', NULL, 1702, 'inward', ''),
+(3810, 383, '2012-11-20 18:34:48', NULL, NULL, 'inward', 'self'),
+(3811, 133, '2012-11-20 19:17:49', NULL, NULL, 'inward', 'self'),
+(3812, 362, '2012-11-20 19:18:44', NULL, NULL, 'inward', 'self'),
+(3813, 331, '2012-11-20 20:24:23', NULL, 1244, 'inward', ''),
+(3814, 225, '2012-11-21 08:08:35', NULL, 1193, 'inward', ''),
+(3815, 71, '2012-11-21 08:08:48', NULL, 474, 'inward', ''),
+(3816, 278, '2012-11-21 08:32:20', NULL, 902, 'inward', ''),
+(3817, 238, '2012-11-21 08:56:03', NULL, NULL, 'inward', 'self'),
+(3818, 445, '2012-11-21 09:49:59', NULL, 1789, 'inward', ''),
+(3819, 104, '2012-11-21 09:50:19', NULL, 565, 'inward', '');
 
 -- --------------------------------------------------------
 
@@ -7684,7 +7895,7 @@ CREATE TABLE IF NOT EXISTS `hostel_allotement` (
   `session_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=573 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=578 ;
 
 --
 -- Dumping data for table `hostel_allotement`
@@ -7699,7 +7910,7 @@ INSERT INTO `hostel_allotement` (`id`, `student_id`, `room_id`, `session_id`) VA
 (54, 31, 33, 8),
 (56, 33, 45, 8),
 (61, 38, 17, 8),
-(63, 40, 34, 8),
+(63, 40, 28, 8),
 (66, 43, 49, 8),
 (68, 45, 28, 8),
 (69, 46, 18, 8),
@@ -7744,7 +7955,7 @@ INSERT INTO `hostel_allotement` (`id`, `student_id`, `room_id`, `session_id`) VA
 (149, 131, 31, 8),
 (153, 135, 26, 8),
 (155, 137, 28, 8),
-(159, 141, 34, 8),
+(159, 141, 28, 8),
 (160, 142, 19, 8),
 (161, 143, 44, 8),
 (162, 144, 28, 8),
@@ -7874,7 +8085,6 @@ INSERT INTO `hostel_allotement` (`id`, `student_id`, `room_id`, `session_id`) VA
 (377, 380, 41, 8),
 (379, 381, 24, 8),
 (380, 145, 24, 8),
-(381, 349, 38, 8),
 (382, 348, 38, 8),
 (383, 122, 24, 8),
 (384, 382, 20, 8),
@@ -8050,7 +8260,12 @@ INSERT INTO `hostel_allotement` (`id`, `student_id`, `room_id`, `session_id`) VA
 (569, 445, 18, 8),
 (570, 446, 34, 8),
 (571, 448, 33, 8),
-(572, 447, 38, 8);
+(572, 447, 38, 8),
+(573, 450, 24, 8),
+(574, 449, 34, 8),
+(575, 451, 30, 8),
+(576, 453, 49, 8),
+(577, 452, 49, 8);
 
 -- --------------------------------------------------------
 
@@ -8074,6 +8289,18 @@ INSERT INTO `hostel_master` (`id`, `building_name`) VALUES
 (6, 'Block - C (Boys)'),
 (7, 'Block - D (Girls)'),
 (8, 'Block - E (Boys)');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_category`
+--
+
+CREATE TABLE IF NOT EXISTS `item_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -8163,7 +8390,7 @@ CREATE TABLE IF NOT EXISTS `item_issue` (
   `date` date NOT NULL,
   `session_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -8338,13 +8565,13 @@ INSERT INTO `rooms` (`id`, `hostel_id`, `room_no`, `capacity`) VALUES
 (21, 1, 42, 8),
 (22, 1, 43, 8),
 (23, 1, 44, 8),
-(24, 1, 45, 5),
+(24, 1, 45, 6),
 (25, 1, 46, 10),
 (26, 1, 47, 10),
 (27, 5, 29, 10),
-(28, 5, 30, 11),
+(28, 5, 30, 13),
 (29, 5, 31, 10),
-(30, 5, 32, 8),
+(30, 5, 32, 9),
 (31, 5, 33, 10),
 (32, 5, 34, 6),
 (33, 5, 35, 8),
@@ -8361,7 +8588,7 @@ INSERT INTO `rooms` (`id`, `hostel_id`, `room_no`, `capacity`) VALUES
 (44, 7, 20, 16),
 (45, 7, 22, 21),
 (46, 7, 49, 9),
-(47, 7, 50, 18),
+(47, 7, 50, 17),
 (49, 8, 9, 11),
 (50, 8, 10, 9),
 (51, 8, 11, 10),
@@ -8778,19 +9005,19 @@ INSERT INTO `scholars_master` (`id`, `scholar_no`, `fname`, `mname`, `lname`, `f
 (436, '2609', 'Manish Damor', NULL, NULL, 'Jh y{e.k Mkeksj', 0, 'Jherh fueZyk nsoh', 0, '1996-12-05', '9214801995', '[kkUnw dkWyksuh] fuye uxj ds lkeus] ckalokMk  ', NULL, 'M', NULL, '-', 2207, 1, '2012-09-03', '1970-01-01', 'Jh euh"k Mkeksj'),
 (437, '2554', 'Shankar Lal Meena', NULL, NULL, 'Jh i`Fohjkt eh.kk', 0, 'Jherh /kjeh ckbZ', 0, '1994-07-04', '.', ',dyO; dkWyksuh] mn;iqj  ', NULL, 'M', 'ST', '-', 0, 1, '2012-09-20', '0000-00-00', 'Jh ''kadjyky eh.kk'),
 (438, '2915', 'Jayraj Bhagora', NULL, NULL, 'Jh eksguyky Hkxksjk', 0, 'Jherh ccyh Hkxksjk', 0, '1998-08-26', '9950559912', 'eq- vMksj] iks- xksihukFk dk xM+k] r- x<+h] ftyk ckalokM+k', NULL, 'M', 'ST', 'Jh lur dqekj iaM;k', 2197, 1, '2012-09-27', '1970-01-01', 'Jh t;jkt Hkxksjk'),
-(439, '1', 'Pooja Gurjar', NULL, NULL, 'Jh ekaxhyky xqtZj', 0, 'Jherh lkslj ckbZ', 0, '1999-04-17', '9950547827', 'eq-iks- lkaxfj;k] ok;k cksgsMk] ftyk fprksMx<++', NULL, 'F', 'OBC', '-', 0, 1, '2012-10-13', '0000-00-00', 'lqJh iqtk xqtZj'),
-(440, '2', 'Reshma Kumari Labana', NULL, NULL, 'Jh vEckyky yckuk', 0, 'Jherh lqxuk nsoh', 0, '2001-09-07', '9602610103', 'eq-iks- ekMk] ftyk Mwaxjiqj', NULL, 'F', 'OBC', '-', 0, 1, '2012-10-22', '0000-00-00', 'lqJh js''kek dqekjh yckuk'),
-(441, '3', 'Mehul Asari', NULL, NULL, 'Jh jes''kpUnz vlkjh', 0, 'Jherh eUtwyk nsoh', 0, '2002-06-26', '8107504580', 'xkao jsy iksLV ckoyokMk] ok;k [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-26', '1970-01-01', 'Jh esgqy vlkjh'),
-(442, '4', 'Vikram Garasia', NULL, NULL, 'Jh euksgj flag xjkfl;k', 0, 'Jherh gUrh nsoh', 0, '2001-05-05', '9784275255', 'xkao dkrjokl [kqnZ ok;k [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-26', '1970-01-01', 'Jh foØe xjkfl;k'),
-(443, '5', 'Ravindra Garasia', NULL, NULL, 'Jh cnkehyky', 0, 'Jherh ccyh nsoh', 0, '2000-01-09', '8107278755', 'xkao dkrjokl [kqnZ ok;k [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-26', '1970-01-01', 'Jh johUnz xjkfl;k'),
-(444, '6', 'Chunnilal Daranga', NULL, NULL, 'Jh /kujkt njaxk', 0, 'Jherh ''kkUrk nsoh njaxk', 0, '2002-07-18', '9950993141', 'eq- xrjkyh] iks- g"kkZokMk] r- [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-29', '0000-00-00', 'Jh pqUuhyky njaxk'),
-(445, '7', 'Kishan Lal Meena', NULL, NULL, 'Jh pks[kkyky eh.kk', 0, 'Jherh tL;k ckbZ eh.kk', 0, '2000-05-17', '.', 'xkao Hkknoh osyk] ¼[kkukrkykc½ iks- flgkM+] ok;k cEcksjh] r- oYyHkuxj] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-29', '1970-01-01', 'Jh fd''kuyky eh.kk'),
-(446, '8', 'Mukesh Kumar Meena', NULL, NULL, 'Jh oSlkjke eh.kk', 0, 'Jherh jehyk eh.kk', 0, '1999-09-06', '9530358594', 'eq- <sykbZ] iks- ijlkn] r-ljkMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-29', '0000-00-00', 'Jh eqds''k dqekj eh.kk'),
-(447, '9', 'Vikram Bhagora', NULL, NULL, 'Jh ckcqyky Hkxksjk', 0, 'Jherh vEckoh nsoh', 0, '2001-12-16', '8890273552', 'eq- miyh flxjh] iks- fupyh flxjh] r- >kMksy] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-30', '0000-00-00', 'Jh foØe Hkxksjk'),
-(448, '10', 'Prakash Chandra Meena', NULL, NULL, 'Jh ''kadjyky eh.kk', 0, 'Jherh ikyq ckbZ', 0, '2002-05-01', '9784957239', 'xk¡o vksojk] iks- nsofy;k] ok;k dkuksM] ftyk mn;iqj   ', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-30', '0000-00-00', 'Jh izdk''k pUnz eh.kk'),
-(449, '11', 'Somraj Ahari', NULL, NULL, 'Jh odykjke vgkjh', 0, 'Jh cnh nsoh', 0, '2002-09-19', '9784360684', 'eq- iks- lkse] r- >kMksy] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-30', '0000-00-00', 'Jh lksejkt vgkjh'),
-(450, '12', 'Vijay Meena', NULL, NULL, 'Jh vtwZu yky eh.kk', 0, 'Jherh vatuk nsoh', 0, '2002-07-10', '9660539531', 'eq- iks- dkxnj Qyk] [kk.MkxksM+] r- _"kHknso] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-31', '0000-00-00', 'Jh fot; eh.kk'),
-(451, '13', 'Hritik Kumar Damor', NULL, NULL, 'Jh dkfUryky Mkeksj', 0, 'Jherh ''kkjnk nsoh', 0, '2002-08-25', '9601086944', 'eq- iks- cUtkfj;k Qyk] fyEckfM;k] r- [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-31', '0000-00-00', 'Jh _frd dqekj Mkeksj');
+(439, '2916', 'Pooja Gurjar', NULL, NULL, 'Jh ekaxhyky xqtZj', 0, 'Jherh lkslj ckbZ', 0, '1999-04-17', '9950547827', 'eq-iks- lkaxfj;k] ok;k cksgsMk] ftyk fprksMx<++', NULL, 'F', 'OBC', '-', 0, 1, '2012-10-13', '1970-01-01', 'lqJh iqtk xqtZj'),
+(440, '2917', 'Reshma Kumari Labana', NULL, NULL, 'Jh vEckyky yckuk', 0, 'Jherh lqxuk nsoh', 0, '2001-09-07', '9602610103', 'eq-iks- ekMk] ftyk Mwaxjiqj', NULL, 'F', 'OBC', '-', 0, 1, '2012-10-22', '1970-01-01', 'lqJh js''kek dqekjh yckuk'),
+(441, '2918', 'Mehul Asari', NULL, NULL, 'Jh jes''kpUnz vlkjh', 0, 'Jherh eUtwyk nsoh', 0, '2002-06-26', '8107504580', 'xkao jsy iksLV ckoyokMk] ok;k [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-26', '1970-01-01', 'Jh esgqy vlkjh'),
+(442, '2922', 'Vikram Garasia', NULL, NULL, 'Jh euksgj flag xjkfl;k', 0, 'Jherh gUrh nsoh', 0, '2001-05-05', '9784275255', 'xkao dkrjokl [kqnZ ok;k [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-26', '1970-01-01', 'Jh foØe xjkfl;k'),
+(443, '2921', 'Ravindra Garasia', NULL, NULL, 'Jh cnkehyky', 0, 'Jherh ccyh nsoh', 0, '2000-01-09', '8107278755', 'xkao dkrjokl [kqnZ ok;k [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-26', '1970-01-01', 'Jh johUnz xjkfl;k'),
+(444, '2919', 'Chunnilal Daranga', NULL, NULL, 'Jh /kujkt njaxk', 0, 'Jherh ''kkUrk nsoh njaxk', 0, '2002-07-18', '9950993141', 'eq- xrjkyh] iks- g"kkZokMk] r- [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-29', '1970-01-01', 'Jh pqUuhyky njaxk'),
+(445, '2920', 'Kishan Lal Meena', NULL, NULL, 'Jh pks[kkyky eh.kk', 0, 'Jherh tL;k ckbZ eh.kk', 0, '2000-05-17', '.', 'xkao Hkknoh osyk] ¼[kkukrkykc½ iks- flgkM+] ok;k cEcksjh] r- oYyHkuxj] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-29', '1970-01-01', 'Jh fd''kuyky eh.kk'),
+(446, '2923', 'Mukesh Kumar Meena', NULL, NULL, 'Jh oSlkjke eh.kk', 0, 'Jherh jehyk eh.kk', 0, '1999-09-06', '9530358594', 'eq- <sykbZ] iks- ijlkn] r-ljkMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-29', '1970-01-01', 'Jh eqds''k dqekj eh.kk'),
+(447, '2924', 'Vikram Bhagora', NULL, NULL, 'Jh ckcqyky Hkxksjk', 0, 'Jherh vEckoh nsoh', 0, '2001-12-16', '8890273552', 'eq- miyh flxjh] iks- fupyh flxjh] r- >kMksy] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-30', '1970-01-01', 'Jh foØe Hkxksjk'),
+(448, '2925', 'Prakash Chandra Meena', NULL, NULL, 'Jh ''kadjyky eh.kk', 0, 'Jherh ikyq ckbZ', 0, '2002-05-01', '9784957239', 'xk¡o vksojk] iks- nsofy;k] ok;k dkuksM] ftyk mn;iqj   ', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-30', '1970-01-01', 'Jh izdk''k pUnz eh.kk'),
+(449, '2926', 'Somraj Ahari', NULL, NULL, 'Jh odykjke vgkjh', 0, 'Jh cnh nsoh', 0, '2002-09-19', '9784360684', 'eq- iks- lkse] r- >kMksy] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-30', '1970-01-01', 'Jh lksejkt vgkjh'),
+(450, '2928', 'Vijay Meena', NULL, NULL, 'Jh vtwZu yky eh.kk', 0, 'Jherh vatuk nsoh', 0, '2002-07-10', '9660539531', 'eq- iks- dkxnj Qyk] [kk.MkxksM+] r- _"kHknso] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-31', '1970-01-01', 'Jh fot; eh.kk'),
+(451, '2927', 'Ritik Kumar Damor', NULL, NULL, 'Jh dkfUryky Mkeksj', 0, 'Jherh ''kkjnk nsoh', 0, '2002-08-25', '9601086944', 'eq- iks- cUtkfj;k Qyk] fyEckfM;k] r- [ksjokMk] mn;iqj', NULL, 'M', 'TAD', '-', 0, 1, '2012-10-31', '1970-01-01', 'Jh _frd dqekj Mkeksj');
 
 -- --------------------------------------------------------
 
@@ -10309,7 +10536,7 @@ CREATE TABLE IF NOT EXISTS `staff_outward` (
   `date` datetime DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=132 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=139 ;
 
 --
 -- Dumping data for table `staff_outward`
@@ -10397,7 +10624,14 @@ INSERT INTO `staff_outward` (`id`, `staff_id`, `date`, `action`) VALUES
 (128, 18, '2012-11-05 16:21:35', 'outward'),
 (129, 32, '2012-11-05 16:22:29', 'outward'),
 (130, 21, '2012-11-05 16:23:39', 'outward'),
-(131, 20, '2012-11-05 16:23:59', 'outward');
+(131, 20, '2012-11-05 16:23:59', 'outward'),
+(132, 31, '2012-11-18 16:45:17', 'inward'),
+(133, 20, '2012-11-18 16:46:02', 'inward'),
+(134, 21, '2012-11-18 16:46:14', 'inward'),
+(135, 22, '2012-11-18 16:46:41', 'inward'),
+(136, 19, '2012-11-20 10:11:17', 'inward'),
+(137, 32, '2012-11-20 10:11:28', 'inward'),
+(138, 18, '2012-11-20 10:11:57', 'inward');
 
 -- --------------------------------------------------------
 
@@ -10750,7 +10984,7 @@ INSERT INTO `student` (`id`, `scholar_id`, `class_id`, `session_id`, `ishostler`
 (345, 343, 21, 8, 1, 0, 0, NULL, 1, 191, 0),
 (347, 345, 21, 8, 1, 0, 1, NULL, 1, 4, 0),
 (348, 346, 19, 8, 1, 0, 0, NULL, 1, 271, 0),
-(349, 347, 24, 8, 1, 0, 0, NULL, 1, 165, 0),
+(349, 347, 24, 8, 1, 0, 0, NULL, NULL, 165, 0),
 (350, 348, 22, 8, 1, 0, 0, NULL, 1, 213, 0),
 (351, 349, 19, 8, 1, 0, 0, NULL, 1, 293, 0),
 (352, 350, 22, 8, 1, 0, 0, NULL, 1, 201, 0),
@@ -10842,11 +11076,11 @@ INSERT INTO `student` (`id`, `scholar_id`, `class_id`, `session_id`, `ishostler`
 (446, 444, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
 (447, 445, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
 (448, 446, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
-(449, 447, 16, 8, 1, 0, 1, NULL, NULL, NULL, 0),
-(450, 448, 16, 8, 1, 0, 1, NULL, NULL, NULL, 0),
-(451, 449, 16, 8, 1, 0, 1, NULL, NULL, NULL, 0),
-(452, 450, 16, 8, 1, 0, 1, NULL, NULL, NULL, 0),
-(453, 451, 16, 8, 1, 0, 1, NULL, NULL, NULL, 0);
+(449, 447, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
+(450, 448, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
+(451, 449, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
+(452, 450, 16, 8, 1, 0, 1, NULL, 1, NULL, 0),
+(453, 451, 16, 8, 1, 0, 1, NULL, 1, NULL, 0);
 
 -- --------------------------------------------------------
 

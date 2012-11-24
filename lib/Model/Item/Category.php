@@ -6,6 +6,13 @@ class Model_Item_Category extends Model_Table{
 		parent::init();
 
 		$this->hasMany('Item','category_id');
-		$this->addField('name')->caption('Category')->display(array("grid"=>'hindi'));
+		$this->addField('name')->caption('Category')->mandatory("Please provide a name")->display(array("grid"=>'hindi'));
+
+		$this->addHook('beforeDelete',$this);
+	}
+
+	function beforeDelete(){
+		if($this->ref('Item')->count()->getOne())
+			throw $this->exception('Category has Items Associated, Cannot Delete this category');
 	}
 }

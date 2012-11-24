@@ -10,7 +10,7 @@ class Model_Scholar extends Model_Table{
                 $this->addField('scholar_no')->mandatory("Scholar Number is Must")  ;
                 $this->addField('fname')->mandatory("Name is Must")->caption('Name(English)');
                 $this->addField('hname')->mandatory("Name is Must")->caption('Name(Hindi)')->display('hindi');
-                $this->addField('father_name')->mandatory("Required Field")->caption('Father`s Name');
+                $this->addField('father_name')->mandatory("Required Field")->caption('Father`s Name')->display('hindi');
                 //$this->add("filestore/Field_Image","f_image")->caption('father Image');
                 $this->addField('mother_name')->mandatory("Required Field")->caption('Mother`s Name');
                 //$this->add("filestore/Field_Image","m_image")->caption('Mother Image');
@@ -30,12 +30,12 @@ class Model_Scholar extends Model_Table{
                 $this->hasMany('Students_Movement','scholar_id');
                 $this->hasMany('Disease','scholar_id');
 
-                $this->addExpression('name')->set('hname');
+                $this->addExpression('name')->set('hname')->display('hindi');
                 $this->addExpression('Student_name')->set('fname');
 
-                $fs=$this->join('filestore_file','student_image')
-                        ->join('filestore_image.original_file_id')
-                        ->join('filestore_file','thumb_file_id');
+                $fs=$this->leftJoin('filestore_file','student_image')
+                        ->leftJoin('filestore_image.original_file_id')
+                        ->leftJoin('filestore_file','thumb_file_id');
                 $fs->addField('image_url','filename')->display(array('grid'=>'picture'));
 
 
