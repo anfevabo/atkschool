@@ -6,7 +6,7 @@ class Model_Item extends Model_Table{
 	function init(){
 		parent::init();
 
-		$this->hasOne('Item_Category','category_id')->display(array('grid'=>'hindi'));
+		$this->hasOne('Item_Category','category_id')->display(array('grid'=>'hindi'))->mandatory("Select Category First");
 		$this->addField('name')->caption('Item')->display('hindi');
 		$this->hasMany('Item_Inward','item_id');
 		$this->hasMany('Item_Issue','item_id');

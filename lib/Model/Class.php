@@ -28,7 +28,7 @@ class Model_Class extends Model_Table{
 	}
 
     function beforeSave(){
-        $this->add('Controller_Unique',array('unique_fields'=>
+         $this->add('Controller_Unique',array('unique_fields'=>
                             array(
                                 array('class_name'=>$this['class_name'],'section'=>$this['section'])
                                 )

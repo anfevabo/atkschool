@@ -11,5 +11,13 @@ class Model_Feehead extends Model_Table {
         parent::init();
         $this->addField('name')->mandatory("Fee Head name is must");
         $this->hasMany('Fee', 'feehead_id');
+
+        // $this->addHook('beforeSave',$this);
+        $this->addHook('beforeDelete',$this);
     }
+
+    // function beforeSave(){
+
+    // }
+
 }
