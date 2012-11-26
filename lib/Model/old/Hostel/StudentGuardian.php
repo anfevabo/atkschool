@@ -17,6 +17,11 @@ class Model_Hostel_StudentGuardian extends  Model_Table
         $this->addField('contact');
         $this->addField('address');
                
+        $fs=$this->leftJoin('filestore_file','image')
+                        ->leftJoin('filestore_image.original_file_id')
+                        ->leftJoin('filestore_file','thumb_file_id');
+                $fs->addField('image_url','filename')->display(array('grid'=>'picture'));
+
 //$this->hasOne('Scholar','scholar_id');
     }
 } 

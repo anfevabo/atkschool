@@ -3,12 +3,24 @@
 class page_hostel_studentgardian extends Page{
 
 	function page_index(){
+		$this->api->stickyGET('class_id');
+		
 		$grid=$this->add('Grid');
+		$form=$grid->add('Form',null,'grid_buttons');
+		$class_field=$form->addField('dropdown','class')->setEmptyText('---')->setNotNull()->setAttr('class','hindi');
+		$class_field->setModel('Class');
+
+		$class_field->js('change',$grid->js()->reload(array('class_id'=>$class_field->js()->val())));
+
 		$r=$this->add('Model_Scholars_Current');
         $r->addCondition('ishostler',true);
-        $grid->setModel($r,array('hname','class'));
-        // $grid->addFormatter('scholar','hindi');
+        if($_GET['class_id'])
+        	$r->addCondition('class_id',$_GET['class_id']);
+
+        $grid->setModel($r,array('fname','hname','class'));
+        $grid->addFormatter('class','hindi');
         $grid->addPaginator();
+        $grid->addQuickSearch(array('fname'));
 
         $grid->addColumn('expander','manage','Manage');
 	}
@@ -22,6 +34,6 @@ class page_hostel_studentgardian extends Page{
 
 		$crud=$v->add('CRUD');
 		
-		$crud->setModel($sc->ref('Scholars_Guardian'),null,array('gname','contact','relation','image'));
+		$crud->setModel($sc->ref('Scholars_Guardian'),null,array('gname','contact','relation','image_url'));
 	}
 }

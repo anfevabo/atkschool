@@ -5,6 +5,7 @@ class page_schooldata extends Page {
 		parent::init();
 
 		$tabs=$this->add('Tabs');
-		$tabs->addtabURL('school_scholars','Scholars');
+		$tabs->addtabURL('school_scholars','Sessions Students');
+		$tabs->addtabURL('school_studentClassMapping','Student Class Association');
 	}
 }

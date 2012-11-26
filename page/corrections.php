@@ -28,16 +28,28 @@ class page_corrections extends Page {
 		// disease_master scholar_id to student_id and all id conversions
 		// Change all Scholars ID to Student ID
 		$this->query("ALTER TABLE `disease_master` CHANGE `scholar_id` `student_id` INT( 11 ) NOT NULL ");
-		$with_scholar = $this->add('Model_Students_Disease');
 		$this->query("ALTER TABLE `disease_master` ADD `disease_id` INT NOT NULL");
 
-		foreach($with_scholar as $dis_tab){
-			$s=$this->add('Model_Student');
-			$s->addCondition('scholar_id',$dis_tab['student_id']);
-			$s->tryLoadAny();
-			$with_scholar['student_id'] = $s->id;
-			$with_scholar->save();
-		}
+		// $with_scholar = $this->add('Model_Students_Disease');
+		// foreach($with_scholar as $dis_tab){
+		// 	$s=$this->add('Model_Student');
+		// 	$s->addCondition('scholar_id',$dis_tab['student_id']);
+		// 	$s->tryLoadAny();
+		// 	$with_scholar['student_id'] = $s->id;
+		// 	$with_scholar->save();
+		// }
+
+		$this->changeScholarToStudent(null,'Model_Students_Disease','student_id');
+
+		$this->query("ALTER TABLE `hosteller_outward` CHANGE `withid` `gaurdian_id` INT( 11 ) NULL DEFAULT NULL ");
+		$this->query('ALTER TABLE `hosteller_outward` DROP FOREIGN KEY `hosteller_outward_ibfk_1` ;');
+		$this->query('ALTER TABLE hosteller_outward DROP INDEX scholar_id');
+		$this->query('ALTER TABLE `hosteller_outward` CHANGE `scholar_id` `student_id` INT( 11 ) NOT NULL');
+		$this->changeScholarToStudent(null,'Model_Students_Movement','student_id');
+
+
+		// TODO :: Change Scholar_id to student_id
+
 
 		// DONET NEED TO USE THIS CORRECTION. OLD DATA WAS CORRECT
 		// $m=$this->add('Model_ExamClassSubjectMap');
@@ -54,5 +66,18 @@ class page_corrections extends Page {
 
 	function query($q) {
         $this->api->db->dsql()->expr($q)->execute();
+    }
+
+
+    function changeScholarToStudent($table,$model,$field){
+    	$m=$this->add($model);
+    	foreach($m as $junk){
+    		$s=$this->add('Model_Student');
+    		$s->addCondition('scholar_id',$m[$field]);
+    		$s->tryLoadAny();
+    		$m[$field]=$s->id;
+    		$m->save();
+    	}
+
     }
 }
