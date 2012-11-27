@@ -1,4 +1,4 @@
-<?php
+0<?php
 class Model_Students_Disease extends Model_Table{
 		var $table="disease_master";
 	function init(){

@@ -16,11 +16,7 @@ class Model_Hostel_Outward extends Model_Table
         $this->addField('direction');
         $this->addField('withid')->type('date');
         $this->addField('purpose');
-        
-     
-        
-        
-                
+       
     }
 }
 ?>
