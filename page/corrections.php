@@ -39,6 +39,14 @@ class page_corrections extends Page {
 		// 	$with_scholar->save();
 		// }
 
+		$this->query('ALTER TABLE `bill_master` CHANGE `item_date` `inward_date` DATE NULL DEFAULT NULL ');
+		$this->query('ALTER TABLE `bill_master` ADD `session_id` INT NOT NULL ');
+		$this->query('ALTER TABLE `item_inward` DROP `session_id`');
+		$this->query('UPDATE bill_master SET session_id=8');
+
+		// TODO:: HostelRooms add in_count columns
+		// TODO:: count total inward members and put in in_count for each room
+
 		$this->changeScholarToStudent(null,'Model_Students_Disease','student_id');
 
 		$this->query("ALTER TABLE `hosteller_outward` CHANGE `withid` `gaurdian_id` INT( 11 ) NULL DEFAULT NULL ");
