@@ -10,6 +10,8 @@ class Model_HostelRoom extends Model_Table{
 		$this->hasOne('Hostel','hostel_id');
 		$this->addField('room_no');
 		$this->addField('capacity');
+		$this->addField('in_count');
+		$this->addField('out_count');
 	
 		// $this->hasMany('HostelRoom','room_id');
 		$this->hasMany('RoomAllotement','room_id');

@@ -12,6 +12,8 @@ class page_hostel_hostelallotement extends Page{
 		$s=$this->add('Model_Student');
 		if($_GET['filter']){
 			$s->addCondition('class_id',$_GET['class']);
+		}else{
+			$s->addCondition('class_id',-1);
 		}
 
 
@@ -55,9 +57,17 @@ class page_hostel_hostelallotement extends Page{
 
 		if($form->isSubmitted()){
 
+			$s=$this->add('Model_Hosteler');
+			$s->tryLoad($_GET['student_id']);
+			if($s['attendance_status'] == 'inward')
+				throw $this->exception('Cannot Allot room to an already inward student. kindly make him/her outward first.');
 			// $form->js()->univ()->successMessage($form->get('rooms'))->execute();
-			$ra=$this->add('Model_RoomAllotement');
+			$check_room=$this->add('Model_HostelRoom');
+			$check_room->load($form->get('room_id'));
+			if($check_room['capacity'] <= $check_room['alloted'])
+				throw $this->exception('Room is already full. no capicity available');
 
+			$ra=$this->add('Model_RoomAllotement');
 			$ra['student_id']=$_GET['student_id'];
 			$ra['room_id']=$form->get('room_no');
 			$ra->save();
@@ -81,6 +91,12 @@ class page_hostel_hostelallotement extends Page{
 			$form->addSubmit('Delete');
 
 			if($form->isSubmitted()){
+
+				$s=$this->add('Model_Hosteler');
+				$s->tryLoad($_GET['student_id']);
+				if($s['attendance_status'] == 'inward')
+					throw $this->exception('Cannot DEAllot room to an already inward student. kindly make him/her outward first.');
+
 				$ra=$this->add('Model_RoomAllotement');
 
 				$ra->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));

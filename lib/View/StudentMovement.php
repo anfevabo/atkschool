@@ -20,7 +20,7 @@ class View_StudentMovement extends View{
 			$this->form->onSubmit(function($form){
 				$hm=$form->add('Model_Hosteler');
 				$hm->load($form->get('hosteler_id'));
-				if($hm['attendence_status'] == $form->get('purpose') AND $form->get('purpose') != 'enquiry'){
+				if($hm['attendance_status'] == $form->get('purpose') AND $form->get('purpose') != 'enquiry'){
 					throw $form->exception("Already ". $form->get('purpose'))->setField('purpose');
 				}
 
@@ -34,6 +34,13 @@ class View_StudentMovement extends View{
 					throw $form->exception("Remark is must for enquiry")->setField('remarks');
 				$sm->save();
 
+				$roommodel= $sm->ref('student_id')->ref('RoomAllotement')->tryLoadAny()->ref('room_id');
+				
+				if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
+				if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
+				
+				$roommodel->save();
+
 				$form->js()->univ()->successMessage("Student ID" . $form->get('hosteler_id'))->execute();
 			});
 
@@ -43,7 +50,7 @@ class View_StudentMovement extends View{
 	function setModel($m){
 		if(!($m instanceof Model_Hosteler)) throw $this->exception('Model can be only Hosteler');
 		parent::setModel($m);
-		$this->information_grid->setModel($m,array('name','room_no','building_name','attendence_status'));
+		$this->information_grid->setModel($m,array('name','room_no','building_name','attendance_status'));
 		$m->tryLoadAny();
 		if(!$m->loaded()) {
 			$this->gaurdian_grid->destroy();

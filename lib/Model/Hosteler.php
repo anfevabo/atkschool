@@ -11,7 +11,7 @@ class Model_Hosteler extends Model_Student{
 		$rj->addField('room_no');
 		$bj->addField('building_name');
 
-		$this->addExpression('attendence_status')->set(function ($m,$q){
+		$this->addExpression('attendance_status')->set(function ($m,$q){
 			return $m->refSQL('Students_Movement')->fieldQuery('purpose')->limit(1)->order('id','desc')->where('purpose','in',array('inward','outward'));
 		})->display('attendance');
 	}
