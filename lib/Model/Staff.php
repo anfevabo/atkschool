@@ -27,9 +27,9 @@ class Model_Staff extends Model_table {
                         return $m->refSQL('Staff_Movement')->dsql()->del('field')->field('action')->limit(1)->order('id','desc');
                 })->display('attendance');
 
-                $fs=$this->join('filestore_file','image')
-                        ->join('filestore_image.original_file_id')
-                        ->join('filestore_file','thumb_file_id');
+                $fs=$this->leftJoin('filestore_file','image')
+                        ->leftJoin('filestore_image.original_file_id')
+                        ->leftJoin('filestore_file','thumb_file_id');
                 $fs->addField('image_url','filename')->display(array('grid'=>'picture'));
 	}
 }

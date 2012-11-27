@@ -11,7 +11,7 @@ class Model_ExamClassMap extends Model_ExamClassMapAll {
 		if(!$this->recall('keep_added',false)){
 			$ecsm=$this->ref('ExamClassSubjectMap');
 			$ecsm->addCondition('subject_id','in',$this->ref('class_id')->ref('SubjectClassMap')->dsql()->del('field')->field('subject_id'));
-			$ecsm->debug();
+			// $ecsm->debug();
 			if($ecsm->count()->getOne())
 				throw $this->exception('You cannot remove class '. $this->ref('class_id')->get('name') .' From This Exam as the subjects of this class are in use of this exam');
 		}

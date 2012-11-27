@@ -64,10 +64,11 @@ class View_Mapping extends View {
 				    		if(in_array($clone_map[$this->rightField], $ids))
 		            			$clone_map->memorize('keep_added',true);
 			    		}else{
-			    			if(in_array($clone_map->id, $ids))
-		            			throw $this->exception('in array '. $clone_map->id . ' ');//$clone_map->memorize('keep_added',true);
+			    			if(in_array($clone_map[$this->rightField], $ids))
+		            			$clone_map->memorize('keep_added',true); //throw $this->exception('in array '. $clone_map[$this->rightField] . print_r($ids));
 			    		}
-	            		$clone_map->delete();	
+	            		$clone_map->delete();
+	            		$clone_map->forget('keep_added');
 	            	}
 	            } 
 

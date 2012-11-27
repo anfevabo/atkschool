@@ -23,6 +23,8 @@ class page_hostel_studentmovement extends Page{
 		$hm=$this->add('Model_Hosteler');
 		if($_GET['hostler_id']){
 			$hm->addCondition('id',$_GET['hostler_id']);
+		}else{
+			$hm->addCondition('id',0);
 		}
 		
 		$v->setModel($hm);

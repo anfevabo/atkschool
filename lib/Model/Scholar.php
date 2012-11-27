@@ -1,6 +1,6 @@
 <?php
 
-class Model_Scholar extends Model_Table{
+class Model_Scholar extends Model_Table {
 	var $table='scholars_master';
 	
 	function init(){
@@ -26,20 +26,29 @@ class Model_Scholar extends Model_Table{
                 
                 $this->hasMany('Student','scholar_id');
                 $this->hasMany('Scholars_Guardian','scholar_id');
-                $this->hasMany('Scholar','scholar_id');
-                $this->hasMany('Students_Movement','scholar_id');
+                // $this->hasMany('Scholar','scholar_id');
+                // $this->hasMany('Students_Movement','scholar_id');
                 $this->hasMany('Disease','scholar_id');
 
-                $this->addExpression('name')->set('hname')->display('hindi');;
+                $this->addExpression('name')->set('hname')->display('hindi');
                 $this->addExpression('Student_name')->set('fname');
                 $this->addExpression('age')->set('year(now())-year(dob)');
 
-                $fs=$this->join('filestore_file','student_image')
-                        ->join('filestore_image.original_file_id')
-                        ->join('filestore_file','thumb_file_id');
-                $fs->addField('image_url','filename')->display(array('grid'=>'picture'));
+                $fs=$this->leftJoin('filestore_file','student_image')
+                        ->leftJoin('filestore_image.original_file_id')
+                        ->leftJoin('filestore_file','thumb_file_id');
+                $fs->addField('image_url','filename')->display(array('grid'=>'picture'))->system(true);
 
+                $this->addExpression('active_in_session')->set(function($m,$q){
+                        return $m->refSQL('Student')->addCondition('session_id',$m->add('Model_Sessions_Current')->tryLoadAny()->get('id'))->count();
+                })->type('boolean');
 
+                $this->addHook('beforeDelete',$this);
 	}
+
+
+        function beforeDelete(){
+                
+        }
         
 }

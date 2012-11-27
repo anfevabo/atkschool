@@ -72,6 +72,7 @@ class Frontend extends ApiFrontend {
         $m->addMenuItem('schooldata','School Data');
         $m->addMenuItem('staffdata','Staff Data');
         $m->addMenuItem('hosteldata','Hostel Data');
+        $m->addMenuItem('storedata','Store Data');
 
         if($rr==1)
         {
