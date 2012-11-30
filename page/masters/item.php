@@ -13,6 +13,7 @@ class page_masters_item extends Page{
 
 		if($crud->grid){
 			$crud->grid->addFormatter('category', 'hindi');
+			$crud->grid->addPaginator();
 		}
 	}
 }

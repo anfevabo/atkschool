@@ -24,6 +24,7 @@ class Model_Store_Item extends Model_Table {
                 $this->add('Model_Store_Issue')->dsql()->field('sum(quantity)')->where('item_id',$this->getField('id'))
                         ->where('session_id',$this->add('Model_Session_Current')->dsql()->field('id')));
          $this->addExpression("in_stock")->set('id')->type('instock');
+         
         
     }
     

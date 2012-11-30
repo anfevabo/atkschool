@@ -49,6 +49,36 @@ class page_store_reports extends Page{
  
 	}
 
+    function page_recipt(){
+
+      $form=$this->add('Form',null,null,array('form_horizontal'));
+        
+                    
+        $store_no=$form->addField('line','store_no')->setNotNull();
+        $month=$form->addField('dropdown','month');//->setEmptyText('p;u d{kk');
+        $month->setValueList(array(1=>"Jan",
+                                   2=>"Feb",
+            3=>"March",
+            4=>"April",
+            5=>"May",
+            6=>"Jun",
+            7=>"July",
+            8=>"Aug",
+            9=>"Sep",
+            10=>"Oct",
+            11=>"Nov",
+            12=>"Dec"
+           ));
+        $form->addsubmit('Print');
+        
+           if($form->isSubmitted())
+      {
+       $this->js()->univ()->newWindow($this->api->url("store/reciept",array("month"=>$form->get('month'),"store_no"=>$form->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+      }
+
+
+    }
+
 	function render(){
         $this->api->template->del("Menu");
         $this->api->template->del("logo");

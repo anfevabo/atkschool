@@ -15,6 +15,7 @@ class Model_Student extends Model_Table{
                 $this->addField('Section');
                 $this->addField('store_no');
                 $this->addField('isalloted')->type('boolean')->defaultValue(false);
+               
                 $this->addField('bpl')->type('boolean')->defaultValue(false);
 
                 $this->hasMany('RoomAllotement','student_id');

@@ -11,6 +11,7 @@ class Model_Item extends Model_Table{
 		$this->hasMany('Item_Inward','item_id');
 		$this->hasMany('Item_Issue','item_id');
 
+
 		$this->addExpression("LastPurchasePrice")->set(function ($m,$q){
 			return $m->refSQL('Item_Inward')->dsql()->del('field')->field('rate')->limit(1)->order('id','desc');
 		});
@@ -24,5 +25,11 @@ class Model_Item extends Model_Table{
 		});
 
 		$this->addExpression("instock")->set('id')->display(array("grid"=>'instock'));
+
+	    		$this->addHook('beforeDelete',$this);
+	   	}
+	function beforeDelete(){
+		if($this->ref('Item_Inward')->count()->getOne())
+			throw $this->exception("You Can not Delete Item, It Conatains Bill(s) and Inward 0r Issued Entries");
 	}
 }

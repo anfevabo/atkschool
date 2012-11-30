@@ -28,7 +28,7 @@ class page_reports_hostel_store_recieptF extends Page
         
            if($f->isSubmitted())
       {
-       $this->js()->univ()->newWindow($this->api->url("reports/hostel/store/recieptR",array("month"=>$f->get('month'),"store_no"=>$f->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+       $this->js()->univ()->newWindow($this->api->url("store/reciept",array("month"=>$f->get('month'),"store_no"=>$f->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
       }
         
     }

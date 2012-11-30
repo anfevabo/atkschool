@@ -8,7 +8,7 @@ class page_hostel_studentstore extends Page{
 		$class_field->setModel('Class');
 
 		$categary=$form->addField('dropdown','category')->setEmptyText('----')->setNotNull();
-        $categary->setValueList(array('1'=>'Scholared','0'=>'Private'));
+        $categary->setValueList(array('1'=>'Scholared','2'=>'Private'));
 
 
         $str=$form->addField('line','no','Starting Store No')->validateNotNull();
@@ -17,9 +17,9 @@ class page_hostel_studentstore extends Page{
        
 
        $m=$this->add('Model_Students_Current');
-       if($_GET['class_id']){
+       if($_GET['class_id'] and $_GET['cat']){
        	$m->addCondition('class_id',$_GET['class_id']);
-       	$m->addCondition('isScholared',$_GET['cat']);
+       	$m->addCondition('isScholared',($_GET['cat']==2? 0: 1));
         $m->_dsql()->order('id','asc');
        }else{
        	$m->addCondition('class_id',-3);
@@ -31,6 +31,8 @@ class page_hostel_studentstore extends Page{
       if($crud->grid){
       	  $class_field->js("change",$crud->grid->js()->reload(array('class_id'=>$class_field->js()->val(),'cat'=>$categary->js()->val())));
        		$categary->js("change",$crud->grid->js()->reload(array('cat'=>$categary->js()->val(),'class_id'=>$class_field->js()->val())));
+      }else{
+
       }
 
       if($form->isSubmitted()){

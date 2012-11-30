@@ -23,6 +23,10 @@ class View_StudentMovement extends View{
 				if($hm['attendance_status'] == $form->get('purpose') AND $form->get('purpose') != 'enquiry'){
 					throw $form->exception("Already ". $form->get('purpose'))->setField('purpose');
 				}
+				if($form->get('purpose')=='inward') $hm['is_present']=true;
+				if($form->get('purpose')=='outward') $hm['is_present']=false;
+				$hm->save();
+
 
 				$guardians=json_decode($form->get('sel'));
 

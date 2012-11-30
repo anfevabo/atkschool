@@ -3,6 +3,7 @@
  * Consult documentation on http://agiletoolkit.org/learn 
  */
 class Frontend extends ApiFrontend {
+    public $welcome;
     function init(){
         parent::init();
         // Keep this if you are going to use database on all pages
@@ -87,7 +88,7 @@ class Frontend extends ApiFrontend {
         $this->addLayout('UserMenu');
         
         $name=$this->api->auth->model['username'];
-         $this->add('H5')->set('Welcome : '.$name);
+        $this->welcome=$this->add('H5')->set('Welcome : '.$name);
     }
     function layout_UserMenu(){
         if($this->auth->isLoggedIn()){
