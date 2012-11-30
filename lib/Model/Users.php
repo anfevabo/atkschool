@@ -1,6 +1,6 @@
 <?php
 
-class Model_Users extends Model_Table
+class Model_Users extends xavoc_acl\Model_ACLUser
 {
     var $table='users';
     function init()

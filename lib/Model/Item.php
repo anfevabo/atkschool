@@ -8,6 +8,7 @@ class Model_Item extends Model_Table{
 
 		$this->hasOne('Item_Category','category_id')->display(array('grid'=>'hindi'))->mandatory("Select Category First");
 		$this->addField('name')->caption('Item')->display('hindi');
+		$this->addField('stock')->system(true);
 		$this->hasMany('Item_Inward','item_id');
 		$this->hasMany('Item_Issue','item_id');
 
@@ -18,11 +19,11 @@ class Model_Item extends Model_Table{
 
 		$this->addExpression("TotalInward")->set(function ($m,$q){
 				return $m->refSQL("Item_Inward")->sum('quantity');
-		});
+		})->caption('Total In Qty');
 
 		$this->addExpression("TotalIssued")->set(function ($m,$q){
 				return $m->refSQL("Item_Issue")->sum('quantity');
-		});
+		})->caption('Total Issue Qty');;
 
 		$this->addExpression("instock")->set('id')->display(array("grid"=>'instock'));
 

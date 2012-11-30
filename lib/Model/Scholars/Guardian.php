@@ -18,7 +18,7 @@ class Model_Scholars_Guardian extends Model_Table{
         $fs=$this->leftJoin('filestore_file','image')
                         ->leftJoin('filestore_image.original_file_id')
                         ->leftJoin('filestore_file','thumb_file_id');
-        $fs->addField('image_url','filename')->display(array('grid'=>'picture'));
+        $fs->addField('image_url','filename')->display(array('grid'=>'picture'))->system(true);
         
         $this->addExpression('name')->set('gname');
     }

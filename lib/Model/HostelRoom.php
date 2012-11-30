@@ -19,7 +19,6 @@ class Model_HostelRoom extends Model_Table{
 		});
 
 		$this->addExpression('name')->set('room_no');
-
 		$this->addHook('beforeSave',$this);
 		
 	}

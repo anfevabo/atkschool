@@ -21,6 +21,11 @@ class Frontend extends ApiFrontend {
                         )
                     ))
             ->setParent($this->pathfinder->base_location);
+
+        $this->addLocation('.',array(
+            "addons"=>'xavoc-addons'
+            ));
+
 //$this->api->dbConnect();
         // A lot of the functionality in Agile Toolkit requires jUI
         $this->add('jUI');
@@ -44,7 +49,7 @@ class Frontend extends ApiFrontend {
 //              
             // use check() and allowPage for white-list based auth checking
         $auth=$this->add('BasicAuth');
-          $auth->setModel('Users','username','password');
+          $auth->setModel('xavoc_acl/ACLUser','username','password');
           $auth->check()
             ;
         // This method is executed for ALL the peages you are going to add,
@@ -57,10 +62,10 @@ class Frontend extends ApiFrontend {
         // If you are using a complex menu, you can re-define
         // it and place in a separate class
         
-     $pp=$this->api->auth->model['master'];
-     $dd=$this->api->auth->model['data'];
-     $rr=$this->api->auth->model['reports'];
-     $usr=$this->api->auth->model['user'];
+     // $pp=$this->api->auth->model['master'];
+     // $dd=$this->api->auth->model['data'];
+     // $rr=$this->api->auth->model['reports'];
+     // $usr=$this->api->auth->model['user'];
         $m=$this->add('Menu',null,'Menu');  
           
         
@@ -75,12 +80,9 @@ class Frontend extends ApiFrontend {
         $m->addMenuItem('hosteldata','Hostel Data');
         $m->addMenuItem('storedata','Store Data');
 
-        if($rr==1)
-        {
              $m->addMenuItem('reports','Reports');
-        }
         
-         $m->addMenuItem('user','Users');   
+         $m->addMenuItem('users','Users');   
         $m->addMenuItem('logout')
             ;
           

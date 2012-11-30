@@ -18,6 +18,17 @@ class Model_Item_Inward extends Model_Table{
 	}
 
 	function beforeSave(){
-		
+		if(!$this->loaded()){
+			$old_value=0;
+		}else{
+			$old=$this->add('Model_Item_Inward');
+			$old->load($this->id);
+			$old_value = $old['quantity'] - $this['quantity'];
+		}
+		$new_stock = $this['quantity'] + $old_value;
+
+		$item_m=$this->ref('item_id');
+		$item_m['stock'] = $item_m['stock'] + $new_stock;
+		$item_m->save();
 	}
 }
