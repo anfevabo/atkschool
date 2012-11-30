@@ -4,8 +4,9 @@ class page_masters_session extends Page{
 
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 
-		$crud=$this->add('CRUD');
+		$crud=$this->add('CRUD',array('allow_del'=>false));
 		if($_GET['mark_current']){
 			$m=$this->add('Model_Session');
 			$m->load($_GET['mark_current']);
@@ -22,6 +23,8 @@ class page_masters_session extends Page{
 		if($crud->grid){
 			$crud->grid->addColumn('Button','mark_current');
 		}
+
+		// print_r($acl->getPermissions());
 
 	}	
 

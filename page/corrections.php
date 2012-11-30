@@ -44,8 +44,17 @@ class page_corrections extends Page {
 		$this->query('ALTER TABLE `item_inward` DROP `session_id`');
 		$this->query('UPDATE bill_master SET session_id=8');
 
-		// TODO:: HostelRooms add in_count columns
-		// TODO:: count total inward members and put in in_count for each room
+		$this->query('ALTER TABLE `student` ADD `is_present` INT NOT NULL DEFAULT 0');
+		$hm=$this->add('Model_Hosteler');
+		foreach($hm as $junk){
+			if($hm['attendance_status'] == 'inward'){
+				$hm['is_present']=true;
+				$hm->save();
+			}
+		}
+
+		$this->query('ALTER TABLE `item_master` ADD `stock` INT NOT NULL ');
+
 
 		$this->changeScholarToStudent(null,'Model_Students_Disease','student_id');
 

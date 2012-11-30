@@ -2,6 +2,7 @@
 
 class page_masters_class extends Page {
 	function page_index(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD');
 		$crud->setModel('Class',array('class_name','section','no_of_students','no_of_subjects'));
 		if($crud->grid){

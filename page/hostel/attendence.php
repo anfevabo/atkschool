@@ -5,7 +5,7 @@ class page_hostel_attendence extends Page{
 		// parent::init();
 		$tabs=$this->add('Tabs');
 		$tabs->addTabURL('./roomvise','Rooms Attendance');
-		// $tabs->addTabURL('./classvise','Class Attendance');
+		$tabs->addTabURL('./classvise','Class Attendance');
 		$tabs->addTabURL('./hostelvise','Hostel Attendance');
 		
 	}
@@ -18,7 +18,9 @@ class page_hostel_attendence extends Page{
 	}
 
 	function page_classvise(){
-
+		$grid=$this->add('Grid');
+		$h=$this->add('Model_HostelRoom');
+		
 	}
 
 	function page_hostelvise(){
