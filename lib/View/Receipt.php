@@ -10,17 +10,25 @@ class View_Receipt extends View {
 		$st->addCondition('store_no',$this->store_no);
 		$st->tryLoadAny();
 		$sc=$st->ref('scholar_id');
-		$this->template->trySet('student_name',$st['name']);
-		$this->template->trySet('father_name',$sc['father_name']);
-		$this->template->trySet('class_name',$st->ref('class_id')->get('name'));
-
-		$this->grid=$this->add('Grid');
+		
 		$ism = $st->ref('Item_Issue');
 		$ism->addExpression('date_month')->set('Month(date)');
 		$ism->addCondition('date_month',$_GET['month']);
 		$ism->addExpression('total_qty')->set('sum(quantity)');
 		$ism->addExpression('total_amount')->set('sum(quantity * rate)');
 		$ism->_dsql()->group('item_id')->group('rate');
+
+		$ism_2=clone $ism;
+		$receipt_no=$ism_2->_dsql()->limit(1)->del('field')->field('receipt_no')->getRow();
+		// print_r($receipt_no);
+		$receipt_no= $receipt_no[1];
+
+		$this->template->trySet('student_name',$st['name']);
+		$this->template->trySet('father_name',$sc['father_name']);
+		$this->template->trySet('class_name',$st->ref('class_id')->get('name'));
+		$this->template->trySet('receipt',$receipt_no);
+
+		$this->grid=$this->add('Grid');
 
 		// $ism->debug();
 		$this->grid->setModel($ism,array('item','total_qty','rate','total_amount'));

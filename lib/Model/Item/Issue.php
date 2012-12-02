@@ -13,9 +13,33 @@ class Model_Item_Issue extends Model_Table{
 		$this->addField('quantity');
 		$this->addField('rate');
 		$this->addField('date')->type('date')->defaultValue(date('Y-m-d'));
+		$this->addField('receipt_no')->system(true);
 		$this->addExpression('amount')->set('quantity * rate');
-		;
+		$this->addExpression("month")->set('Month(`date`)');
+		$this->addExpression('year')->set('Year(`date`)');
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 
+
+		$this->addHook('beforeSave',$this);
+	}
+	function beforeSave(){
+		if(!$this->loaded()){
+			// search for existing recipt number for current month
+			$temp=$this->add('Model_Item_issue');
+			$temp->addCondition('student_id',$this['student_id']);
+			$temp->addCondition('month',date('m',strtotime($this['date'])));
+			$temp->addCondition('year',date('Y',strtotime($this['date'])));
+			$temp->tryLoadAny();
+			// $temp->debug();
+			if($temp->loaded()){
+				$this['receipt_no']=$temp['receipt_no'];
+			}else{
+			// get new recipt number
+				$temp=$this->add('Model_Item_issue');
+				$r=$temp->dsql()->del('field')->field('max(receipt_no)')->where('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'))->getOne();
+				$this['receipt_no']=$r+1;
+
+			}
+		}
 	}
 }

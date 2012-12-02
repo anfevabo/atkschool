@@ -7,5 +7,6 @@ class page_schooldata extends Page {
 		$tabs=$this->add('Tabs');
 		$tabs->addtabURL('school_scholars','Sessions Students');
 		$tabs->addtabURL('school_studentClassMapping','Student Class Association');
+		$tabs->addtabURL('student_rollnoallotment','Roll Numbers');
 	}
 }
