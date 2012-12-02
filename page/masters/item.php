@@ -3,8 +3,8 @@
 class page_masters_item extends Page{
 	function init(){
 		parent::init();
-
-		$crud=$this->add('CRUD');
+		$acl=$this->add('xavoc_acl/Acl');
+		$crud=$this->add('CRUD',$acl->getPermissions());
 		$crud->setModel('Item');
 
 		if($crud->form){

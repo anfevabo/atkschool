@@ -3,6 +3,7 @@
 class page_hostel_studentgardian extends Page{
 
 	function page_index(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$this->api->stickyGET('class_id');
 		
 		$grid=$this->add('Grid');

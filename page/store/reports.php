@@ -2,11 +2,13 @@
 class page_store_reports extends Page{
 	function page_index(){
 		// parent::init();
+    $acl=$this->add('xavoc_acl/Acl');
 		$tabs=$this->add('Tabs');
 		$tabs->addTabURL("./storealltlist","Store Alloted List");
 		$tabs->addTabURL("./recipt","Reciept");
 	}
 	function page_storealltlist(){
+    $acl=$this->add('xavoc_acl/Acl');
 		$f=$this->add('Form',null,null,array('form_horizontal'));
         
                     
@@ -49,8 +51,8 @@ class page_store_reports extends Page{
  
 	}
 
-    function page_recipt(){
-
+    function page_recipt(){ 
+      $acl=$this->add('xavoc_acl/Acl');
       $form=$this->add('Form',null,null,array('form_horizontal'));
         
                     

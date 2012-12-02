@@ -3,7 +3,8 @@
 class page_masters_exam extends Page {
 	function page_index(){
 		// parent::init();
-		$crud=$this->add('CRUD');
+		$acl=$this->add('xavoc_acl/Acl');
+		$crud=$this->add('CRUD',$acl->getPermissions());
 		$crud->setModel('Exam');
 		if($crud->grid){
 			$crud->grid->addColumn('Expander','associated_class');

@@ -1,7 +1,7 @@
 <?php
 class page_hostel_hostelallotement extends Page{
 	function page_index(){
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$this->api->stickyGET('filter');
 		$this->api->stickyGET('class');
 		$form=$this->add('Form');

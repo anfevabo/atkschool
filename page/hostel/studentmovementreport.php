@@ -3,6 +3,7 @@
 class page_hostel_studentmovementreport extends Page {
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',array('allow_add'=>false));
 		$m=$this->add('Model_Students_Movement');
 		$m->addExpression('guardian_image')->set(function($m,$q){

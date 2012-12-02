@@ -3,6 +3,7 @@
 class page_staff_movement extends Page {
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$filter_field=$form->addField('dropdown','filter_duty')->setValueList(array('h'=>'Hostel','s'=>'School','0'=>'All'))->set('0');
 		$staff_field=$form->addField('dropdown','staff')->setEmptyText('---')->setNotNull()->setAttr('class','hindi');

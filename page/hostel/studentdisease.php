@@ -2,7 +2,7 @@
 class page_hostel_studentdisease extends Page{
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form');
 		$form->addField('dropdown','treatment','Filter For')->setValueList(array('all'=>'All', 'nt'=>'Not Treated','t'=>'Treated'));
 		$form->addSubmit('Filter');

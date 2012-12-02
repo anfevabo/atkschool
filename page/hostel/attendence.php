@@ -3,6 +3,7 @@
 class page_hostel_attendence extends Page{
 	function page_index(){
 		// parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$tabs=$this->add('Tabs');
 		$tabs->addTabURL('./roomvise','Rooms Attendance');
 		$tabs->addTabURL('./classvise','Class Attendance');
@@ -11,6 +12,7 @@ class page_hostel_attendence extends Page{
 	}
 
 	function page_roomvise(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 
 		$session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
@@ -38,6 +40,7 @@ class page_hostel_attendence extends Page{
 	}
 
 	function page_classvise(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 
 		$session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
@@ -64,6 +67,7 @@ class page_hostel_attendence extends Page{
 	}
 
 	function page_hostelvise(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 
 		$session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');

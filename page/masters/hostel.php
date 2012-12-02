@@ -2,8 +2,8 @@
 
 class page_masters_hostel extends Page{
 	function page_index(){
-
-		$crud=$this->add('CRUD');
+		$acl=$this->add('xavoc_acl/Acl');
+		$crud=$this->add('CRUD',$acl->getPermissions());
 		$crud->setModel('Hostel');
 		if($crud->grid)
 			 $crud->grid->addColumn('expander','room','Add Rooms');

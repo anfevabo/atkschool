@@ -3,6 +3,7 @@
 class page_masters extends Page{
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$tab=$this->add('Tabs');
 		$tab->addTabURL('masters_session','Session');
 		$tab->addTabURL('masters_class','Class');

@@ -2,7 +2,7 @@
 class page_hostel_studentstore extends Page{
 	function init(){
 		parent::init();
-		
+    $acl=$this->add('xavoc_acl/Acl');		
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$class_field=$form->addField('dropdown','class')->setEmptyText('----')->setNotNull();
 		$class_field->setModel('Class');

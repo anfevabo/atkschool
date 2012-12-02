@@ -18,33 +18,41 @@ class View_StudentMovement extends View{
             $sel->js(true)->closest('.atk-form-row')->hide();
 			$this->form->addSubmit('Save');
 			$this->form->onSubmit(function($form){
-				$hm=$form->add('Model_Hosteler');
-				$hm->load($form->get('hosteler_id'));
-				if($hm['attendance_status'] == $form->get('purpose') AND $form->get('purpose') != 'enquiry'){
-					throw $form->exception("Already ". $form->get('purpose'))->setField('purpose');
+				try{
+					$form->api->db->beginTransaction();
+					$hm=$form->add('Model_Hosteler');
+					$hm->load($form->get('hosteler_id'));
+					if($hm['attendance_status'] == $form->get('purpose') AND $form->get('purpose') != 'enquiry'){
+						throw $form->exception("Already ". $form->get('purpose'))->setField('purpose');
+					}
+					if($form->get('purpose')=='inward') $hm['is_present']=true;
+					if($form->get('purpose')=='outward') $hm['is_present']=false;
+					$hm->save();
+
+
+					$guardians=json_decode($form->get('sel'));
+
+					$sm=$form->add('Model_Students_Movement');
+					$sm['student_id']=$hm->id;
+					$sm['gaurdian_id'] = $guardians[0];
+					$sm['purpose']=$form->get('purpose');
+					if($form->get('purpose')=='enquiry' AND trim($form->get('remarks'))=="")
+						throw $form->exception("Remark is must for enquiry")->setField('remarks');
+					$sm->save();
+
+					$roommodel= $sm->ref('student_id')->ref('RoomAllotement')->tryLoadAny()->ref('room_id');
+					
+					if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
+					if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
+					
+					$roommodel->save();
+				}catch(Exception $e){
+					$form->api->db->rollback();
+					throw $e;
+					$form->js()->univ()->errorMessage($e->getMessage())->execute();
 				}
-				if($form->get('purpose')=='inward') $hm['is_present']=true;
-				if($form->get('purpose')=='outward') $hm['is_present']=false;
-				$hm->save();
 
-
-				$guardians=json_decode($form->get('sel'));
-
-				$sm=$form->add('Model_Students_Movement');
-				$sm['student_id']=$hm->id;
-				$sm['gaurdian_id'] = $guardians[0];
-				$sm['purpose']=$form->get('purpose');
-				if($form->get('purpose')=='enquiry' AND trim($form->get('remarks'))=="")
-					throw $form->exception("Remark is must for enquiry")->setField('remarks');
-				$sm->save();
-
-				$roommodel= $sm->ref('student_id')->ref('RoomAllotement')->tryLoadAny()->ref('room_id');
-				
-				if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
-				if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
-				
-				$roommodel->save();
-
+				$form->api->db->commit();
 				$form->js()->univ()->successMessage("Student ID" . $form->get('hosteler_id'))->execute();
 			});
 

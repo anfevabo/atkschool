@@ -3,8 +3,8 @@
 class page_masters_party extends Page{
 	function init(){
 		parent::init();
-
-		$crud=$this->add('CRUD');
+		$acl=$this->add('xavoc_acl/Acl');
+		$crud=$this->add('CRUD',$acl->getPermissions());
 		$crud->setModel('Party');
 	}
 }

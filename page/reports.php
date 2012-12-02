@@ -2,6 +2,7 @@
 class page_reports extends Page{
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$tab=$this->add('Tabs');
 		$tab->addTabURL('student_report','Student Report');
 		$tab->addTabURL('hostel_attendence','Student Attendence');

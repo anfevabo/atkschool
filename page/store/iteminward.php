@@ -2,6 +2,7 @@
 class page_store_iteminward extends Page {
 
 	function page_index(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 
 		$pm=$this->add('Model_Party');

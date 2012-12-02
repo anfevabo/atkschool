@@ -2,6 +2,7 @@
 class page_student_report extends Page{
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_empty'));
 		$class=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
 		$c=$this->add('Model_Class');

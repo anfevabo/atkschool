@@ -1,6 +1,7 @@
 <?php
 class page_school_studentClassMapping extends Page {
 	function page_index(){
+		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 		$grid->setModel('Class',array('name','no_of_students','no_of_subjects'));
 		$grid->addColumn('Expander','students');

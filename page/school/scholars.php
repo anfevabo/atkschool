@@ -3,7 +3,7 @@
 class page_school_scholars extends Page {
 	function init(){
 		parent::init();
-
+        $acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',array('allow_del'=>false));
 		$crud->setModel('Scholars_Current',null,array('fname','hname','scholar_no','class','image_url'));
 		if($crud->grid){
