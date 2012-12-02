@@ -67,7 +67,7 @@ class page_corrections extends Page {
 		// Change all Scholars ID to Student ID
 		$this->query("ALTER TABLE `disease_master` CHANGE `scholar_id` `student_id` INT( 11 ) NOT NULL ");
 		$this->query("ALTER TABLE `disease_master` ADD `disease_id` INT NOT NULL");
-
+		$this->query("ALTER TABLE `item_issue` ADD `receipt_no` INT NOT NULL DEFAULT '0'");
 		// $with_scholar = $this->add('Model_Students_Disease');
 		// foreach($with_scholar as $dis_tab){
 		// 	$s=$this->add('Model_Student');

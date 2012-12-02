@@ -21,12 +21,27 @@ class page_store_itemoutward extends Page {
 		$grid->addColumn('Expander','allot_item');
 
 		if($form->isSubmitted()){
+			$this->api->memorize('issue_date',$form->get('for_date'));
 			$grid->js()->reload(array('store_no'=>$form->get('store_no')))->execute();
 		}
 	}
 
 	function page_allot_item(){
 		$this->api->stickyGET('student_id');
-		$this->add('Text')->set($_GET['student_id']);
+		// $this->add('Text')->set($_GET['student_id']);
+		// $this->add('Text')->set($this->api->recall('date'));
+		$ism=$this->add('Model_Item_Issue');
+		$ism->addCondition('student_id',$_GET['student_id']);
+		$ism->addCondition('date',$this->api->recall('issue_date'));
+		// $ism->debug();
+		$crud=$this->add('CRUD');
+		$crud->setModel($ism,null,array('item','quantity','rate','amount'));
+		if($crud->form){
+			$crud->form->getElement('item_id')->setAttr('class','hindi');
+		}
+		if($crud->grid){
+			$crud->grid->setFormatter('item','hindi');
+		}
+
 	}
 }

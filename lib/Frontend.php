@@ -50,6 +50,7 @@ class Frontend extends ApiFrontend {
             // use check() and allowPage for white-list based auth checking
         $auth=$this->add('BasicAuth');
           $auth->setModel('xavoc_acl/ACLUser','username','password');
+          $auth->allowPage(array('corrections'));
           $auth->check()
             ;
         // This method is executed for ALL the peages you are going to add,
