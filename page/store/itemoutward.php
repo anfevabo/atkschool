@@ -9,7 +9,8 @@ class page_store_itemoutward extends Page {
 		$form->addField('DatePicker','for_date')->setNotNull()->set(date('Y-m-d'));
 		$form->addSubmit('Get Details');
 
-		$m=$this->add('Model_Students_Current');
+		$m=$this->add('Model_Hosteler');
+		$m->addCondition('session_id',$this->add('Model_Sessions_Current')->fieldQuery('id'));
 		if($_GET['store_no']){
 			$m->addCondition('store_no',$_GET['store_no']);
 		}else{
