@@ -17,8 +17,9 @@ class View_StudentMovement extends View{
             $sel = $this->form->addField('line', 'sel');
             $sel->js(true)->closest('.atk-form-row')->hide();
 			$this->form->addSubmit('Save');
-			$this->form->onSubmit(function($form){
+			if($this->form->isSubmitted()){
 				try{
+					$form=$this->form;
 					$form->api->db->beginTransaction();
 					$hm=$form->add('Model_Hosteler');
 					$hm->load($form->get('hosteler_id'));
@@ -42,19 +43,19 @@ class View_StudentMovement extends View{
 
 					$roommodel= $sm->ref('student_id')->ref('RoomAllotement')->tryLoadAny()->ref('room_id');
 					
-					if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
-					if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
+					// if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
+					// if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
 					
 					$roommodel->save();
 				}catch(Exception $e){
 					$form->api->db->rollback();
-					throw $e;
 					$form->js()->univ()->errorMessage($e->getMessage())->execute();
+					throw $e;
 				}
 
 				$form->api->db->commit();
-				$form->js()->univ()->successMessage("Student ID" . $form->get('hosteler_id'))->execute();
-			});
+				$form->js(null,$this->js()->reload())->univ()->successMessage("Student Record Upadated success fully ")->execute();
+			}
 
 		
 	}

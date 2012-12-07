@@ -18,10 +18,19 @@ class page_hostel_attendence extends Page{
 		$session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
 		
 		$q="
+		SELECT
+			building_name,
+			room_no,
+			attendance,
+			totalstudent,
+			totalstudent - attendance absent
+		FROM
+		(
 			SELECT 
 			hm.building_name building_name,
 			rm.room_no room_no,
-			sum(s.is_present) attendance
+			sum(s.is_present) attendance,
+			count(s.id) totalstudent
 			FROM
 				hostel_allotement rmalot
 				join student s on s.id=rmalot.student_id
@@ -30,13 +39,16 @@ class page_hostel_attendence extends Page{
 			WHERE
 				rmalot.session_id=$session
 			GROUP BY building_name, room_no
+			) tmp
 		";
 		$q=$this->api->db->dsql()->expr($q);
 
 		$grid->setSource($q);
 		$grid->addColumn('text','building_name');
 		$grid->addColumn('text','room_no');
+		$grid->addColumn('text','totalstudent');
 		$grid->addColumn('text','attendance');
+		$grid->addColumn('text','absent');
 	}
 
 	function page_classvise(){
@@ -46,9 +58,18 @@ class page_hostel_attendence extends Page{
 		$session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
 		
 		$q="
-			SELECT 
+			SELECT
+				class,
+				attendance,
+				totalstudent,
+				totalstudent - attendance absent
+
+
+			FROM
+			(SELECT 
 			concat(c.name,' ',c.section) class,
-			sum(s.is_present) attendance
+			sum(s.is_present) attendance,
+			count(s.id) totalstudent
 			FROM
 				hostel_allotement rmalot
 				join student s on s.id=rmalot.student_id
@@ -56,12 +77,15 @@ class page_hostel_attendence extends Page{
 			WHERE
 				rmalot.session_id=$session
 			GROUP BY s.class_id
+			) tmp
 		";
 		$q=$this->api->db->dsql()->expr($q);
 
 		$grid->setSource($q);
 		$grid->addColumn('text','class');
+		$grid->addColumn('text','totalstudent');
 		$grid->addColumn('text','attendance');
+		$grid->addColumn('text','absent');
 
 		$grid->addFormatter('class','hindi');
 	}
@@ -73,9 +97,17 @@ class page_hostel_attendence extends Page{
 		$session=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
 		
 		$q="
-			SELECT 
+			SELECT
+				building_name,
+				attendance,
+				totalstudent,
+				totalstudent - attendance absent
+
+			FROM
+			(SELECT 
 			hm.building_name building_name,
-			sum(s.is_present) attendance
+			sum(s.is_present) attendance,
+			count(s.id) totalstudent
 			FROM
 				hostel_allotement rmalot
 				join student s on s.id=rmalot.student_id
@@ -84,12 +116,15 @@ class page_hostel_attendence extends Page{
 			WHERE
 				rmalot.session_id=$session
 			GROUP BY building_name
+			) tmp
 		";
 		$q=$this->api->db->dsql()->expr($q);
 
 		$grid->setSource($q);
 		$grid->addColumn('text','building_name');
+		$grid->addColumn('text','totalstudent');
 		$grid->addColumn('text','attendance');
+		$grid->addColumn('text','absent');
 
 	}
 }

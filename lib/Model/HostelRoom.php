@@ -14,6 +14,7 @@ class Model_HostelRoom extends Model_Table{
 		// $this->hasMany('HostelRoom','room_id');
 		$this->hasMany('RoomAllotement','room_id');
 
+		$this->addExpression('vacant')->set('id')->display('diff');
 		$this->addExpression('alloted')->set(function ($m,$q){
 			return $m->refSQL('RoomAllotement')->count();
 		});

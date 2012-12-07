@@ -13,6 +13,7 @@ class Model_Party extends Model_Table{
 		$this->hasMany('Bill','party_id');
 		$this->addHook('beforeDelete',$this);
 
+		$this->_dsql()->order('ename','asc');
 	}
 
 	function beforeDelete(){

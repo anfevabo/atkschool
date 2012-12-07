@@ -6,7 +6,7 @@ class Model_Item_Category extends Model_Table{
 		parent::init();
 
 		$this->hasMany('Item','category_id');
-		$this->addField('name')->caption('Category')->mandatory("Please provide a name")->display(array("grid"=>'hindi'));
+		$this->addField('name')->caption('Category')->mandatory("Please provide a name")->display('hindi');
 
 		$this->addHook('beforeDelete',$this);
 	}

@@ -11,6 +11,7 @@ class page_student_rollnoallotment extends Page{
 		$form->addSubmit("Allot");
 
 		$c=$this->add('Model_Students_Current');
+		$c->_dsql()->del('order')->order('fname','asc');
 		$grid=$this->add('Grid');
 		if($_GET['class']){
 			$c->addCondition('class_id',$_GET['class']);
@@ -18,16 +19,17 @@ class page_student_rollnoallotment extends Page{
 			$c->addCondition('class_id',-1);
 		}
 
-		$grid->setModel($c, array('name','class','roll_no'));
+		$grid->setModel($c, array('fname','name','class','roll_no'));
 		$grid->addColumn('Expander','edit','Edit');
-		
 		$grid->addClass('reladable_grid');
+		$grid->addFormatter('class','hindi');
 		$grid->js('reloadme',$grid->js()->reload());
 
 		if($form->isSubmitted()){
 
 			$students=$this->add('Model_Students_Current');
 			$students->addCondition('class_id',$form->get('class'));
+			$students->_dsql()->del('order')->order('fname','asc');
 			$start_roll_no=$form->get('roll_no');
 			foreach ($students as $junk) {
 				$students['roll_no'] = $start_roll_no ++;

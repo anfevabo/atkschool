@@ -16,8 +16,11 @@ class page_school_studentClassMapping extends Page {
 		$this->api->stickyGET('class_master_id');
 		$class=$this->add('Model_Class');
 		$class->load($_GET['class_master_id']);
+	
 		$grid = $v->add('Grid');
-		$grid->setModel($class->ref('Students_Current'),array('name','section','roll_number','ishostler','isScholared','bpl'));
+		$scm=$class->ref('Students_Current');
+		$scm->_dsql()->del('order')->order('fname');
+		$grid->setModel($scm,array('fname', 'name','section','roll_number','ishostler','isScholared','bpl'));
 		$grid->addColumn('Confirm','Remove');
 		if($_GET['Remove']){
 			$s=$this->add('Model_Students_Current');
