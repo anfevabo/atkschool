@@ -4,7 +4,7 @@ class page_hostel_studentmovement extends Page{
 		parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_horizontal'));
-		$class_field=$form->addField('dropdown','class')->setEmptyText('-----');
+		$class_field=$form->addField('dropdown','class')->setEmptyText('-----')->setAttr('class','hindi');
 		$student_field=$form->addField('dropdown','student')->setAttr('class','hindi')->setEmptyText('-----');
 		$form->addSubmit('Get List');
 
@@ -17,8 +17,10 @@ class page_hostel_studentmovement extends Page{
 			$s->addCondition('class_id',$_GET['class_id']);
 		}
 
+		$s->_dsql()->order('fname','asc');
 		$class_field->setModel($c);
 		$student_field->setModel($s);
+		// $s->debug();
 		$class_field->js('change',$form->js()->atk4_form('reloadField','student',array($this->api->url(),'class_id'=>$class_field->js()->val())));
 
 		$hm=$this->add('Model_Hosteler');

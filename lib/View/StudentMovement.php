@@ -40,12 +40,12 @@ class View_StudentMovement extends View{
 						throw $form->exception("Remark is must for enquiry")->setField('remarks');
 					$sm->save();
 
-					$roommodel= $sm->ref('student_id')->ref('RoomAllotement')->tryLoadAny()->ref('room_id');
+					// $roommodel= $sm->ref('student_id')->ref('RoomAllotement')->tryLoadAny()->ref('room_id');
 					
-					if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
-					if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
+					// if($form->get('purpose') == 'inward') $roommodel['in_count'] = $roommodel['in_count'] +1;
+					// if($form->get('purpose') == 'outward') $roommodel['in_count'] = $roommodel['in_count'] -1;
 					
-					$roommodel->save();
+					// $roommodel->save();
 				}catch(Exception $e){
 					$form->api->db->rollback();
 					throw $e;
@@ -53,7 +53,7 @@ class View_StudentMovement extends View{
 				}
 
 				$form->api->db->commit();
-				$form->js()->univ()->successMessage("Student ID" . $form->get('hosteler_id'))->execute();
+				$form->js(null, $form->js()->reload())->univ()->successMessage("MOvement recorded")->execute();
 			});
 
 		

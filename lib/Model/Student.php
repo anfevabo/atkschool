@@ -27,6 +27,10 @@ class Model_Student extends Model_Table{
                         return $m->refSQL('scholar_id')->dsql()->del('field')->field('hname');
                 })->display('hindi');
 
+                $this->addExpression('fname')->set(function ($m,$q){
+                        return $m->refSQL('scholar_id')->dsql()->del('field')->field('fname');
+                });
+
 	}
 
 }
