@@ -5,10 +5,10 @@ class Model_Diseases extends Model_Table{
 		parent::init();
 		$this->addField('name')->display('hindi')->mandatory("Disease Name is Must");
 		$this->hasMany('Students_Diseases','disease_id');
-		$this->addHook('beforeSave',$this);
+		$this->addHook('beforeDelete',$this);
 	}
 
-	function beforeSave(){
+	function beforeDelete(){
 		if($this->ref('Students_Diseases')->count()->getOne())
 			throw $this->exception("You can not delete, It contains Student Disease");
 	}

@@ -4,7 +4,7 @@ class page_hostel_studentmovement extends Page{
 		parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_horizontal'));
-		$class_field=$form->addField('dropdown','class')->setEmptyText('-----')->setAttr('class','hindi');
+		$class_field=$form->addField('dropdown','class')->setAttr('class','hindi')->setEmptyText('-----');
 		$student_field=$form->addField('dropdown','student')->setAttr('class','hindi')->setEmptyText('-----');
 		$form->addSubmit('Get List');
 

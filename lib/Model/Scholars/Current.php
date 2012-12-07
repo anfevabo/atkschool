@@ -1,4 +1,3 @@
-
 <?php
 
 class Model_Scholars_Current extends Model_Scholar{
@@ -16,6 +15,7 @@ class Model_Scholars_Current extends Model_Scholar{
         $st->addField('ishostler')->type('boolean');
         $st->addField('isScholared')->type('boolean')->caption('Hostler As Scholared');
         $st->addField('bpl')->type('boolean')->caption('BPL');
+        $st->addField('roll_no');
         $st->hasOne('Sessions_Current', 'session_id');
 
         //$g = $st->join('scholar_guardian.scholar_id', null, 'left');

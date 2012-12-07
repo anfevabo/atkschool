@@ -17,7 +17,7 @@ class page_store_reports extends Page{
         $class->setAttr('class','hindi');
       
         $category=$f->addField('dropdown','category')->setEmptyText('All' );
-        $category->setValueList(array(null=>'ALL','1'=>'Scholared','0'=>'Private'));
+        $category->setValueList(array(null=>'ALL','0'=>'Private','1'=>'Scholared'));
         $f->addSubmit('Print');
         if($f->isSubmitted())
       {

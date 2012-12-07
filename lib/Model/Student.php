@@ -29,7 +29,9 @@ class Model_Student extends Model_Table{
 
                 $this->addExpression('fname')->set(function ($m,$q){
                         return $m->refSQL('scholar_id')->dsql()->del('field')->field('fname');
-                });
+                })->caption('Name(English)');
+
+        
 
 	}
 

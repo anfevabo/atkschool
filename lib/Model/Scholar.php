@@ -29,6 +29,7 @@ class Model_Scholar extends Model_Table {
                 // $this->hasMany('Scholar','scholar_id');
                 // $this->hasMany('Students_Movement','scholar_id');
                 $this->hasMany('Disease','scholar_id');
+                $this->_dsql()->order('scholar_no','asc');
 
                 $this->addExpression('name')->set('hname')->display('hindi');
                 $this->addExpression('Student_name')->set('fname');

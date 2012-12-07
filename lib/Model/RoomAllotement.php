@@ -12,6 +12,7 @@ class Model_RoomAllotement extends Model_Table{
 
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 		$this->addHook('beforeSave',$this);
+		$this->addHook('beforeDelete',$this);
 	}
 	function beforeSave(){
 
@@ -23,10 +24,18 @@ class Model_RoomAllotement extends Model_Table{
 		$tmp->tryLoadAny();
 
 		if($tmp->loaded()){
-
 			throw $this->exception("This student has allready a Room Alloted");
 			// ->setField('room_no');
-
 		}
+
+		$st=$this->ref('student_id');
+		$st['isalloted']=true;
+		$st->save();
+	}
+
+	function beforeDelete(){
+		$st=$this->ref('student_id');
+		$st['isalloted']=false;
+		$st->save();
 	}
 }

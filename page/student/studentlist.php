@@ -53,8 +53,11 @@ class page_student_studentlist extends Page{
         if($_GET['from_age'])
         	$m->addCondition('age','>=',$_GET['from_age']);
         // $m->debug();
+
+        $m->_dsql()->order('roll_no');
+
         $grid->setModel($m,null,
-                array('sn','scholar_no','name','father_name','dob','contact','p_address','sex','category'));
+                array('sn','scholar_no','name','father_name','roll_no', 'dob','contact','p_address','sex','category'));
 		
 		// $grid->add('misc/Export');
 	}

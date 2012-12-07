@@ -6,6 +6,7 @@ class page_store_iteminward extends Page {
 		$grid=$this->add('Grid');
 
 		$pm=$this->add('Model_Party');
+		// $pm->_dsql()->del('order')->order('ename','asc');
 		$grid->setModel($pm);
 
 		$grid->addColumn('Button','add_inward');

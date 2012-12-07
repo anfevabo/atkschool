@@ -7,7 +7,7 @@ class Model_Class extends Model_Table{
 	function init(){
 		parent::init();
 
-		$this->addField('class_name', 'name')->mandatory("Please give a class name")->caption('Class Name');
+		$this->addField('class_name', 'name')->mandatory("Please give a class name")->caption('Class Name')->display('hindi');
         $this->addField('section')->mandatory('Give section a name')->display(array('form'=>'hindi','grid'=>'hindi'));
         $this->hasMany('Students_Current','class_id');
         // $this->hasMany('RelatedSubject','class_id');
@@ -23,6 +23,7 @@ class Model_Class extends Model_Table{
             return $m->refSQL('SubjectClassMap')->count();
         });
 
+        $this->_dsql()->order('name','asc');
         $this->addHook('beforeSave',$this);
         $this->addHook('beforeDelete',$this);
 	}

@@ -5,7 +5,10 @@ class page_school_scholars extends Page {
 		parent::init();
         $acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',array('allow_del'=>false));
-		$crud->setModel('Scholars_Current',null,array('fname','hname','scholar_no','class','image_url'));
+        $scm=$this->add('Model_Scholars_Current');
+        $scm->_dsql()->del('order')->order('class_id','asc')->order('fname');
+		$crud->setModel($scm
+            ,null,array('fname','hname','scholar_no','class','image_url'));
 		if($crud->grid){
 			$crud->grid->addFormatter('class','hindi');
             $crud->grid->addQuickSearch(array('scholar_no','fname'));

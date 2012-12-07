@@ -29,6 +29,8 @@ class View_Mapping extends View {
 
 		$map=$this->leftModel->ref($this->mappingModel);
         $this->grid=$this->add('Grid');
+        $this->grid->addClass($this->mappingModel);
+        $this->grid->js('reload_me',$this->grid->js()->reload());
         $grid=$this->grid;
         if(is_string($this->rightModel))
 	        $rm=$this->add("Model_".$this->rightModel);

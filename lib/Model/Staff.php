@@ -23,6 +23,7 @@ class Model_Staff extends Model_table {
                 $this->hasMany('Staff_Movement','staff_id');
 
                 $this->addExpression('name')->set('hname');
+                $this->_dsql()->order('ename','asc');
                 $this->addExpression('attendance_status')->set(function ($m,$q){
                         return $m->refSQL('Staff_Movement')->dsql()->del('field')->field('action')->limit(1)->order('id','desc');
                 })->display('attendance');

@@ -18,6 +18,7 @@ class page_hostel_studentgardian extends Page{
         if($_GET['class_id'])
         	$r->addCondition('class_id',$_GET['class_id']);
 
+        	$r->_dsql()->del('order')->order('fname','asc');
         $grid->setModel($r,array('fname','hname','class'));
         $grid->addFormatter('class','hindi');
         $grid->addPaginator();
