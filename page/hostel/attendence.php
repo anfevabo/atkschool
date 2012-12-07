@@ -8,6 +8,7 @@ class page_hostel_attendence extends Page{
 		$tabs->addTabURL('./roomvise','Rooms Attendance');
 		$tabs->addTabURL('./classvise','Class Attendance');
 		$tabs->addTabURL('./hostelvise','Hostel Attendance');
+		$tabs->addTabURL('hostel/attendancereport','Attendance Report');
 		
 	}
 
