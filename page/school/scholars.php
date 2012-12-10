@@ -3,13 +3,48 @@
 class page_school_scholars extends Page {
 	function init(){
 		parent::init();
+        $this->api->stickyGET('filter');
+        $this->api->stickyGET('class');
+
+        $form=$this->add('Form');
+         $classs_field= $form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
+        $c=$this->add('Model_Class');
+        // $c->_dsql()->del('order')->order('class_id','asc');
+        $classs_field->setModel($c);
+        $form->addSubmit('Filter Class');
+
+
+
+
+
         $acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',array('allow_del'=>false));
         $scm=$this->add('Model_Scholars_Current');
         $scm->_dsql()->del('order')->order('class_id','asc')->order('fname');
+        if($_GET['filter']){
+            if($_GET['class']) $scm->addCondition('class_id',$_GET['class']);
+        }
+        // else{
+        //     $scm->addCondition('class_id',-1);
+        // }
+
+
+        if($crud->grid) $crud->grid->addColumn('sno','sno');
+        
 		$crud->setModel($scm
             ,null,array('fname','hname','scholar_no','class','image_url'));
+
+
+        if($form->isSubmitted()){
+            $crud->grid->js()->reload(array(
+                                            "class"=>$form->get('class'),
+                                            "filter"=>-1
+
+                ))->execute();
+
+        }
 		if($crud->grid){
+
 			$crud->grid->addFormatter('class','hindi');
             $crud->grid->addQuickSearch(array('scholar_no','fname'));
              // $crud->grid->add("misc/Controller_AutoPaginator")->setLimit(50);
@@ -18,7 +53,7 @@ class page_school_scholars extends Page {
 		if($crud->form){
             // make form flow in 2 columns
             if($crud->form->model->loaded()){
-                $crud->form->getElement('class_id')->disable(true)->setFieldHint('You cannot edit class from here now');
+                // $crud->form->getElement('class_id')->disable(true)->setFieldHint('You cannot edit class from here now');
             }
             $crud->form->setFormClass('stacked atk-row');
             $o=$crud->form->add('Order')
@@ -31,7 +66,7 @@ class page_school_scholars extends Page {
             $crud->form->getElement('mother_name')->setAttr('class','hindi');
             $crud->form->getElement('guardian_name')->setAttr('class','hindi');
             $crud->form->getElement('p_address')->setAttr('class','hindi');
-            $crud->form->getElement('class_id')->setAttr('class','hindi');
+            // $crud->form->getElement('class_id')->setAttr('class','hindi');
 //            $drp_cat=$crud->form->addField('dropdown','categary');
 //            $cat=array("ST"=>"ST","SC"=>"SC","OBC"=>"OBC");
 //            $drp_cat->setValueList($cat);

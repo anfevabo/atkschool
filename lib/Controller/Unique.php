@@ -19,7 +19,8 @@ class Controller_Unique extends AbstractController {
 				$ni->addCondition($field,$value);
 				$msg .= "$field with $value ";
 			}
-			
+			if($this->owner->loaded())
+				$ni->addCondition('id','<>',$this->owner->id);
 			$ni->tryLoadAny();
 			if($ni->loaded()) throw $this->exception("Already Existes with $msg");//->setField($field);
 		}

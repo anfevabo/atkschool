@@ -11,7 +11,7 @@ class Model_Item_Issue extends Model_Table{
 		$this->hasOne('Session','session_id');
 
 		$this->addField('quantity');
-		$this->addField('rate');
+		$this->addField('rate')->display(array('from'=>'dropdown'))->setValueList(array('-1'=>'0'))->mandatory('Rate is Must To Select');
 		$this->addField('date')->type('date')->defaultValue(date('Y-m-d'));
 		$this->addField('receipt_no')->system(true);
 		$this->addExpression('amount')->set('quantity * rate');

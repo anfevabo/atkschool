@@ -20,6 +20,8 @@ class page_hostel_hostelallotement extends Page{
 		$grid->setModel($s,array('name','fname','father_name', 'isScholared','isalloted','building_name','room_no'));
 		$grid->addColumn('expander','alott','Allotement');
 		$grid->addColumn('expander','deallot','De Allotement');
+		$grid->addClass('reloadable');
+		$grid->js('reloadme',$grid->js()->reload());
 		// $grid->addFormatter('class','hindi');
 
 
@@ -77,6 +79,7 @@ class page_hostel_hostelallotement extends Page{
 				$form->js(null,array(
 							$form->js()->univ()->successMessage("Room alloted now ". $remain ." seats remaining in the room"),
 							// TODO reload the page
+							$form->js()->_selector('.reloadable')->trigger('reloadme')
 						)
 				)->univ()->closeExpander()->execute();
 		}
@@ -110,7 +113,7 @@ class page_hostel_hostelallotement extends Page{
 				$ra->addCondition('student_id',$_GET['student_id']);
 				$ra->tryLoadAny();
 				$ra->delete();
-				$form->js()->univ()->closeExpander()->execute();
+				$form->js(null,$form->js()->_selector('.reloadable')->trigger('reloadme'))->univ()->closeExpander()->execute();
 			}
 
 		}

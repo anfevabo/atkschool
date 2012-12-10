@@ -47,9 +47,11 @@ class page_hostel_attendence extends Page{
 		$grid->setSource($q);
 		$grid->addColumn('text','building_name');
 		$grid->addColumn('text','room_no');
-		$grid->addColumn('text','totalstudent');
-		$grid->addColumn('text','attendance');
-		$grid->addColumn('text','absent');
+		$grid->addColumn('number','totalstudent');
+		$grid->addColumn('number','attendance');
+		$grid->addColumn('number','absent');
+
+		$grid->addTotals(array('attendance','absent','totalstudent'));
 	}
 
 	function page_classvise(){
@@ -84,11 +86,12 @@ class page_hostel_attendence extends Page{
 
 		$grid->setSource($q);
 		$grid->addColumn('text','class');
-		$grid->addColumn('text','totalstudent');
-		$grid->addColumn('text','attendance');
-		$grid->addColumn('text','absent');
+		$grid->addColumn('number','totalstudent');
+		$grid->addColumn('number','attendance');
+		$grid->addColumn('number','absent');
 
 		$grid->addFormatter('class','hindi');
+		$grid->addTotals(array('absent','attendance','totalstudent'));
 	}
 
 	function page_hostelvise(){
@@ -123,9 +126,11 @@ class page_hostel_attendence extends Page{
 
 		$grid->setSource($q);
 		$grid->addColumn('text','building_name');
-		$grid->addColumn('text','totalstudent');
-		$grid->addColumn('text','attendance');
-		$grid->addColumn('text','absent');
+		$grid->addColumn('number','totalstudent');
+		$grid->addColumn('number','attendance');
+		$grid->addColumn('number','absent');
+
+		$grid->addTotals(array('absent','totalstudent','attendance'));
 
 	}
 }
