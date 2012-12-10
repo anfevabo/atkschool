@@ -24,6 +24,7 @@
  *****************************************************ATK4**/
 class Grid extends Grid_Advanced 
 {
+  public $mysno=1;
     function format_diff($field)
     {
         $this->current_row[$field] = $this->current_row['capacity'] - $this->current_row['alloted'];
@@ -52,5 +53,10 @@ class Grid extends Grid_Advanced
 
     function format_picture($field){
       $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="30%" height="30%"/>';
+    }
+
+    function format_sno($field){
+      $this->current_row[$field] = $this->mysno + $_GET[$this->name.'_paginator_skip'];
+      $this->mysno++;
     }
 }

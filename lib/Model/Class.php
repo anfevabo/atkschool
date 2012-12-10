@@ -22,8 +22,8 @@ class Model_Class extends Model_Table{
         $this->addExpression('no_of_subjects')->set(function($m,$q){
             return $m->refSQL('SubjectClassMap')->count();
         });
-
-        $this->_dsql()->order('name','asc');
+        
+        $this->_dsql()->order('id','asc');
         $this->addHook('beforeSave',$this);
         $this->addHook('beforeDelete',$this);
 	}

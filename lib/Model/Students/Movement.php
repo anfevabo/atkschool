@@ -11,7 +11,7 @@ class Model_Students_Movement extends Model_Table{
 		$this->addField('remark');
 		$this->addField('direction');
 
-		$st=$this->join('student.id','student_id');
+		$st=$this->leftJoin('student.id','student_id');
 		$st->hasOne('Class','class_id');
 
 		$this->_dsql()->order('hosteller_outward.id','desc');

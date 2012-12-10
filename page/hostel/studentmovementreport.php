@@ -57,8 +57,8 @@ class page_hostel_studentmovementreport extends Page {
 			$crud->grid->addPaginator();
 		}
 		if($crud->form){
-			$crud->form->getElement('student_id')->destroy();
-			$crud->form->getElement('gaurdian_id')->destroy();
+			// $crud->form->getElement('student_id')->destroy();
+			// $crud->form->getElement('gaurdian_id')->destroy();
 		}
 
 		if($form->isSubmitted()){

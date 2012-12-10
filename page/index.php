@@ -10,7 +10,9 @@ class page_index extends Page {
         $this->add('H5')->set('J-11,Haridas Ji Ki Magri,Udaipur');
         $news=$this->api->db->dsql()->expr("select name from news where id=1")->do_getOne();
         $this->add('Html')->set('<FONT SIZE=\"4\" FACE=\"courier\" COLOR=blue><MARQUEE WIDTH=100%  BGColor=yellow class="hindi">'.$news.'</MARQUEE></FONT>');
-      //  $this->add('HTML')->set('<img src="../images/q.jpg" alt="Image will be here" width="407" height="337" />'); 
+      
+
+       $this->add('HTML')->set('<center><img src="welcome.jpg" alt="Plase put a file named welcome.jpg in your d:\xampp\htdocs\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnsoft folder"/></center>'); 
         
         
 //       $Birthdate=$this->api->db->dsql()->expr("select dob from scholars_master where id =15 ")->getOne();

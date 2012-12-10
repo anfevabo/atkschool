@@ -1,5 +1,5 @@
 <?php 
-class page_student_studentlist extends Page{
+class page_student_studentlist_removed extends Page{
 	function init(){
 		parent::init();
 
