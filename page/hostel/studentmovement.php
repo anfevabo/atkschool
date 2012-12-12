@@ -18,8 +18,10 @@ class page_hostel_studentmovement extends Page{
 			$s->_dsql()->del('order')->order('fname','asc');
 		}
 
+		$s->_dsql()->order('fname','asc');
 		$class_field->setModel($c);
 		$student_field->setModel($s);
+		// $s->debug();
 		$class_field->js('change',$form->js()->atk4_form('reloadField','student',array($this->api->url(),'class_id'=>$class_field->js()->val())));
 
 		$hm=$this->add('Model_Hosteler');
