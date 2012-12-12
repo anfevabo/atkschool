@@ -54,8 +54,8 @@ class page_student_studentlist_removed extends Page{
         	$m->addCondition('age','>=',$_GET['from_age']);
         // $m->debug();
 
-        $m->_dsql()->order('roll_no');
-
+        $m->_dsql()->del('order')->order('roll_no');
+        $m->debug();
         $grid->setModel($m,null,
                 array('sn','scholar_no','name','father_name','roll_no', 'dob','contact','p_address','sex','category'));
 		

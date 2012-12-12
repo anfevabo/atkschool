@@ -1,9 +1,13 @@
 <?php
 class page_student_rollnoallotment extends Page{
-	function page_index(){
+	function init(){
+		parent::init();
+
+		$this->api->stickyGET('class');
+		$this->memorize('class',$_GET['class']);
 
 		$form=$this->add('Form',null,null,array('form_horizontal'));
-		$class_field=$form->addField('dropdown','class')->setEmptyText('-----');
+		$class_field=$form->addField('dropdown','class')->setEmptyText('-----')->set($this->recall('class',null));
 		$class_field->setModel('Class');
 		$class_field->setAttr('class','hindi');
 		$roll_field=$form->addField('line','roll_no')->setNotNull();
@@ -11,20 +15,26 @@ class page_student_rollnoallotment extends Page{
 		$form->addSubmit("Allot");
 
 		$c=$this->add('Model_Students_Current');
-		$c->_dsql()->del('order')->order('fname','asc');
-		$grid=$this->add('Grid');
-		if($_GET['class']){
-			$c->addCondition('class_id',$_GET['class']);
+		$c->_dsql()->del('order')->order('roll_no','asc')->order('fname','asc');
+		$crud=$this->add('CRUD',array('allow_add'=>false,"allow_del"=>false));
+		if($this->recall('class',0)){
+			$c->addCondition('class_id',$this->recall('class'));
 		}else{
 			$c->addCondition('class_id',-1);
+
 		}
 
-		$grid->setModel($c, array('fname','name','class','roll_no'));
-		$grid->addColumn('Expander','edit','Edit');
-		$grid->addClass('reladable_grid');
-		$grid->addFormatter('class','hindi');
-		$grid->js('reloadme',$grid->js()->reload());
+			$crud->setModel($c, array('fname','name','class','roll_no'));
+		if($crud->grid){
+			$grid= $crud->grid;
+			// $grid->addColumn('Expander','edit','Edit');
+			$grid->addClass('reladable_grid');
+			$grid->addFormatter('class','hindi');
+			$grid->js('reloadme',$grid->js()->reload());
+			$crud->grid->addPaginator();
+			$class_field->js('change',$crud->grid->js()->reload(array('class'=>$class_field->js()->val())));
 
+		}
 		if($form->isSubmitted()){
 
 			$students=$this->add('Model_Students_Current');
@@ -35,24 +45,24 @@ class page_student_rollnoallotment extends Page{
 				$students['roll_no'] = $start_roll_no ++;
 				$students->save();
 			}
-			$grid->js(null,$form->js()->reload())->reload(array("class"=>$form->get("class")))->execute();
+			$crud->grid->js(null,$form->js()->reload())->reload(array("class"=>$form->get("class")))->execute();
 		}
 
-		$class_field->js('change',$grid->js()->reload(array('class'=>$class_field->js()->val())));
+		
 
 
 	}
 
-	function page_edit(){
-		$this->api->stickyGET('student_id');
-		$m=$this->add('Model_Students_Current');
-		$m->load($_GET['student_id']);
-		$form = $this->add('Form');
-		$form->setModel($m,array('roll_no'));
-		if($form->isSubmitted()){
-			$form->update();
-			$form->js()->univ()->successMessage('Upadetd')->closeExpander()->execute();
-			// $form->js()->_selector('.reladable_grid')->reload(array('class'=>$m['class_id']))->execute();
-		}
-	}
+	// function page_edit(){
+	// 	$this->api->stickyGET('student_id');
+	// 	$m=$this->add('Model_Students_Current');
+	// 	$m->load($_GET['student_id']);
+	// 	$form = $this->add('Form');
+	// 	$form->setModel($m,array('roll_no'));
+	// 	if($form->isSubmitted()){
+	// 		$form->update();
+	// 		$form->js()->univ()->successMessage('Upadetd')->closeExpander()->execute();
+	// 		// $form->js()->_selector('.reladable_grid')->reload(array('class'=>$m['class_id']))->execute();
+	// 	}
+	// }
 }

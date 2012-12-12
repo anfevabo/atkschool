@@ -79,6 +79,7 @@ class View_Mapping extends View {
 	            $newRow=$this->add('Model_'.$this->mappingModel);
 
 		    	foreach($ids as $id){
+		    		$newRow->unload();
 		    		if($this->field_other_then_id){
 			    		$clone_rm = clone $rm;
 			    		$clone_rm->unload()->load($id);
@@ -91,7 +92,7 @@ class View_Mapping extends View {
 		    		if($this->maintainSession){
 		    			$newRow['session_id'] = $session;
 		    		}
-		    		$newRow->saveAndUnload();
+		    		$newRow->save();
 		    	}
 
 	            $this->api->db->commit();

@@ -10,6 +10,9 @@ class page_hostel_attendancereport extends Page{
 		$hostel_att->setModel('Hostel');
 		$room_att=$form->addField('dropdown','room_no')->setEmptyText('---');
 		$form->addField('checkbox','student_vise');
+		$attendance=$form->addField('dropdown','attendance_status')->setValueList(array("-1"=>"All",
+																						"1"=>"Present",
+																						"0"=>"Absent"));
 		// $room_att->setModel('Model_HostelRoom');
 
 		// $status=$form->addField('dropdown','purpose')->setValueList(array('inward'=>'inward','outward'=>'outward'))->setEmptyText('---');
@@ -27,6 +30,7 @@ class page_hostel_attendancereport extends Page{
 
 		$where="";
 		$group="";
+		$having="";
 		$group_by=array();
 		if($_GET['filter']){
 			if($_GET['class_name']){
@@ -43,6 +47,10 @@ class page_hostel_attendancereport extends Page{
 			} 
 			if($_GET['student_vise']){
 				$group_by[] ="s.id";
+			}
+
+			if($_GET['attendance_status']!='-1'){
+				$having=" having present=".$_GET['attendance_status'];
 			}
 			// if($_GET['purpose']) $where.="purpose=".$_GET['purpose']." AND";
 			if(strlen($where)>0) $where = " WHERE s.session_id=".($this->add('Model_Sessions_Current')->tryLoadAny()->get('id'))." AND $where";
@@ -67,14 +75,17 @@ class page_hostel_attendancereport extends Page{
 								join class_master cm on cm.id=s.class_id
 								join scholars_master sm on sm.id=s.scholar_id
 								$where
-							
+								
+
 								$group
+								$having
+
 								";
 
 		$query = $this->api->db->dsql()->expr($q);
 
 
-
+		$grid->addColumn('sno','sno');
 		$grid->setSource($query);
 		if(in_array("h.building_name", $group_by)) $grid->addColumn('text','building_name');
 		if(in_array("r.room_no", $group_by)) $grid->addColumn('text','room_no');
@@ -90,8 +101,8 @@ class page_hostel_attendancereport extends Page{
 				'building_name'=>$form->get('building_name'),
 				'room_no'=>$form->get('room_no'),
 				'student_vise' => $form->get('student_vise'),
+				'attendance_status'=>$form->get('attendance_status'),
 				'filter'=>1
-
 				))->execute();
 		}
 

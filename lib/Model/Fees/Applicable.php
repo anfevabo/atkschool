@@ -6,8 +6,21 @@ class Model_Fees_Applicable extends Model_Table{
 		parent::init();
 
 		$this->hasOne('Student','student_id');
-		$this->hasOne('Fee','fee_id');
+		$this->hasOne('FeeClassMapping','fee_class_mapping_id')->caption('Fee Applicable');
+		// $this->hasOne('Fee','fee_id');
 		$this->addField('amount');
-		$this->addField('due');
+		// $this->addField('due');
+
+
+		$this->hasMany('Fees_Deposit','fee_applicable_id');
+
+		$this->addExpression('paid')->set(function ($m,$q){
+					return $m->refSQL('Fees_Deposit')->dsql()->del('field')->field('sum(paid)');
+		});
+		$this->addHook('beforeSave',$this);
+	}
+
+	function beforeSave(){
+		if($this['amount']<$this['due']) throw $this->exception("Due Amount can not be greater then Total Amount ");
 	}
 }

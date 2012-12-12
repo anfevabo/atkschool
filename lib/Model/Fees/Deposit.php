@@ -5,7 +5,7 @@ class Model_Fees_Deposit extends Model_Table{
 	function init(){
 		parent::init();
 
-		$this->hasOne('Fee','fee_id');
+		$this->hasOne('Fees_Applicable','fee_applicable_id');
 		$this->addField('due');
 		$this->addField('paid');
 		$this->addField('due_date')->type('date');

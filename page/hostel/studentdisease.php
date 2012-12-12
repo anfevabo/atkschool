@@ -1,6 +1,6 @@
 <?php
 class page_hostel_studentdisease extends Page{
-	function init(){
+	function page_index(){
 		parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form');
@@ -36,13 +36,14 @@ class page_hostel_studentdisease extends Page{
 
 			$crud->grid->setFormatter('student','hindi');
 			$crud->grid->setFormatter('disease','hindi');
+			$crud->grid->addColumn('Expander','addtreatment','Add Treatment');
 
 		}
 		if($crud->form){
 			$c=$this->add('Model_Class');
 			$crud->form->getElement('student_id')->setAttr('class','hindi');
 			$crud->form->getElement('disease_id')->setAttr('class','hindi');
-			$class_field=$crud->form->addField('dropdown','class')->setEmptyText("---");
+			$class_field=$crud->form->addField('dropdown','class')->setEmptyText("---")->setAttr('class','hindi');
 			$class_field->setModel($c);
 			if($_GET['class_idx']){
 				$crud->form->getElement('student_id')->dq->where('class_id',$_GET['class_idx']);
@@ -53,5 +54,10 @@ class page_hostel_studentdisease extends Page{
 		
 			$crud->form->add('Order')->move('class','before','student_id')->now();
 		}
+	}
+
+	function addtreatment(){
+		$this->api->stickyGET('disease_master_id');
+		
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 class page_student_report extends Page{
 
-	public $field_list=array('sno','scholar_no','name','father_name','roll_no', 'dob','contact','p_address','sex','category');
+	public $field_list=array('sno','roll_no','scholar_no','name','father_name','mother_name','admission_date', 'dob','contact','p_address','sex','category');
 
 	function page_index(){
 
@@ -110,7 +110,7 @@ class page_student_report extends Page{
         	$m->addCondition('age','>=',$_GET['from_age']);
         // $m->debug();
 
-        $m->_dsql()->order('roll_no');
+        $m->_dsql()->del('order')->order('roll_no');
 
         $display_array=array();
         foreach($this->field_list as $f){

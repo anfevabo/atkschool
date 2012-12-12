@@ -10,5 +10,7 @@ class Model_ExamClassSubjectMapAll extends Model_Table {
 		$this->addField('min_marks');
 		$this->addField('max_marks');
 
+		$this->hasMany('Marks','examsub_map_id');
+
 	}
 }

@@ -5,8 +5,15 @@ class page_masters_hostel extends Page{
 		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',$acl->getPermissions());
 		$crud->setModel('Hostel');
-		if($crud->grid)
+		if($crud->grid){
 			 $crud->grid->addColumn('expander','room','Add Rooms');
+			 $crud->grid->setFormatter('capacity','number');
+			 $crud->grid->setFormatter('alloted','number');
+			 $crud->grid->setFormatter('vacant','number');
+			 $crud->grid->setFormatter('Rooms','number');
+			 $crud->grid->addTotals(array('capacity','alloted','vacant','Rooms'));
+
+			}
 		
 	}
 

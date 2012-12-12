@@ -24,7 +24,8 @@ class page_corrections extends Page {
 			");
 
 		$this->query("ALTER TABLE `item_master` ADD `category_id` INT NOT NULL ");
-
+		$this->query("ALTER TABLE `fee_applicable` CHANGE `fee_id` `fee_class_mapping_id` INT( 11 ) NOT NULL ");
+		$this->query("ALTER TABLE `fee_deposit_master` CHANGE `fee_id` `fee_applicable_id` INT( 11 ) NOT NULL ");
 		$this->query("ALTER TABLE `users`
   DROP `master`,
   DROP `data`,

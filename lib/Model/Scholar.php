@@ -44,7 +44,11 @@ class Model_Scholar extends Model_Table {
                         return $m->refSQL('Student')->addCondition('session_id',$m->add('Model_Sessions_Current')->tryLoadAny()->get('id'))->count();
                 })->type('boolean');
 
+                // $this->_dsql()->order('fname','asc');
+
                 $this->addHook('beforeDelete',$this);
+
+
 	}
 
 
