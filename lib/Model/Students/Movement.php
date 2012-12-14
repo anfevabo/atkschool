@@ -15,5 +15,19 @@ class Model_Students_Movement extends Model_Table{
 		$st->hasOne('Class','class_id');
 
 		$this->_dsql()->order('hosteller_outward.id','desc');
+		$this->addHook('afterDelete',$this);
+
+
+        
 	}
+
+	function afterDelete(){
+		$h=$this->add('Model_Hosteler');
+		$h->load();
+		if($h['attendance status']=='inward') $h['is_present']=true;
+		if($h['attendance status']=='outward') $h['is_present']=false;
+
+	}
+
 }
+

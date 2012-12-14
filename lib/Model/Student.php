@@ -33,7 +33,7 @@ class Model_Student extends Model_Table{
                         return $m->refSQL('scholar_id')->dsql()->del('field')->field('fname');
                 })->caption('Name(English)');
 
-        
+                $this->dsql()->order('fname');
 
 	}
 

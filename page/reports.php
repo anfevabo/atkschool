@@ -7,5 +7,6 @@ class page_reports extends Page{
 		$tab->addTabURL('student_report','Student Report');
 		$tab->addTabURL('hostel_attendence','Student Attendence');
 		$tab->addTabURL('store_reports','Store Reports');
+		$tab->addTabURL('student_contact','Students Contact No List');
 	}
 }

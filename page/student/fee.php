@@ -35,9 +35,13 @@ class page_student_fee extends Page{
 		$fa=$this->add('Model_Fees_Applicable');
 		$fa->addCondition('student_id',$_GET['student_id']);
 		
-		$this->add('Button','add_fee')->setLabel('ABCD')->js('click',$this->js()->univ()->dialogURL('sf'));
+		$this->add('Button','add_fee')->setLabel('ABCD')->js('click',$this->js()->univ()->frameURL('pFrame Title',$this->api->url('./new',array('var1'=>2344))));
 		$crud=$this->add('CRUD',array('allow_add'=>false));
 		$crud->setModel($fa,array('fee_class_mapping','amount','paid'));
 
+	}
+
+	function page_deposit_new(){
+		$this->add('Text')->set($_GET['var1']);
 	}
 }

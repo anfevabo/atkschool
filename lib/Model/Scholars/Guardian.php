@@ -21,5 +21,6 @@ class Model_Scholars_Guardian extends Model_Table{
         $fs->addField('image_url','filename')->display(array('grid'=>'picture'))->system(true);
         
         $this->addExpression('name')->set('gname');
+
     }
 }

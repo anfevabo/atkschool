@@ -14,9 +14,10 @@ class Model_Hosteler extends Model_Student{
 		$this->addField('is_present')->type('boolean')->defaultValue(false);
 
 		$this->hasMany('Item_Issue','student_id');
+		$this->hasMany('Students_Disease','student_id');
 
 		$this->addExpression('attendance_status')->set(function ($m,$q){
-			return $m->refSQL('Students_Movement')->fieldQuery('purpose')->limit(1)->order('student.id','desc')->where('purpose','in',array('inward','outward'));
+			return $m->refSQL('Students_Movement')->fieldQuery('purpose')->limit(1)->order('date','desc')->where('purpose','in',array('inward','outward'));
 		})->display('attendance');
 	}
 }

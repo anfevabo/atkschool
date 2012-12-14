@@ -26,8 +26,9 @@ class page_hostel_studentdisease extends Page{
 			if($temp !== false)	$m->addCondition('treatment',$temp);
 		}
 
+		// $m->_dsql()->del('order')->order('fname','asc');
 		$m->_dsql()->order('treatment_date','desc');
-		$crud->setModel($m);
+		$crud->setModel($m,array('student_id','disease_id','treatment','treatment_date'),array('student','disease','report_date','treatment','treatment_date'));
 		if($crud->grid){
 			
 			if($form->isSubmitted()){
@@ -56,8 +57,12 @@ class page_hostel_studentdisease extends Page{
 		}
 	}
 
-	function addtreatment(){
+	function page_addtreatment(){
 		$this->api->stickyGET('disease_master_id');
+
+		$crud=$this->add('CRUD');
+		$dr=$this->add('Model_Disease_Remarks');
+		$crud->setModel($dr,array('remarks'),array('remarks','created_at'));
 		
 	}
 }

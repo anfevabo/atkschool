@@ -43,13 +43,17 @@ class Grid extends Grid_Advanced
     }
 
     function format_attendance($field){
-      if($this->current_row[$field] == 'inward') 
+      if($this->current_row[$field] == 'inward' OR $this->current_row[$field] == 1) 
           $color='green';
       else
           $color='red';
 
+        if($this->current_row[$field] == 1 ) $this->current_row[$field]='present';
+        else if($this->current_row[$field] == 0 ) $this->current_row[$field]='absent';
+
       $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
     }
+
 
     function format_picture($field){
       $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="30%" height="30%"/>';

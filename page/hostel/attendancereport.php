@@ -9,7 +9,7 @@ class page_hostel_attendancereport extends Page{
 		$hostel_att=$form->addField('dropdown','building_name')->setEmptyText('---');
 		$hostel_att->setModel('Hostel');
 		$room_att=$form->addField('dropdown','room_no')->setEmptyText('---');
-		$form->addField('checkbox','student_vise');
+		$form->addField('checkbox','student_vise')->set(true);
 		$attendance=$form->addField('dropdown','attendance_status')->setValueList(array("-1"=>"All",
 																						"1"=>"Present",
 																						"0"=>"Absent"));
@@ -93,6 +93,7 @@ class page_hostel_attendancereport extends Page{
 		if(in_array("s.id", $group_by)) $grid->addColumn('hindi','student_name');
 		$grid->addColumn('text','total_students');
 		$grid->addColumn('text','present');
+		$grid->addFormatter('present','attendance');
 		// $grid->addFormatter('student_name','hindi');
 		if($form->isSubmitted()){
 			// throw $this->exception($form->get('student'));

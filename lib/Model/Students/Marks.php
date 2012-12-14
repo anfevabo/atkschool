@@ -7,6 +7,11 @@ class Model_Students_Marks extends Model_Table{
 		$this->hasOne('Student','student_id');
 		$this->hasOne('ExamClassSubjectMap','examsub_map_id');
 		$this->addField('marks');
+
+		// $this->addExpression("roll_no")->set(function($m,$q){
+		// 	return $m->refSQL('student_id')->fieldQuery('roll_no');
+		// });
+
 		$this->addHook('beforeSave',$this);
 	}
 		function beforeSave(){

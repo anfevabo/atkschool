@@ -17,10 +17,10 @@ class page_hostel_allotedstudent extends Page{
 			// $c->tryLoadAny();
 		}
 		$grid=$this->add('Grid');
-		$grid->setModel($h,array('scholar','class','building_name','room_no'));
+		$grid->addColumn('sno','sno');
+		$grid->setModel($h,array('sno','scholar','class','building_name','room_no'));
 		$grid->addFormatter('scholar','hindi');
 		$grid->addFormatter('class','hindi');
-
 		if($form->isSubmitted()){
 			$grid->js()->reload(array(
 								"class"=>$form->get('class'),

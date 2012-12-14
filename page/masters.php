@@ -6,6 +6,7 @@ class page_masters extends Page{
 		$acl=$this->add('xavoc_acl/Acl');
 		$tab=$this->add('Tabs');
 		$tab->addTabURL('masters_session','Session');
+		$tab->addTabURL('masters_news','News');
 		$tab->addTabURL('masters_class','Class');
 		$tab->addTabURL('masters_subject','Subject');
 		$tab->addTabURL('masters_exam','Exam');

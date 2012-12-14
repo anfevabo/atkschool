@@ -20,6 +20,8 @@ class page_student_classassign extends Page{
 
 		if($_GET['filter']){
 			if($_GET['class']) $sc->addCondition('class_id',$_GET['class']);
+		}else{
+			$sc->addCondition('class_id',-1);
 		}
 		$crud->setModel($sc,array('scholar_id','class_id','ishostler','isScholared','bpl'),array('name','class','ishostler','isScholared','bpl'));
 		if($crud->grid){

@@ -36,6 +36,7 @@ class View_StudentMovement extends View{
 					$sm=$form->add('Model_Students_Movement');
 					$sm['student_id']=$hm->id;
 					$sm['gaurdian_id'] = $guardians[0];
+					$sm['remark']=$form->get('remarks');
 					$sm['purpose']=$form->get('purpose');
 					if($form->get('purpose')=='enquiry' AND trim($form->get('remarks'))=="")
 						throw $form->exception("Remark is must for enquiry")->setField('remarks');
@@ -74,7 +75,7 @@ class View_StudentMovement extends View{
 		}
 		$this->hosteler= $m;
 
-		$this->gaurdian_grid->setModel($m->ref('scholar_id')->ref('Scholars_Guardian'),array('gname','address','image_url'));
+		$this->gaurdian_grid->setModel($m->ref('scholar_id')->ref('Scholars_Guardian'),array('gname','address','contact', 'image_url'));
 		$this->form->getElement('hosteler_id')->set($m->id);
             
 

@@ -36,7 +36,8 @@ class page_student_attendance extends Page{
             	// if($_GET['att']) $sa->addCondition('total_attendance',$_GET['att']);
             }
             
-            $grid->setModel($sa);
+            $grid->setModel($sa,array('roll_no','class','student','month','total_attendance','present'));
+            $sa->_dsql()->del('order')->order('roll_no','asc');
             $grid->setFormatter('student','hindi');
             $grid->addFormatter('present','grid/inline');
             $grid->addPaginator(50);
