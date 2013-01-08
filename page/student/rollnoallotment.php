@@ -20,16 +20,18 @@ class page_student_rollnoallotment extends Page{
 		if($this->recall('class',0)){
 			$c->addCondition('class_id',$this->recall('class'));
 		}else{
+			
 			$c->addCondition('class_id',-1);
 
 		}
 
-			$crud->setModel($c, array('fname','name','class','roll_no'));
+			$crud->setModel($c, array('fname','name','father_name','class','roll_no'));
 		if($crud->grid){
 			$grid= $crud->grid;
 			// $grid->addColumn('Expander','edit','Edit');
 			$grid->addClass('reladable_grid');
 			$grid->addFormatter('class','hindi');
+			$grid->addFormatter('father_name','hindi');
 			$grid->js('reloadme',$grid->js()->reload());
 			$crud->grid->addPaginator();
 			$class_field->js('change',$crud->grid->js()->reload(array('class'=>$class_field->js()->val())));

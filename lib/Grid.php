@@ -48,8 +48,8 @@ class Grid extends Grid_Advanced
       else
           $color='red';
 
-        if($this->current_row[$field] == 1 ) $this->current_row[$field]='present';
-        else if($this->current_row[$field] == 0 ) $this->current_row[$field]='absent';
+        if($this->current_row[$field] === '1' ) $this->current_row[$field]='present';
+        if($this->current_row[$field] === '0' ) $this->current_row[$field]='absent';
 
       $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
     }

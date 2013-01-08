@@ -5,8 +5,11 @@ class page_masters_scholars extends Page {
 		$acl=$this->add('xavoc_acl/Acl');
 		$grid = $this->add('Grid');
 		$grid->addColumn('sno','sno');
-		$grid->setModel('Scholar',array('admission_date','scholar_no','fname','name','father_name',
+		$sc=$this->add('Model_Scholars_Current');
+		// $sc->_dsql()->order('class','asc');
+		$grid->setModel($sc,array('admission_date','scholar_no','class','fname','name','father_name',
 										'contact','image_url','active_in_session'));
+		$grid->setFormatter('class','hindi');
 		$grid->addQuickSearch(array('fname'));
 		$grid->addPaginator();
 	}

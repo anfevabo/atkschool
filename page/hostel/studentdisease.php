@@ -26,7 +26,7 @@ class page_hostel_studentdisease extends Page{
 			if($temp !== false)	$m->addCondition('treatment',$temp);
 		}
 
-		// $m->_dsql()->del('order')->order('fname','asc');
+		$m->_dsql()->del('order')->order('student_id','asc');
 		$m->_dsql()->order('treatment_date','desc');
 		$crud->setModel($m,array('student_id','disease_id','treatment','treatment_date'),array('student','disease','report_date','treatment','treatment_date'));
 		if($crud->grid){
@@ -63,6 +63,9 @@ class page_hostel_studentdisease extends Page{
 		$crud=$this->add('CRUD');
 		$dr=$this->add('Model_Disease_Remarks');
 		$crud->setModel($dr,array('remarks'),array('remarks','created_at'));
-		
+		if($crud->form) {
+					$crud->form->getElement('remarks')->setAttr('class','hindi');
+				}
+		if($crud->grid) $crud->grid->addFormatter('remarks','hindi');
 	}
 }

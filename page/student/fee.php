@@ -17,10 +17,10 @@ class page_student_fee extends Page{
 		}else{
 			$sc->addCondition('class_id',-1);
 		}
-
-		$grid->setModel($sc,array('name','fname','roll_no','ishostler','isScholared','store_no','isalloted','bpl'));
+		$grid->addColumn('sno','sno');
+		$grid->setModel($sc,array('sno','name','fname','father_name','ishostler','isScholared'));
 		$grid->addColumn('Expander','deposit','Fee Deposit');
-		// $grid->addFormatter('scholar','hindi');
+		$grid->addFormatter('father_name','hindi');
 
 		if($form->isSubmitted()){
 			$grid->js()->reload(array("class"=>$form->get('class'),

@@ -27,7 +27,7 @@ class Model_Hostel extends Model_Table{
 		// 	return $x;
 		// });
 
-		  $this->addExpression("vacant")->set('id')->type('diff');
+		  $this->addExpression("vacant")->set('building_name');//->display('diff');
 		  $this->addHook('beforeSave',$this);
 		  $this->addHook('beforeDelete',$this);
 

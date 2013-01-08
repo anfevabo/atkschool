@@ -1,7 +1,7 @@
 <?php
 class page_student_report extends Page{
 
-	public $field_list=array('sno','roll_no','scholar_no','class','name','father_name','mother_name','admission_date', 'dob','contact','p_address','sex','category');
+	public $field_list=array('sno','roll_no','scholar_no','class','name','father_name','mother_name','admission_date','isScholared','ishostler', 'dob','contact','p_address','sex','category','');
 
 	function page_index(){
 

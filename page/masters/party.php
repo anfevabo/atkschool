@@ -5,6 +5,11 @@ class page_masters_party extends Page{
 		parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',$acl->getPermissions());
-		$crud->setModel('Party');
+
+		if($crud->grid){
+			$crud->grid->addColumn('sno','sno');
+		}
+		$crud->setModel('Party',array('sno','ename','name','contact','address'),array('sno','ename','name','contact','address'));
+	
 	}
 }

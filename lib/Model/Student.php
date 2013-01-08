@@ -33,6 +33,11 @@ class Model_Student extends Model_Table{
                         return $m->refSQL('scholar_id')->dsql()->del('field')->field('fname');
                 })->caption('Name(English)');
 
+
+                $this->addExpression("father_name")->set(function($m,$q){
+                        return $m->refSQL('scholar_id')->fieldQuery('father_name');
+                });
+
                 $this->dsql()->order('fname');
 
 	}
