@@ -21,6 +21,7 @@ class page_student_contact extends Page{
 			$sc->addcondition('class_id',-1);
 		}
 		$grid->addPaginator();
+		$sc->_dsql()->del('order')->order('fname');
 		$grid->setModel($sc,array('sno','fname','hname','father_name','contact'));
 
 

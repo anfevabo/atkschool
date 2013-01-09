@@ -6,20 +6,23 @@ class page_hostel_allotedstudent extends Page{
 
 		$c=$this->add('Model_Class');
 		$form=$this->add('Form');
-		$form->addField('dropdown','class')->setModel($c);
+		$class_field=$form->addField('dropdown','class')->setEmptyText('-----')->setAttr('class','hindi');
+		$class_field->setModel($c);
 		$form->addSubmit("Get List");
 
 		$h=$this->add('Model_Hosteler');
-		$h->_dsql()->del('order')->order('building_name','asc')->order('room_no','asc')->order('scholar','asc');
+		$h->_dsql()->del('order')->order('building_name','asc')->order('room_no','asc');
+		// $h->_dsql()->order('scholar','asc');
 		if($_GET['filter']){
 			$h->addCondition('class_id',$_GET['class']);
 		}else{
-			// $c->tryLoadAny();
+			$h->addCondition('class_id',-1);
 		}
 		$grid=$this->add('Grid');
 		$grid->addColumn('sno','sno');
-		$grid->setModel($h,array('sno','scholar','class','building_name','room_no'));
-		$grid->addFormatter('scholar','hindi');
+		$grid->setModel($h,array('sno','name','class','building_name','room_no'));
+
+		// $grid->addFormatter('scholar','hindi');
 		$grid->addFormatter('class','hindi');
 		if($form->isSubmitted()){
 			$grid->js()->reload(array(

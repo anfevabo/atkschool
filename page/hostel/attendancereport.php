@@ -57,7 +57,6 @@ class page_hostel_attendancereport extends Page{
 			$group=implode(",", $group_by);
 			if(count($group_by)>0) $group = " GROUP BY $group";
 		}
-
 		$where = trim($where," AND ");
 		$q="
 			SELECT 
@@ -81,9 +80,9 @@ class page_hostel_attendancereport extends Page{
 								$having
 
 								";
-
+								
 		$query = $this->api->db->dsql()->expr($q);
-
+		
 
 		$grid->addColumn('sno','sno');
 		$grid->setSource($query);

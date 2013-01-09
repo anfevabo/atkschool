@@ -75,7 +75,7 @@ class View_StudentMovement extends View{
 		}
 		$this->hosteler= $m;
 
-		$this->gaurdian_grid->setModel($m->ref('scholar_id')->ref('Scholars_Guardian'),array('gname','address','contact', 'image_url'));
+		$this->gaurdian_grid->setModel($m->ref('scholar_id')->ref('Scholars_Guardian'),array('gname','address','contact','relation','image_url'));
 		$this->form->getElement('hosteler_id')->set($m->id);
             
 

@@ -1,6 +1,6 @@
 <?php
 class Model_Disease_Remarks extends Model_Table{
-	var $table="diseases_remarks";
+	var $table="disease_remarks";
 	function init(){
 		parent::init();
 

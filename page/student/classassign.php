@@ -23,9 +23,10 @@ class page_student_classassign extends Page{
 		}else{
 			$sc->addCondition('class_id',-1);
 		}
-		$crud->setModel($sc,array('scholar_id','class_id','ishostler','isScholared','bpl'),array('name','class','ishostler','isScholared','bpl'));
+		$crud->setModel($sc,array('scholar_id','class_id','ishostler','isScholared','bpl'),array('name','father_name','class','ishostler','isScholared','bpl'));
 		if($crud->grid){
 			$crud->grid->addFormatter('name','hindi');
+			$crud->grid->addFormatter('father_name','hindi');
 			$crud->grid->addFormatter('class','hindi');
 
 			$crud->grid->addPaginator(10);

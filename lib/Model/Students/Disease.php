@@ -10,7 +10,10 @@ class Model_Students_Disease extends Model_Table{
 		$this->addField('treatment')->type('boolean')->defaultValue(false)->caption('Treatment Completed');
 		$this->addField('treatment_date')->type('date')->defaultValue(date('Y-m-d'));
 
-		// $this->addExpression("name")->set('student_id');
+		// $this->addExpression("name")->set(function($m,$q){
+		// 	return $m->refSQL('student_id')->fieldQuery('name');
+		// });
+		// // $this->_dsql()->order('student_id','asc');
 		
 	}
 }

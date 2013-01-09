@@ -30,6 +30,13 @@ class page_correction2 extends Page{
 				PRIMARY KEY ( `id` )
 				) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 		");
+	$this->query("CREATE TABLE `disease_remarks` (
+				`id` int( 11 ) NOT NULL AUTO_INCREMENT ,
+				`remarks` text NOT NULL ,
+				`created_at` datetime NOT NULL ,
+				PRIMARY KEY ( `id` )
+				) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+			");
 
 	function query($q) {
         $this->api->db->dsql()->expr($q)->execute();

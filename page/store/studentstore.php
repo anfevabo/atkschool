@@ -17,7 +17,7 @@ class page_store_studentstore extends Page{
         $str=$form->addField('line','no','Starting Store No')->validateNotNull();
         $str->js(true)->univ()->numericField()->disableEnter();
         $form->addSubmit('Allot');
-      $crud=$this->add('CRUD',array('allow_add'=>false,'allow_del'=>false));
+      $crud=$this->add('CRUD',array('allow_add'=>false,'allow_del'=>false,'allow_edit'=>false));
        
 
        $m=$this->add('Model_Students_Current');
@@ -35,6 +35,7 @@ class page_store_studentstore extends Page{
 
       if($crud->grid){
         $crud->grid->addFormatter('class','hindi');
+        $crud->grid->addFormatter('store_no','grid/inline');
       	  $class_field->js("change",$crud->grid->js()->reload(array('class_id'=>$class_field->js()->val(),'cat'=>$categary->js()->val())));
        		$categary->js("change",$crud->grid->js()->reload(array('cat'=>$categary->js()->val(),'class_id'=>$class_field->js()->val())));
       }else{
