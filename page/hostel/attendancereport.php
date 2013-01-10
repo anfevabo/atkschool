@@ -101,7 +101,7 @@ class page_hostel_attendancereport extends Page{
 			// $grid->addFormatter('student_name','hindi');
 		}else{
 			$grid=$this->add('Grid');
-			$grid->setSource(array());
+			$grid->setSource(array()
 		}
 		if($form->isSubmitted()){
 			// throw $this->exception($form->get('student'));
