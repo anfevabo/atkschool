@@ -25,10 +25,13 @@ class page_hostel_studentdisease extends Page{
 			}
 			if($temp !== false)	$m->addCondition('treatment',$temp);
 		}
+		// else{
+		// 	$m->addCondition('treatment',-1);
+		// }
 
-		$m->_dsql()->del('order')->order('student_id','asc');
+		
 		$m->_dsql()->order('treatment_date','desc');
-		$crud->setModel($m,array('student_id','disease_id','treatment','treatment_date'),array('student','disease','report_date','treatment','treatment_date'));
+		$crud->setModel($m,array('student_id','disease_id','treatment','treatment_date','fname'),array('student','disease','report_date','treatment','treatment_date','fname'));
 		if($crud->grid){
 			
 			if($form->isSubmitted()){
@@ -47,7 +50,7 @@ class page_hostel_studentdisease extends Page{
 			$class_field=$crud->form->addField('dropdown','class')->setEmptyText("---")->setAttr('class','hindi');
 			$class_field->setModel($c);
 			if($_GET['class_idx']){
-				$crud->form->getElement('student_id')->dq->where('class_id',$_GET['class_idx']);
+				$crud->form->getElement('student_id')->dq->where('class_id',$_GET['class_idx'])->order('fname');
 			}else{ // on form load
 				$crud->form->getElement('student_id')->dq->where('class_id',-1);
 			}
