@@ -38,6 +38,12 @@ class page_correction2 extends Page{
 				) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 			");
 
+	$this->query("TRUNCATE fee_applicable");
+	$this->query("TRUNCATE fee_class_mapping");
+	$this->query("TRUNCATE fee_deposit_master");
+
+	}
+	
 	function query($q) {
         $this->api->db->dsql()->expr($q)->execute();
     }

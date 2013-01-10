@@ -7,7 +7,7 @@ class page_masters_fee extends Page{
 		$crud->setModel('Fee');
 
 		if($crud->grid){
-		$crud->grid->addColumn('expander','classassociation','ClassAssociation');
+			$crud->grid->addColumn('expander','classassociation','ClassAssociation');
 	}
 }
 
@@ -26,7 +26,8 @@ class page_masters_fee extends Page{
 				'rightField' => 'class_id',
 				'rightModel' => 'Class',
 				'deleteFirst' => true,
-				'maintainSession' => true
+				'maintainSession' => true,
+				// 'field_other_then_id'=>'class_id'
 			);		
 		// $this->add('View')->set('Hi');
 		$p=$this->add('View_Mapping',$options);

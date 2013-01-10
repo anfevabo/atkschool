@@ -50,7 +50,7 @@ class page_store_itemoutward extends Page {
 			$crud=$this->add('CRUD');
 			$crud->setModel($ism,null,array('item','quantity','date','rate','amount'));
 			if($crud->form){
-				$crud->form->getElement('date')->set(null);
+				$crud->form->getElement('date')->set(date('Y-'.$this->api->recall('issue_month').'-d')); //TODO year must be between session
 				if($crud->form->isSubmitted()){
 					if(strpos($crud->form->get('rate'),","))
 						$crud->form->displayError('Please enter only one rate','rate');
