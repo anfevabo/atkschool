@@ -1,13 +1,13 @@
 <?php
 class page_student_report extends Page{
 
-	public $field_list=array('sno','roll_no','scholar_no','class','name','father_name','mother_name','admission_date','isScholared','ishostler', 'dob','contact','p_address','sex','category','');
+	public $field_list=array('sno','roll_no','scholar_no','class','name','father_name','mother_name','admission_date','isScholared','ishostler', 'dob','contact','p_address','sex','category');
 
 	function page_index(){
 
 		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_empty'));
-		$class=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
+		$class=$form->addField('dropdown','class_field')->setEmptyText('----')->setAttr('class','hindi');
 		$c=$this->add('Model_Class');
 		$class->setModel($c);
 		$s=$form->addField('dropdown','filter_sex')->setValueList(array("-1"=>"Any",
@@ -48,7 +48,7 @@ class page_student_report extends Page{
       	foreach($this->field_list as $f){
       		$chk_values += array($f => $form->get($f));
       	}
-      	$form_values=array("class"=>$form->get('class'),"filter_sex"=>$form->get('filter_sex'),"filter_category"=>$form->get('filter_category'),"hostel"=>$form->get('hostel'),"scholar"=>$form->get('scholar'),"bpl"=>$form->get('bpl'),"to_age"=>$form->get('to_age'),"from_age"=>$form->get('from_age'));
+      	$form_values=array("class_drp"=>$form->get('class_field'),"filter_sex"=>$form->get('filter_sex'),"filter_category"=>$form->get('filter_category'),"hostel"=>$form->get('hostel'),"scholar"=>$form->get('scholar'),"bpl"=>$form->get('bpl'),"to_age"=>$form->get('to_age'),"from_age"=>$form->get('from_age'));
 		$total_values=$form_values + $chk_values;      	
        $this->js()->univ()->newWindow($this->api->url("./studentlist",$total_values),null,'height=689,width=1246,scrollbar=1')->execute();
       }
@@ -59,7 +59,7 @@ class page_student_report extends Page{
 	function page_studentlist(){
 
 
-        $this->api->stickyGET('class');
+        $this->api->stickyGET('class_drp');
         $this->api->stickyGET('sex');
         $this->api->stickyGET('category');
         $this->api->stickyGET('hostel');
@@ -74,8 +74,8 @@ class page_student_report extends Page{
          $m=$this->add('Model_Scholars_Current');
         
 	
-        if($_GET["class"]){
-        	$m->addCondition('class_id',$_GET['class']);
+        if($_GET["class_drp"]){
+        	$m->addCondition('class_id',$_GET['class_drp']);
         }
         if($_GET["filter_sex"]!="-1"){
         	 $m->addCondition('sex',$_GET['filter_sex']);
@@ -117,7 +117,9 @@ class page_student_report extends Page{
         	if($_GET[$f]) $display_array[] = $f;
         }
         if($_GET['sno']) $grid->addColumn('sno','sno');
-        $grid->setModel($m,$display_array);
+        // $m->debug();
+        // print_r($display_array);
+        $grid->setModel($m,array_merge($display_array),array('class'));
 		
 		// $grid->add('misc/Export');
 	

@@ -2,7 +2,7 @@
 class page_correction2 extends Page{
 	function init(){
 		parent::init();
-		$this->query("UPDATE `hosteller_outward` SET student_id=456 WHERE student_id=371");
+ 		$this->query("UPDATE `hosteller_outward` SET student_id=456 WHERE student_id=371");
 		$this->query("DELETE from scholars_master  WHERE id=175");
 		$this->query("DELETE from student  WHERE scholar_id=175");
 		$this->query("UPDATE `hosteller_outward` SET student_id=406 WHERE student_id=177");
