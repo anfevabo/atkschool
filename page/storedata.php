@@ -7,7 +7,7 @@ class page_storedata extends Page {
 		$tabs=$this->add('Tabs');
 		$tabs->addTabURL('store_studentstore','Student Store');
 		$tabs->addTabURL('store_iteminward','Item Inward');
-		$tabs->addTabURL('store_itemoutward','Item Outward');
+		$tabs->addTabURL('store_itemoutward','Stationory Item Outward');
 		$tabs->addTabURL('store_stock','Item Stocks');
 	}
 }

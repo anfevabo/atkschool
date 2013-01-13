@@ -3,6 +3,7 @@
 class page_student_attendance extends Page{
 	function init(){
 		parent::init();
+        $this->api->stickyGET('filter');
 
         try{
     		$form=$this->add('Form',null,null,array('form_horizontal'));
@@ -35,12 +36,15 @@ class page_student_attendance extends Page{
             	if($_GET['month'])	$sa->addCondition('month',$_GET['month']);
             	// if($_GET['att']) $sa->addCondition('total_attendance',$_GET['att']);
             }
-            
+            else{
+                $sa->addCondition('month',-1);
+            }
             $grid->setModel($sa,array('roll_no','class','student','month','total_attendance','present'));
             $sa->_dsql()->del('order')->order('roll_no','asc');
             $grid->setFormatter('student','hindi');
+            $grid->setFormatter('class','hindi');
             $grid->addFormatter('present','grid/inline');
-            $grid->addPaginator(50);
+            // $grid->addPaginator(50);
 
 
 

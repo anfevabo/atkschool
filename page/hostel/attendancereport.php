@@ -66,7 +66,8 @@ class page_hostel_attendancereport extends Page{
 	            	cm.name class_name, 
 	            	sum(is_present) present,
 	            	count(s.id) total_students,
-	            	sm.hname student_name
+	            	sm.hname student_name,
+	            	sm.father_name 
 								FROM 
 								`student` s 
 									join  hostel_allotement hm on s.id=hm.student_id 
@@ -79,7 +80,7 @@ class page_hostel_attendancereport extends Page{
 
 									$group
 									$having
-
+									order by building_name, room_no, student_name
 									";
 									
 			$query = $this->api->db->dsql()->expr($q);
@@ -93,15 +94,17 @@ class page_hostel_attendancereport extends Page{
 				$grid->addColumn('text','room_no');
 			// if(in_array("cm.name", $group_by)) 
 				$grid->addColumn('text','class_name');
-			if(in_array("s.id", $group_by))
+			if(in_array("s.id", $group_by)){
 				$grid->addColumn('hindi','student_name');
+				$grid->addColumn('hindi','father_name');
+					}
 			$grid->addColumn('text','total_students');
 			$grid->addColumn('text','present');
 			$grid->addFormatter('present','attendance');
 			// $grid->addFormatter('student_name','hindi');
 		}else{
 			$grid=$this->add('Grid');
-			$grid->setSource(array()
+			$grid->setSource(array());
 		}
 		if($form->isSubmitted()){
 			// throw $this->exception($form->get('student'));

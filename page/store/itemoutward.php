@@ -6,7 +6,8 @@ class page_store_itemoutward extends Page {
 		$form=$this->add('Form');
 		$grid=$this->add('Grid');
 		$form->addField('line','store_no')->setNotNull();
-		$form->addField('dropdown','for_month')->setValueList(array("1"=>"jan",
+		$form->addField('dropdown','for_month')->setValueList(array("-1"=>"----",
+																	"1"=>"jan",
 																	"2"=>"Feb",
 																	"3"=>"March",
 																	"4"=>"April",
@@ -42,13 +43,16 @@ class page_store_itemoutward extends Page {
 		// $this->add('Text')->set($_GET['student_id']);
 		// $this->add('Text')->set($this->api->recall('date'));
 		try{
+			// $t=$this->add('Model_Item');
+
 			$ism=$this->add('Model_Item_Issue');
 			$ism->addCondition('student_id',$_GET['student_id']);
 			$ism->addCondition('month',$this->api->recall('issue_month'));
+			// $t->addCondition('is_stationory',1);
 
 			// $ism->debug();
 			$crud=$this->add('CRUD');
-			$crud->setModel($ism,null,array('item','quantity','date','rate','amount'));
+			$crud->setModel($ism,null,array('item','quantity','date','rate','amount','is_stationory'));
 			if($crud->form){
 				$crud->form->getElement('date')->set(null);
 				if($crud->form->isSubmitted()){
@@ -57,6 +61,7 @@ class page_store_itemoutward extends Page {
 				}
 				$crud->form->getElement('item_id')->setAttr('class','hindi');
 				$item_field=$crud->form->getElement('item_id');
+				$crud->form->getElement('item_id')->model->addCondition('is_stationory',true);
 				$rate_field= $crud->form->getElement('rate');//->destroy();
 				// $rate_field = $crud->form->addField('dropdown','rate');
 

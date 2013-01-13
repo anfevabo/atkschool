@@ -11,8 +11,9 @@ class page_masters_hostel extends Page{
 			 $crud->grid->setFormatter('alloted','number');
 			 $crud->grid->setFormatter('vacant','number');
 			 $crud->grid->setFormatter('Rooms','number');
-			 $crud->grid->addTotals(array('Rooms','capacity','alloted','vacant'));
 			 $crud->grid->setFormatter('vacant','diff');
+			 $crud->grid->addFormatter('vacant','number');
+			 $crud->grid->addTotals(array('Rooms','capacity','alloted','vacant'));
 
 			}
 		

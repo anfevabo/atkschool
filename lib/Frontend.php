@@ -92,7 +92,7 @@ class Frontend extends ApiFrontend {
         
         $name=$this->api->auth->model['username'];
         $this->welcome=$this->add('H5')->set('Welcome : '.$name);
-        $this->add('Text',null,'date')->set(date('Y-m-d'));
+        $this->add('Text',null,'date')->set(date('D, M d, Y'));
         $this->add('H5',null,'date')->set("Session: ".$this->add('Model_Sessions_Current')->tryLoadAny()->get('name'));
     }
     function layout_UserMenu(){

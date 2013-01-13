@@ -5,6 +5,7 @@ class Model_Item_Issue extends Model_Table{
 
 	function init(){
 		parent::init();
+		
 
 		$this->hasOne('Hosteler','student_id');
 		$this->hasOne('Item','item_id');
@@ -25,7 +26,7 @@ class Model_Item_Issue extends Model_Table{
 	function beforeSave(){
 		if(!$this->loaded()){
 			// search for existing recipt number for current month
-			$temp=$this->add('Model_Item_issue');
+			$temp=$this->add('Model_Item_Issue');
 			$temp->addCondition('student_id',$this['student_id']);
 			$temp->addCondition('month',date('m',strtotime($this['date'])));
 			$temp->addCondition('year',date('Y',strtotime($this['date'])));

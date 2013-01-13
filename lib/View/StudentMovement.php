@@ -65,7 +65,7 @@ class View_StudentMovement extends View{
 	function setModel($m){
 		if(!($m instanceof Model_Hosteler)) throw $this->exception('Model can be only Hosteler');
 		parent::setModel($m);
-		$this->information_grid->setModel($m,array('name','room_no','building_name','attendance_status'));
+		$this->information_grid->setModel($m,array('name','room_no','building_name','attendance_status','image_url'));
 		$m->tryLoadAny();
 		if(!$m->loaded()) {
 			$this->gaurdian_grid->destroy();
