@@ -1,9 +1,11 @@
 <?php
 
 class page_student_attendance extends Page{
-	function init(){
-		parent::init();
+	function page_index(){
+		// parent::init();
         $this->api->stickyGET('filter');
+        $this->api->stickyGET('month');
+        $this->api->stickyGET('att');
 
         try{
     		$form=$this->add('Form',null,null,array('form_horizontal'));
@@ -41,16 +43,17 @@ class page_student_attendance extends Page{
             }
             $grid->setModel($sa,array('roll_no','class','student','month','total_attendance','present'));
             $sa->_dsql()->del('order')->order('roll_no','asc');
+            // if($crud->grid){
             $grid->setFormatter('student','hindi');
             $grid->setFormatter('class','hindi');
+            // $grid->addColumn('expander','edit');
             $grid->addFormatter('present','grid/inline');
-            // $grid->addPaginator(50);
-
+            // $grid->addPaginator();
+        
 
 
             if($form->isSubmitted()){
 
-            	if($form->isSubmitted()){
             		$sam=$this->add('Model_Students_Attendance');
             		$sam->addCondition('class_id',$form->get('class'));
             		$sam->addCondition('month',$form->get('month'));
@@ -80,7 +83,6 @@ class page_student_attendance extends Page{
             									))->execute();
 
 
-            	}
             	
             }
         }catch(Exception $e){
@@ -88,5 +90,18 @@ class page_student_attendance extends Page{
 
         }
 	}
+    // function page_edit(){
+    //     $this->api->stickyGET('student_id');
+    //     $sa=$this->add('Model_Students_Attendance');
+    //     // $sa->load();
+    //     $form=$this->add('Form');
+    //     $form->addField('line','present');
+    //     $form->addSubmit("Save");
+    //     if($form->isSubmitted()){
+    //         $sa['present']= $form->get('present');
+    //         $sa->save();
+
+    //     }
+    // }
 
 }

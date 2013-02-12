@@ -18,15 +18,6 @@ class page_hostel_attendancereport extends Page{
 		// $status=$form->addField('dropdown','purpose')->setValueList(array('inward'=>'inward','outward'=>'outward'))->setEmptyText('---');
 		$form->addSubmit('Filter');
 		if($_GET['filter']){
-			$room_m=$this->add('Model_HostelRoom');
-			if($_GET['selected_hostel'])
-				$room_m->addCondition('hostel_id',$_GET['selected_hostel']);
-			// else
-			// 	if(!$_GET['filter']) $room_m->addCondition('hostel_id',-1);
-
-			$room_att->setModel($room_m);
-
-			$hostel_att->js('change',$form->js()->atk4_form('reloadField','room_no',array($this->api->url(),'selected_hostel'=>$hostel_att->js()->val())));
 			$grid=$this->add('Grid');
 
 			$where="";
@@ -66,8 +57,7 @@ class page_hostel_attendancereport extends Page{
 	            	cm.name class_name, 
 	            	sum(is_present) present,
 	            	count(s.id) total_students,
-	            	sm.hname student_name,
-	            	sm.father_name 
+	            	sm.hname student_name
 								FROM 
 								`student` s 
 									join  hostel_allotement hm on s.id=hm.student_id 
@@ -80,7 +70,7 @@ class page_hostel_attendancereport extends Page{
 
 									$group
 									$having
-									order by building_name, room_no, student_name
+
 									";
 									
 			$query = $this->api->db->dsql()->expr($q);
@@ -94,10 +84,8 @@ class page_hostel_attendancereport extends Page{
 				$grid->addColumn('text','room_no');
 			// if(in_array("cm.name", $group_by)) 
 				$grid->addColumn('text','class_name');
-			if(in_array("s.id", $group_by)){
+			if(in_array("s.id", $group_by))
 				$grid->addColumn('hindi','student_name');
-				$grid->addColumn('hindi','father_name');
-					}
 			$grid->addColumn('text','total_students');
 			$grid->addColumn('text','present');
 			$grid->addFormatter('present','attendance');
@@ -106,6 +94,14 @@ class page_hostel_attendancereport extends Page{
 			$grid=$this->add('Grid');
 			$grid->setSource(array());
 		}
+
+		$room_m=$this->add('Model_HostelRoom');
+		if($_GET['selected_hostel'])
+			$room_m->addCondition('hostel_id',$_GET['selected_hostel']);
+		$room_att->setModel($room_m);
+
+		$hostel_att->js('change',$form->js()->atk4_form('reloadField','room_no',array($this->api->url(),'selected_hostel'=>$hostel_att->js()->val())));
+
 		if($form->isSubmitted()){
 			// throw $this->exception($form->get('student'));
 			$grid->js()->reload(array(

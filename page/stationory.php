@@ -5,7 +5,7 @@ class page_stationory extends Page {
 		$grid=$this->add('Grid');
 		$t=$this->add('Model_Item');
 		$t->addCondition('is_stationory',true);
-		$grid->setModel($t);
+		$grid->setModel($t,array('name','LastPurchasePrice','TotalInward','TotalIssued','instock'));
 
 	}
 }

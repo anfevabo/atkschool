@@ -61,7 +61,7 @@ class page_store_itemoutward extends Page {
 				}
 				$crud->form->getElement('item_id')->setAttr('class','hindi');
 				$item_field=$crud->form->getElement('item_id');
-				$crud->form->getElement('item_id')->model->addCondition('is_stationory',true);
+				$crud->form->getElement('item_id')->model->addCondition('category_id',1);
 				$rate_field= $crud->form->getElement('rate');//->destroy();
 				// $rate_field = $crud->form->addField('dropdown','rate');
 

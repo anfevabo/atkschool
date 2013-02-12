@@ -6,5 +6,10 @@ class page_correction3 extends Page{
 		$this->query("ALTER TABLE `staff_master` ADD `pan_no` INT NOT NULL ,
 		ADD `remarks` TEXT NOT NULL ");
 		$this->query("ALTER TABLE `item_master` ADD `is_stationory` TINYINT NOT NULL DEFAULT '0'");
-
+		$this->query("DELETE from item_inward  WHERE id=20");
+		$this->query("DELETE from item_inward  WHERE id=21");	
 	}
+	function query($q) {
+        $this->api->db->dsql()->expr($q)->execute();
+    }
+}

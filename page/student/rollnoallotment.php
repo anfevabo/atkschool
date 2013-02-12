@@ -17,6 +17,7 @@ class page_student_rollnoallotment extends Page{
 		$c=$this->add('Model_Students_Current');
 		$c->_dsql()->del('order')->order('roll_no','asc')->order('fname','asc');
 		$crud=$this->add('CRUD',array('allow_add'=>false,"allow_del"=>false,"allow_edit"=>false));
+		
 		if($this->recall('class',0)){
 			$c->addCondition('class_id',$this->recall('class'));
 		}else{
@@ -35,6 +36,7 @@ class page_student_rollnoallotment extends Page{
 			$grid->addFormatter('roll_no','grid/inline');
 			$grid->js('reloadme',$grid->js()->reload());
 			// $crud->grid->addPaginator();
+			// $grid->addQuicksearch('roll_no');
 			$class_field->js('change',$crud->grid->js()->reload(array('class'=>$class_field->js()->val())));
 
 		}
