@@ -7,7 +7,7 @@ class Model_Item_Category extends Model_Table{
 
 		$this->hasMany('Item','category_id');
 		$this->addField('name')->caption('Category')->mandatory("Please provide a name")->display('hindi');
-
+		
 		$this->addHook('beforeDelete',$this);
 	}
 

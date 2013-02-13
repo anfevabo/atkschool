@@ -6,7 +6,8 @@ class page_store_itemoutward extends Page {
 		$form=$this->add('Form');
 		$grid=$this->add('Grid');
 		$form->addField('line','store_no')->setNotNull();
-		$form->addField('dropdown','for_month')->setValueList(array("1"=>"jan",
+		$month_field=$form->addField('dropdown','for_month')->setValueList(array("-1"=>"----",
+																	"1"=>"jan",
 																	"2"=>"Feb",
 																	"3"=>"March",
 																	"4"=>"April",
@@ -19,6 +20,8 @@ class page_store_itemoutward extends Page {
 																	"11"=>"Nov",
 																	"12"=>"Dec"));
 		$form->addSubmit('Get Details');
+
+		$month_field->js('change',$grid->js()->reload());
 
 		$m=$this->add('Model_Hosteler');
 		$m->addCondition('session_id',$this->add('Model_Sessions_Current')->fieldQuery('id'));
@@ -42,21 +45,30 @@ class page_store_itemoutward extends Page {
 		// $this->add('Text')->set($_GET['student_id']);
 		// $this->add('Text')->set($this->api->recall('date'));
 		try{
+			// $t=$this->add('Model_Item');
+
 			$ism=$this->add('Model_Item_Issue');
 			$ism->addCondition('student_id',$_GET['student_id']);
 			$ism->addCondition('month',$this->api->recall('issue_month'));
+			// $t->addCondition('is_stationory',1);
 
 			// $ism->debug();
 			$crud=$this->add('CRUD');
-			$crud->setModel($ism,null,array('item','quantity','date','rate','amount'));
+			$crud->setModel($ism,null,array('item','quantity','date','rate','amount','is_stationory'));
 			if($crud->form){
-				$crud->form->getElement('date')->set(date('Y-'.$this->api->recall('issue_month').'-d')); //TODO year must be between session
+				// Generate last date of selected month as per selected session
+				$cur_sesssion=$this->add('Model_Sessions_Current')->tryLoadAny();
+				$month=$this->api->recall('issue_month');
+				$year = ($month > (int)date('m',strtotime($cur_sesssion['end_date'])))? date('Y',strtotime($cur_sesssion['start_date'])) : date('Y',strtotime($cur_sesssion['end_date']));
+				// echo $month . " :: " . (int)date('m',strtotime($cur_sesssion['end_date']));
+				$crud->form->getElement('date')->set(date("$year-$month-t")); //TODO year must be between session
 				if($crud->form->isSubmitted()){
 					if(strpos($crud->form->get('rate'),","))
 						$crud->form->displayError('Please enter only one rate','rate');
 				}
 				$crud->form->getElement('item_id')->setAttr('class','hindi');
 				$item_field=$crud->form->getElement('item_id');
+				$crud->form->getElement('item_id')->model->addCondition('category_id',1);
 				$rate_field= $crud->form->getElement('rate');//->destroy();
 				// $rate_field = $crud->form->addField('dropdown','rate');
 

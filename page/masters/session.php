@@ -19,7 +19,7 @@ class page_masters_session extends Page{
 			$crud->grid->js()->reload()->execute();
 		}
 
-		$crud->setModel('Session',array('name'),array('name','iscurrent'));
+		$crud->setModel('Session',array('name','start_date','end_date'),array('name','iscurrent','start_date','end_date'));
 		if($crud->grid){
 			$crud->grid->addColumn('Button','mark_current');
 		}

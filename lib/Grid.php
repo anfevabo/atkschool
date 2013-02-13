@@ -28,6 +28,7 @@ class Grid extends Grid_Advanced
     function format_diff($field)
     {
         $this->current_row[$field] = $this->current_row['capacity'] - $this->current_row['alloted'];
+        $this->totals[$field]= $this->totals[$field] + $this->current_row[$field];
     }
     function format_mul($field)
     {
@@ -53,7 +54,6 @@ class Grid extends Grid_Advanced
 
       $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
     }
-
 
     function format_picture($field){
       $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="30%" height="30%"/>';

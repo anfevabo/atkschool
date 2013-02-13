@@ -67,9 +67,12 @@ class page_student_marks extends Page{
 
 			}
 		}
+		// else{
+		// 	$sm->addCondition('class',-1);
+		// }
 
 
-		$grid->setModel($sm,array('roll_no','student','marks',));
+		$grid->setModel($sm,array('roll_no','class','student','marks',));
 		$grid->addFormatter('student','hindi');
 		$grid->addFormatter('marks','grid/inline');
 		if($form->isSubmitted()){

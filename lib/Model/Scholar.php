@@ -30,6 +30,7 @@ class Model_Scholar extends Model_Table {
                 // $this->hasMany('Students_Movement','scholar_id');
                 $this->hasMany('Disease','scholar_id');
                 $this->_dsql()->order('scholar_no','asc');
+                $this->_dsql()->del('order')->order('fname','asc');
 
                 $this->addExpression('name')->set('hname')->display('hindi');
                 $this->addExpression('Student_name')->set('fname');
@@ -47,10 +48,26 @@ class Model_Scholar extends Model_Table {
                 // $this->_dsql()->order('fname','asc');
 
                 $this->addHook('beforeDelete',$this);
+                $this->addHook('beforeSave',$this);
 
 
 	}
-
+        function beforeSave(){
+                $s=$this->add('Model_Scholar');
+                
+                if($this->loaded()){
+                        // editing
+                        $s->addCondition('id','<>',$this->id);
+                }else{
+                        // Adding
+                }
+                
+                $s->addCondition('scholar_no',$this['scholar_no']);
+                $s->tryLoadAny();
+                if($s->loaded()){
+                        throw $this->exception("This scholar no is Already Exist");
+                }
+        }
 
         function beforeDelete(){
                 

@@ -19,5 +19,9 @@ class Model_Hosteler extends Model_Student{
 		$this->addExpression('attendance_status')->set(function ($m,$q){
 			return $m->refSQL('Students_Movement')->fieldQuery('purpose')->limit(1)->order('date','desc')->where('purpose','in',array('inward','outward'));
 		})->display('attendance');
+
+		$this->addExpression('image_url')->set(function($m,$q){
+			return $m->refSQL('scholar_id')->fieldQuery('image_url');
+		})->display('picture');
 	}
 }

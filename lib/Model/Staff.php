@@ -13,12 +13,14 @@ class Model_Staff extends Model_table {
                 $this->addField('guardian_name')->caption('Eligiblity')->display('hindi');
                 $this->addField('dob')->type('date')->mandatory("Required Field")->caption('Date of Birth');
                 $this->addField('contact')->mandatory("Required Field");
+                $this->addField('pan_no')->mandatory("Required Field");
                 $this->add("filestore/Field_Image","image");//->type('image');//$this->add("filestore/Field_Image", "student_image"); 
                 $this->addField('address')->type('Text')->mandatory("Required Field")->caption('Address')->display('hindi');
                 $this->addField('sex')->display(array('form' => 'Radio'))->listData(array('Male','Female'))->defaultValue('M')->mandatory("Please select");
                 $this->addField('accno')->caption('Bank Account Number');
                 $this->addField('insurance_no')->caption('Insurance');
                 $this->addField('ofhostel')->type('boolean')->caption("Hostel");
+                $this->addField('remarks')->type('Text')->display('hindi');
 
                 $this->hasMany('Staff_Movement','staff_id');
 

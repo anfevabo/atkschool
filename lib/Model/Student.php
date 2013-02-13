@@ -40,6 +40,9 @@ class Model_Student extends Model_Table{
 
                 $this->dsql()->order('fname');
 
+              
+
 	}
+        
 
 }

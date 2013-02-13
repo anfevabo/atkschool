@@ -22,7 +22,7 @@ class page_hostel_hostelallotement extends Page{
 		$grid->addColumn('expander','deallot','De Allotement');
 		$grid->addClass('reloadable');
 		$grid->js('reloadme',$grid->js()->reload());
-		// $grid->addFormatter('class','hindi');
+		$grid->addFormatter('father_name','hindi');
 
 
 		$grid->addPaginator();

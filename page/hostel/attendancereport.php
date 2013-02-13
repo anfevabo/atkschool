@@ -18,15 +18,6 @@ class page_hostel_attendancereport extends Page{
 		// $status=$form->addField('dropdown','purpose')->setValueList(array('inward'=>'inward','outward'=>'outward'))->setEmptyText('---');
 		$form->addSubmit('Filter');
 		if($_GET['filter']){
-			$room_m=$this->add('Model_HostelRoom');
-			if($_GET['selected_hostel'])
-				$room_m->addCondition('hostel_id',$_GET['selected_hostel']);
-			// else
-			// 	if(!$_GET['filter']) $room_m->addCondition('hostel_id',-1);
-
-			$room_att->setModel($room_m);
-
-			$hostel_att->js('change',$form->js()->atk4_form('reloadField','room_no',array($this->api->url(),'selected_hostel'=>$hostel_att->js()->val())));
 			$grid=$this->add('Grid');
 
 			$where="";
@@ -101,8 +92,16 @@ class page_hostel_attendancereport extends Page{
 			// $grid->addFormatter('student_name','hindi');
 		}else{
 			$grid=$this->add('Grid');
-			$grid->setSource(array()
+			$grid->setSource(array());
 		}
+
+		$room_m=$this->add('Model_HostelRoom');
+		if($_GET['selected_hostel'])
+			$room_m->addCondition('hostel_id',$_GET['selected_hostel']);
+		$room_att->setModel($room_m);
+
+		$hostel_att->js('change',$form->js()->atk4_form('reloadField','room_no',array($this->api->url(),'selected_hostel'=>$hostel_att->js()->val())));
+
 		if($form->isSubmitted()){
 			// throw $this->exception($form->get('student'));
 			$grid->js()->reload(array(

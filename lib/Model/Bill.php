@@ -26,5 +26,13 @@ class Model_Bill extends Model_Table{
 		});
 
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->fieldQuery('id'));
+
+		$this->addHook('beforeDelete',$this);
+	}
+
+	function beforeDelete(){
+		if($this['no_of_items']>0){
+			throw $this->exception("Bill contains items and cannot be deleted, remove items first");
+		}
 	}
 }

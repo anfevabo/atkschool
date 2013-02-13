@@ -18,7 +18,7 @@ class page_school_scholars extends Page {
 
 
         $acl=$this->add('xavoc_acl/Acl');
-		$crud=$this->add('CRUD',array('allow_del'=>false));
+		$crud=$this->add('CRUD',array('allow_del'=>false,"allow_edit"=>false));
         $scm=$this->add('Model_Scholars_Current');
         $scm->_dsql()->del('order')->order('class_id','asc')->order('fname');
         if($_GET['filter']){
@@ -32,7 +32,9 @@ class page_school_scholars extends Page {
         if($crud->grid) $crud->grid->addColumn('sno','sno');
         
 		$crud->setModel($scm
-            ,null,array('fname','hname','scholar_no','class','image_url'));
+            ,array('admission_date','scholar_no','fname','hname','father_name','mother_name'
+                ,'guardian_name','dob','contact','student_image','p_address','sex','isActive',
+               'leaving_date','category','class_id','ishostler','isScholared','bpl' ),array('fname','hname','scholar_no','class','image_url'));
 
 
         if($form->isSubmitted()){
@@ -52,9 +54,9 @@ class page_school_scholars extends Page {
 		}
 		if($crud->form){
             // make form flow in 2 columns
-            if($crud->form->model->loaded()){
-                // $crud->form->getElement('class_id')->disable(true)->setFieldHint('You cannot edit class from here now');
-            }
+            // if($crud->form->model->loaded()){
+            //     // $crud->form->getElement('class_id')->disable(true)->setFieldHint('You cannot edit class from here now');
+            // }
             $crud->form->setFormClass('stacked atk-row');
             $o=$crud->form->add('Order')
                 ->move($crud->form->addSeparator('noborder span6'),'first')

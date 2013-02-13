@@ -30,6 +30,7 @@ class page_student_classassign extends Page{
 			$crud->grid->addFormatter('class','hindi');
 
 			$crud->grid->addPaginator(10);
+			
 		}
 		if($crud->form){
 			$crud->form->getElement('scholar_id')->setAttr('class','hindi');

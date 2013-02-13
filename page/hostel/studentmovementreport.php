@@ -40,9 +40,10 @@ class page_hostel_studentmovementreport extends Page {
 			if($_GET['to_date']) $m->addCondition('date','<=', $_GET['to_date']);
 			if($_GET['student']) $m->addCondition('student_id',$_GET['student']);
 			if($_GET['status']) $m->addCondition('purpose',$_GET['status']);
-		}else{
-			$m->addCondition('class_id',-1);
 		}
+		// else{
+		// 	$m->addCondition('class_id',-1);
+		// }
 
 		$m->addExpression('guardian_image')->set(function($m,$q){
 			return $m->refSQL('gaurdian_id')->fieldQuery('image_url');
@@ -56,7 +57,7 @@ class page_hostel_studentmovementreport extends Page {
 			$crud->grid->setFormatter('gaurdian','hindi');
 			$crud->grid->setFormatter('class','hindi');
 			$crud->grid->setFormatter('guardian_image','picture');
-			$crud->grid->addPaginator();
+			$crud->grid->addPaginator(15);
 		}
 		if($crud->form){
 			// $crud->form->getElement('student_id')->destroy();
