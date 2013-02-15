@@ -45,9 +45,11 @@ class page_student_marks extends Page{
 		$grid=$this->add('Grid');
 		
 		$sm=$this->add('Model_Students_Marks');
+		// $sm->table_alias='sm1';
 		$smj=$sm->leftJoin('student.id','student_id',null,'sm2');
 		$smj->addField('class_id');
 		$smj->addField('roll_no');
+		// $sm->debug();
 
 		if($_GET['filter']){
 			if($_GET['class']) $sm->addCondition('class_id',$_GET['class']);
@@ -72,7 +74,7 @@ class page_student_marks extends Page{
 		// }
 
 
-		$grid->setModel($sm,array('roll_no','class','student','marks',));
+		$grid->setModel($sm,array('roll_no','class','student','marks'));
 		$grid->addFormatter('student','hindi');
 		$grid->addFormatter('marks','grid/inline');
 		if($form->isSubmitted()){
