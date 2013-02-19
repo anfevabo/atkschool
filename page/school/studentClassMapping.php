@@ -20,8 +20,8 @@ class page_school_studentClassMapping extends Page {
 	
 		$grid = $v->add('Grid');
 		$scm=$class->ref('Students_Current');
-		$scm->_dsql()->del('order')->order('name','asc');
-		$grid->setModel($scm,array('name','father_name','section','roll_number','ishostler','isScholared','bpl'));
+		$scm->_dsql()->del('order')->order('fname','asc');
+		$grid->setModel($scm,array('fname','name','father_name','section','roll_number','ishostler','isScholared','bpl'));
 		$grid->addColumn('Confirm','Remove');
 		$grid->addFormatter('father_name','hindi');
 		if($_GET['Remove']){

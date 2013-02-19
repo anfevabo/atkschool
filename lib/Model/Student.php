@@ -23,6 +23,7 @@ class Model_Student extends Model_Table{
                 $this->hasMany('Students_Disease','student_id');
                 $this->hasMany('Students_Movement','student_id');
                 $this->hasMany('Students_Attendance','student_id');
+                $this->hasMany('Students_Marks','student_id');
                 $this->hasMany('Fees_Applicable','student_id');
 
                 $this->addExpression('name')->set(function ($m,$q){
@@ -38,7 +39,7 @@ class Model_Student extends Model_Table{
                         return $m->refSQL('scholar_id')->fieldQuery('father_name');
                 });
 
-                $this->dsql()->order('fname');
+                $this->dsql()->order('fname','asc');
 
               
 
