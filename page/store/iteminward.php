@@ -39,6 +39,7 @@ class page_store_iteminward extends Page {
 
 		if($crud->grid){
 			$crud->grid->setFormatter('item','hindi');
+			$crud->grid->addColumn('sno','Sno');
 		}
 
 		if($crud->form){

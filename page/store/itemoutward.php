@@ -54,7 +54,10 @@ class page_store_itemoutward extends Page {
 
 			// $ism->debug();
 			$crud=$this->add('CRUD');
-			$crud->setModel($ism,null,array('item','quantity','date','rate','amount','is_stationory'));
+			if($crud->grid){
+				$crud->grid->addColumn('sno','Sno');	
+			}
+			$crud->setModel($ism,null,array('sno','item','quantity','date','rate','amount','is_stationory'));
 			if($crud->form){
 				// Generate last date of selected month as per selected session
 				$cur_sesssion=$this->add('Model_Sessions_Current')->tryLoadAny();
@@ -88,6 +91,9 @@ class page_store_itemoutward extends Page {
 			}
 			if($crud->grid){
 				$crud->grid->setFormatter('item','hindi');
+				$crud->grid->setFormatter('amount','number');
+				$crud->grid->addTotals(array('amount'));
+				
 			}
 		}catch(Exception $e){
 			$this->js()->univ()->errorMessage($e->getMessage())->execute();

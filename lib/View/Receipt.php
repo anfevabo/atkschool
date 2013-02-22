@@ -29,14 +29,15 @@ class View_Receipt extends View {
 		$this->template->trySet('receipt',$receipt_no);
 
 		$this->grid=$this->add('Grid');
+		// $this->grid->addColumn('month','month');
 
 		// $ism->debug();
-		$this->grid->setModel($ism,array('item','total_qty','rate','total_amount'));
+		$this->grid->setModel($ism,array('item','total_qty','month','rate','total_amount'));
 		$this->grid->addFormatter('item','hindi');
 		$this->grid->setFormatter('total_amount','money');
 		$this->grid->setFormatter('total_qty','number');
 
-		$this->grid->addTotals(array('total_qty', 'total_amount'));
+		$this->grid->addTotals(array('total_amount'));
 
 		$this->api->welcome->destroy();
 
