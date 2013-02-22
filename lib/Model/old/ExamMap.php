@@ -21,4 +21,3 @@ class Model_ExamMap extends Model_Table
     	}
     	$this->ref('ExamSubMap')->dsql()->insertAll($res);
     }
-}

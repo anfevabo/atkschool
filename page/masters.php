@@ -18,5 +18,8 @@ class page_masters extends Page{
 		$tab->addTabURL('masters_fee','Fees');
 		$tab->addTabURL('masters_disease','Disease');
 		$tab->addTabURL('masters_scholars','Scholars');
+		$tab->addTabURL('masters_division','Division');
+		$tab->addTabURL('masters_grade','Grade');
+		$tab->addTabURL('masters_marksheetdesigner','Marksheet Designer');
 	}
 }

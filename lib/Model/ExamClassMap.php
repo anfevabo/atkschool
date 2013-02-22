@@ -4,6 +4,9 @@ class Model_ExamClassMap extends Model_ExamClassMapAll {
 	function init(){
 		parent::init();
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+		$this->hasMany("ExamClassMap","exammap_id");
+
+		
 		$this->addHook('beforeDelete',$this);
 	}
 
