@@ -59,7 +59,8 @@ class page_store_reports extends Page{
                     
         $store_no=$form->addField('line','store_no')->setNotNull();
         $month=$form->addField('dropdown','month');//->setEmptyText('p;u d{kk');
-        $month->setValueList(array(1=>"Jan",
+        $month->setValueList(array(0=>"----",
+                                    1=>"Jan",
                                    2=>"Feb",
             3=>"March",
             4=>"April",

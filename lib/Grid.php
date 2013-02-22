@@ -63,4 +63,8 @@ class Grid extends Grid_Advanced
       $this->current_row[$field] = $this->mysno + $_GET[$this->name.'_paginator_skip'];
       $this->mysno++;
     }
+    function format_month($field){
+      $month=array("","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+      $this->current_row[$field] = $month[$this->current_row[$field]];
+    }
 }
