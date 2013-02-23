@@ -46,7 +46,7 @@ class page_student_marksheet extends Page{
 					array[EXAM][SUBJECT][GRAND_TOTAL] += Marks_Obtained
 		*/
 					
-		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array());
+		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array(),'totals'=>array(),'grand_total'=>array());
 
 		foreach($block=$mark_sheet->ref('MainBlock') as $block_junk){
 			foreach ($exam=$block->ref('MainBlockExam') as $exam_junk) {
@@ -67,7 +67,11 @@ class page_student_marksheet extends Page{
 					$marks->addCondition('student_id',$_GET['student']);
 					$marks->addCondition('examsub_map_id',$exam_subjects->id);
 					$marks->tryLoadAny();
-					$marks_array[$block['name']]["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"]["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] = $marks['marks'];
+					$marks_array[$block['name']]["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"]["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] = ($marks['marks'] == "" ? "-": $marks['marks']);
+					if($block['is_total_required']){
+						$marks_array['totals'][$block['name']]["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] += $makrs['marks'];
+					}
+					$marks_array['grand_total']["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] += $marks['marks'];
 				}
 			}
 			if($block['is_total_required']){
