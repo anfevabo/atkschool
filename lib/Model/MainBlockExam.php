@@ -4,7 +4,6 @@ class Model_MainBlockExam extends Model_Table{
 
 	function init(){
 		parent::init();
-
 		$this->hasOne("MainBlock","main_block_id")->caption("Block Name");
 		$this->hasOne("ExamClassMap","exammap_id")->caption("Exam");
 	}
