@@ -8,6 +8,10 @@ class Model_ExamClassMapAll extends Model_Table {
 		$this->hasOne('Class','class_id');
 		$this->hasOne('Session','session_id');
 
+		$this->addExpression('name')->set(function($m,$q){
+			return $m->refSQL('exam_id')->fieldQuery('name');
+		})->display('hindi');
+
 		$this->hasMany('ExamClassSubjectMap','exammap_id');
 
 	}

@@ -16,7 +16,7 @@ class page_hostel_studentmovement extends Page{
 		if($_GET['class_id']){
 			$s->addCondition('class_id',$_GET['class_id']);
 			$s->_dsql()->del('order')->order('fname','asc');
-		}
+		}	
 
 		$s->_dsql()->order('fname','asc');
 		$class_field->setModel($c);
