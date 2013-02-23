@@ -10,7 +10,7 @@ class Model_ExamClassMapAll extends Model_Table {
 
 		$this->addExpression('name')->set(function($m,$q){
 			return $m->refSQL('exam_id')->fieldQuery('name');
-		})->display('class','hindi');
+		})->display('hindi');
 
 		$this->hasMany('ExamClassSubjectMap','exammap_id');
 
