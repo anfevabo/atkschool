@@ -16,7 +16,7 @@ class Model_Class extends Model_Table{
         $this->hasMany('FeeClassMap','class_id');
         $this->hasMany('Students_Attendance','class_id');
         $this->hasMany('FeeClassMapping','class_id');
-		$this->hasMany('MarksheetDesigner','class_id');
+		$this->hasMany('MS_Designer','class_id');
         $this->addExpression('name')->set('(concat(name," - ",section))')->display('hindi');
         $this->addExpression('no_of_students')->set(function($m,$q){
             return $m->refSQL('Students_Current')->count();

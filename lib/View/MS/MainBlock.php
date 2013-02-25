@@ -24,11 +24,13 @@ class View_MS_MainBlock extends View {
 					array[EXAM][SUBJECT][GRAND_TOTAL] += Marks_Obtained
 		*/
 					
-		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array());
+		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array(),'blocks_total_fields'=>array());
 		$exam_wise_sum=array();
+		$Max_Marks=array();
 
 		foreach($block=$mark_sheet->ref('MainBlock') as $block_junk){
 			$block_sum=0;
+			$block_max_sum=0;
 			foreach ($exam=$block->ref('MainBlockExam') as $exam_junk) {
 				// Collecting all exam names here
 				if(! in_array("<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>",$marks_array['exams'])){
@@ -55,9 +57,15 @@ class View_MS_MainBlock extends View {
 					$exam_wise_sum["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"] += $marks['marks'];
 					$marks_array[$block['name']][$block['total_title']]["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] += $marks['marks'];
 				}
+
+				$Max_Marks[$block['name']]["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"] = $exam['max_marks'];
+				$block_max_sum += $exam['max_marks'];
 			}
+
 			if($block['is_total_required']){
 				$marks_array['exams'][]=$block['total_title']; //Block Total Field Title;
+				$marks_array['blocks_total_fields'][] = $block['total_title'];
+				$Max_Marks[$block['name']][$block['total_title']] = $block_max_sum;
 			}
 
 			$marks_array['blocks'][] = $block['name'];
@@ -94,6 +102,18 @@ class View_MS_MainBlock extends View {
 		}
 		$table .= "</tr>";
 
+		// Max Marks row
+
+		$table .= "<tr>";
+		$table .= "<td>Purnank</td>";
+		foreach($Max_Marks as $block){
+			foreach ($block as $mm) {
+				$table .= "<td>". $mm ."</td>";
+			}
+		}	
+
+		$table .= "</tr>";
+
 		foreach($marks_array['subjects'] as $sub){
 			$table .= "<tr>";
 			$table .= "<td>". $sub ."</td>";
@@ -118,12 +138,8 @@ class View_MS_MainBlock extends View {
 			$table.= "<td>".$exam_wise_sum[$exam] ."</td>";
 		}
 		$table .= "</tr>";
-
-
 		$table .= "</table>"; 
-
 		$this->add('Text')->setHtml($table);
-
 	
 	}
 }
