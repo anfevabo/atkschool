@@ -1,7 +1,7 @@
 <?php
 class page_student_marks extends Page{
-	function init(){
-		parent::init();
+	function page_index(){
+		// parent::init();
 
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$class_field=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
@@ -42,8 +42,18 @@ class page_student_marks extends Page{
 		
 		$form->addSubmit('GetList');
 
+		// removed from here
+		if($form->isSubmitted()){
+			$form->js()->univ()->newWindow($this->api->url("./marksinput",array('class'=>$form->get('class'),'subject'=>$form->get('subject'))),null,'height=689,width=1246,scrollbar=1')->execute();
+		}
+	}
+
+	function page_marksinput(){
+
+		$this->api->stickyGET('class');
+		$this->api->stickyGET('subject');
+
 		$grid=$this->add('Grid');
-		
 		$sm=$this->add('Model_Students_Marks');
 		// $sm->table_alias='sm1';
 		$smj=$sm->leftJoin('student.id','student_id',null,'sm2');
@@ -51,23 +61,21 @@ class page_student_marks extends Page{
 		$smj->addField('roll_no');
 		// $sm->debug();
 
-		if($_GET['filter']){
-			if($_GET['class']) $sm->addCondition('class_id',$_GET['class']);
-			if($_GET['subject']) $sm->addCondition('examsub_map_id',$_GET['subject']);
-			
-			if($sm->count()->getOne() == 0) {
-				$sm_new=$this->add('Model_Students_Marks');
-				$cm=$this->add('Model_Class');
-				$cm->load($_GET['class']);
-				$s=$cm->ref('Students_Current');
-				foreach ($s as $junk) {
-					// $sm_new->unload();
-					$sm_new['student_id']=$s->id;
-					$sm_new['examsub_map_id']=$_GET['subject'];
-					$sm_new->saveAndUnload();
-				}
-
+		if($_GET['class']) $sm->addCondition('class_id',$_GET['class']);
+		if($_GET['subject']) $sm->addCondition('examsub_map_id',$_GET['subject']);
+		
+		if($sm->count()->getOne() == 0) {
+			$sm_new=$this->add('Model_Students_Marks');
+			$cm=$this->add('Model_Class');
+			$cm->load($_GET['class']);
+			$s=$cm->ref('Students_Current');
+			foreach ($s as $junk) {
+				// $sm_new->unload();
+				$sm_new['student_id']=$s->id;
+				$sm_new['examsub_map_id']=$_GET['subject'];
+				$sm_new->saveAndUnload();
 			}
+
 		}
 		// else{
 		// 	$sm->addCondition('class',-1);
@@ -77,12 +85,5 @@ class page_student_marks extends Page{
 		$grid->setModel($sm,array('roll_no','class','student','marks'));
 		$grid->addFormatter('student','hindi');
 		$grid->addFormatter('marks','grid/inline');
-		if($form->isSubmitted()){
-			$grid->js()->reload(array("class"=>$form->get('class'),
-										"subject"=>$form->get('subject'),
-										"filter"=>1))->execute();
-		}
-
-
 	}
 }

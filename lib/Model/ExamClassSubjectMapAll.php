@@ -7,8 +7,10 @@ class Model_ExamClassSubjectMapAll extends Model_Table {
 		$this->hasOne('Subject','subject_id');
 		$this->hasOne('Session','session_id');
 
-		$this->addField('min_marks');
-		$this->addField('max_marks');
+		$this->addField('min_marks')->display(array('grid'=>'grid/inline'));
+		$this->addField('max_marks')->display(array('grid'=>'grid/inline'));
+		$this->addField('in_block')->caption('Marksheet Block')->display(array('grid'=>'grid/inline'));
+		$this->addField('in_ms_row')->caption('Marksheet Row')->display(array('grid'=>'grid/inline'));
 
 		$this->hasMany('Marks','examsub_map_id');
 

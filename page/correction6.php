@@ -27,7 +27,11 @@ class page_correction5 extends Page{
 						PRIMARY KEY ( `id` )
 					) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 					");
-		
+
+		$this->query("ALTER TABLE `examsub_map` ADD `in_block` SMALLINT NOT NULL DEFAULT '1'");		
+		$this->query("ALTER TABLE `main_block` ADD `total_title` VARCHAR( 100 ) NOT NULL DEFAULT 'Total'");		
+		$this->query("ALTER TABLE `examsub_map` ADD `in_ms_row` SMALLINT NOT NULL DEFAULT '1'");
+		// KHUSHBU :: master exam => associate subject =>markassign =>assign marksheet block (Give good names of buttons and add Marksheet row with block)
 		// spaces in student_marks and fee applicable date field
 		// fee_applicable and deposit due=aamount where due is null
 	}

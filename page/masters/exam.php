@@ -116,6 +116,7 @@ class page_masters_exam extends Page {
 			
 			// $p->grid->addFormatter('class','hindi');
 			$p->grid->addColumn('expander','edit','Set Min & Max Marks');
+			$p->grid->addColumn('expander','marksheetBlock','Assign Marksheet Block');
 			$p->grid->addFormatter('subject','hindi');
 		}
 
@@ -134,7 +135,20 @@ class page_masters_exam extends Page {
 				$form->update();
 				$form->js(null,$form->js()->_selector('.ExamClassSubjectMap')->trigger('reload_me'))->univ()->closeExpander()->execute();
 			}
+		}
 
-		
-	}
+		function page_associated_subjects_marksassign_marksheetBlock(){
+			$this->api->stickyGET('examsub_map_id');
+			$esm=$this->add('Model_ExamClassSubjectMap');
+			$esm->load($_GET['examsub_map_id']);
+			$form=$this->add('Form');
+			$form->setModel($esm,array('in_block'));
+			$form->addSubmit('Save');
+
+			if($form->isSubmitted()){
+				$form->update();
+				$form->js(null,$form->js()->_selector('.ExamClassSubjectMap')->trigger('reload_me'))->univ()->closeExpander()->execute();
+			}
+		}
+
 }
