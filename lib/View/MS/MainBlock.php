@@ -3,13 +3,16 @@
 class View_MS_MainBlock extends View {
 	var $class;
 	var $student;
-	var $in_block;
+	var $section;
+
 
 	function init(){
 		parent::init();
 
 		$class = $this->add('Model_Class')->load($this->class);
-		$mark_sheet = $class->ref('MarksheetDesigner')->tryLoadAny();
+		$mark_sheet = $class->ref('MS_Designer')->tryLoadAny();
+
+		$section=$mark_sheet->ref('MS_Sections')->addCondition('id',$this->section)->tryLoadAny();
 
 		/*
 			MAIN BLOCK DESIGNING
@@ -28,10 +31,10 @@ class View_MS_MainBlock extends View {
 		$exam_wise_sum=array();
 		$Max_Marks=array();
 
-		foreach($block=$mark_sheet->ref('MainBlock') as $block_junk){
+		foreach($block=$section->ref('MS_SectionBlocks') as $block_junk){
 			$block_sum=0;
 			$block_max_sum=0;
-			foreach ($exam=$block->ref('MainBlockExam') as $exam_junk) {
+			foreach ($exam=$block->ref('MS_BlockExams') as $exam_junk) {
 				// Collecting all exam names here
 				if(! in_array("<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>",$marks_array['exams'])){
 						$marks_array['exams'][] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
@@ -39,8 +42,9 @@ class View_MS_MainBlock extends View {
 
 				$exam_subjects=$this->add('Model_ExamClassSubjectMap');
 				$exam_subjects->addCondition('exammap_id',$exam['exammap_id']);
-				$exam_subjects->addCondition('in_block',$this->in_block);
+				$exam_subjects->addCondition('marksheet_section_id',$this->section);
 				$exam_subjects->_dsql()->order('in_ms_row');
+				// $exam_subjects->debug();
 
 				foreach($exam_subjects as $exam_subject_junk){
 					// Collecting all Subjects name in array
@@ -88,8 +92,8 @@ class View_MS_MainBlock extends View {
 
 		$table .= "<tr>";
 		$table .="<td rowspan=2>Vishay</td>";
-		foreach($block=$mark_sheet->ref('MainBlock') as $block_junk){
-			$colspan= $block->ref('MainBlockExam')->count()->getOne();
+		foreach($block=$section->ref('MS_SectionBlocks') as $block_junk){
+			$colspan= $block->ref('MS_BlockExams')->count()->getOne();
 			if($block['is_total_required']) $colspan++;
 			$table .= "<td colspan='$colspan'>". $block['name'] ."</td>";
 		}

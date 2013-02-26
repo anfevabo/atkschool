@@ -29,6 +29,7 @@ class page_correction5 extends Page{
 					");
 
 		$this->query("ALTER TABLE `main_block` ADD `total_title` VARCHAR( 100 ) NOT NULL DEFAULT 'Total'");		
+		$this->query("ALTER TABLE `examsub_map` ADD `marksheet_section_id` INT NOT NULL ");
 		$this->query("ALTER TABLE `examsub_map` ADD `in_ms_row` SMALLINT NOT NULL DEFAULT '1'");
 		$this->query("ALTER TABLE `main_block_exam` ADD `max_marks` INT NOT NULL DEFAULT '0'");
 		// KHUSHBU :: master exam => associate subject =>markassign =>assign marksheet block (Give good names of buttons and add Marksheet row with block)
