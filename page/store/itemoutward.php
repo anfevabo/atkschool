@@ -64,7 +64,7 @@ class page_store_itemoutward extends Page {
 				$month=$this->api->recall('issue_month');
 				$year = ($month > (int)date('m',strtotime($cur_sesssion['end_date'])))? date('Y',strtotime($cur_sesssion['start_date'])) : date('Y',strtotime($cur_sesssion['end_date']));
 				// echo $month . " :: " . (int)date('m',strtotime($cur_sesssion['end_date']));
-				$crud->form->getElement('date')->set(date("$year-$month-t")); //TODO year must be between session
+				$crud->form->getElement('date')->set(date("$year-$month-28	")); //TODO year must be between session
 				if($crud->form->isSubmitted()){
 					if(strpos($crud->form->get('rate'),","))
 						$crud->form->displayError('Please enter only one rate','rate');

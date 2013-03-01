@@ -118,6 +118,32 @@ class page_student_fee extends Page{
 
 
 	function page_deposit_new_detailed(){
-		$this->add('Text')->set($_GET['var1']. "sdfs");
+		$this->api->stickyGET('student_id');
+
+		$form=$this->add('Form');
+
+		$feehead_field=$form->addField('dropdown','fees_head')->setEmptyText('-----');
+
+		$fees_field=$form->addField('dropdown','fees')->setEmptyText('-----');
+
+		$form->addField('line','receipt_number');
+		// $form->addField('text','remarks');
+		$form->addField('DatePicker','submitted_on')->set(date('Y-m-d'));
+		$form->addSubmit('Receive');
+
+
+
+		$feehead=$this->add('Model_FeesHead');
+		$fee=$this->add('Model_Fee');
+
+		if($_GET['feehead_id']){
+			$fee->addCondition('feehead_id',$_GET['feehead_id']);
+		}
+
+		$feehead_field->setModel($feehead);
+		$fees_field->setModel($fee);
+
+
+		$feehead_field->js('change',$form->js()->atk4_form('reloadField','fees',array($this->api->url(),'feehead_id'=>$feehead_field->js()->val())));	
 	}
 }
