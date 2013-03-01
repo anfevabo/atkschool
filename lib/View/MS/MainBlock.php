@@ -1,10 +1,12 @@
 <?php
 
 class View_MS_MainBlock extends View {
+	
 	var $class;
 	var $student;
 	var $section;
 
+	var $save_results=false;
 
 	function init(){
 		parent::init();
@@ -30,6 +32,9 @@ class View_MS_MainBlock extends View {
 		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array(),'blocks_total_fields'=>array());
 		$exam_wise_sum=array();
 		$Max_Marks=array();
+		$distinctions_subjects=array();
+		$grand_total=array();
+		$grand_max_marks=0;
 
 		foreach($block=$section->ref('MS_SectionBlocks') as $block_junk){
 			$block_sum=0;
@@ -58,11 +63,13 @@ class View_MS_MainBlock extends View {
 					$marks->tryLoadAny();
 					$marks_array[$block['name']]["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"]["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] = $marks['marks'];
 					$block_sum += $marks['marks'];
+					$grand_total["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] += $marks['marks'];
 					$exam_wise_sum["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"] += $marks['marks'];
 					$marks_array[$block['name']][$block['total_title']]["<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>"] += $marks['marks'];
 				}
 
 				$Max_Marks[$block['name']]["<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>"] = $exam['max_marks'];
+				$grand_max_marks += $exam['max_marks'];
 				$block_max_sum += $exam['max_marks'];
 			}
 
@@ -74,9 +81,23 @@ class View_MS_MainBlock extends View {
 
 			$marks_array['blocks'][] = $block['name'];
 		}
+
+		if($section['has_grand_total']){
+			$marks_array['exams'][]="Grand Total"; //Block Total Field Title;
+			// $marks_array['blocks_total_fields'][] = $block['total_title'];
+			$Max_Marks[$section['name']]["Grand Total"] = $grand_max_marks;
+		}
 		
+		if($this->save_results){
+			$total_obtained=0;
+			foreach($exam_wise_sum as $ews){
+				$total_obtained += $ews;
+			}
+			$this->api->memorize('percentage',$total_obtained / $grand_max_marks * 100.00 );
+		}
+
 		// echo "<pre>";
-		// print_r($marks_array);
+		// print_r($exam_wise_sum);
 		// echo "</pre>";
 
 		$table="
@@ -132,6 +153,12 @@ class View_MS_MainBlock extends View {
 					}
 				}
 			}
+
+			// Grand Total TD at last
+			if($section['has_grand_total']){
+				$table .= "<td>".$grand_total[$sub]."</td>";
+			}
+
 			$table .= "</tr>";
 		}
 

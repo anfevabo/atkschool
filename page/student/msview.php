@@ -7,12 +7,17 @@ class page_student_msview extends Page {
 
 		$topStudentView=$this->add('View_MS_StudentDetails',null,'student_panel');
 		$topStudentView->setModel($this->add('Model_Student')->load($_GET['student']));
+		$first=true;
 
 		foreach($marksheet=$c->ref('MS_Designer') as $marksheet_junk){
 			foreach($section = $marksheet->ref('MS_Sections') as $section_junk){
-				$v=$this->add('View_MS_MainBlock',array('class'=>$_GET['class'],'student'=>$_GET['student'],'section'=>$section->id));
+				$v=$this->add('View_MS_MainBlock',array('class'=>$_GET['class'],'student'=>$_GET['student'],'section'=>$section->id,'save_results'=>$first));
+				$first=false;
 			}
 		}
+		$result=array('percentage'=>$this->api->recall('percentage'));
+		$this->add('View_MS_Result',array('result'=>$result),'right_panel');
+
 	}
 
 	function defaultTemplate(){
