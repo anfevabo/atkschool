@@ -29,6 +29,21 @@ class View_MS_MainBlock extends View {
 					array[EXAM][SUBJECT][GRAND_TOTAL] += Marks_Obtained
 		*/
 					
+		$block_exam_subject_marks=array();
+		$block_exam_sum=array();
+		$block_subject_sum=array();
+		$subject_sum=array();
+		$block_exam_subject_max_marks=array();
+
+		$grand_total_subject_marks=array();
+		$grand_total_subject_max_marks=array();
+
+		$subjects=array();
+		$exams=array();
+		$blocks=array();
+		$blocks_total_fields=array();
+
+
 		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array(),'blocks_total_fields'=>array());
 		$exam_wise_sum=array();
 		$Max_Marks=array();
@@ -43,6 +58,7 @@ class View_MS_MainBlock extends View {
 				// Collecting all exam names here
 				if(! in_array("<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>",$marks_array['exams'])){
 						$marks_array['exams'][] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
+						$exams[] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
 				}
 
 				$exam_subjects=$this->add('Model_ExamClassSubjectMap');
