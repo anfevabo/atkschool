@@ -16,7 +16,7 @@ class View_Receipt extends View {
 		$ism->addCondition('date_month',$_GET['month']);
 		$ism->addExpression('total_qty')->set('sum(quantity)');
 		$ism->addExpression('total_amount')->set('sum(quantity * rate)');
-		$ism->_dsql()->group('item_id')->group('rate');
+		$ism->_dsql()->group('item_id')->group('rate')->group('date_month');
 
 		$ism_2=clone $ism;
 		$receipt_no=$ism_2->_dsql()->limit(1)->del('field')->field('receipt_no')->getRow();

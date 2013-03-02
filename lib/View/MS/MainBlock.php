@@ -44,6 +44,40 @@ class View_MS_MainBlock extends View {
 		$blocks_total_fields=array();
 
 
+		foreach($block=$section->ref('MS_SectionBlocks') as $block_junk){
+			$block_name=$block['name'];
+			foreach ($exam=$block->ref('MS_BlockExams') as $exam_junk) {
+				$exam_name="<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
+				if(! in_array($exam_name,$exams)){
+						$exams[] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
+				}
+				$exam_subjects=$this->add('Model_ExamClassSubjectMap');
+				$exam_subjects->addCondition('exammap_id',$exam['exammap_id']);
+				$exam_subjects->addCondition('marksheet_section_id',$this->section);
+				$exam_subjects->_dsql()->order('in_ms_row');
+				foreach($exam_subjects as $exam_subject_junk){
+					$subject_name = "<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>";
+					if(! in_array($subject_name,$subjects)){
+						$marks_array['subjects'][] = "<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>";
+					}
+					$marks=$this->add('Model_Students_Marks');
+					$marks->addCondition('student_id',$this->student);
+					$marks->addCondition('examsub_map_id',$exam_subjects->id);
+					$marks->tryLoadAny();
+
+					$block_exam_subject_marks[$block_name][$exam_name][$subject_name]=$marks['marks'];
+					$block_exam_sum[$block_name][$exam_name] +=$marks['marks'];
+					$block_subject_sum[$block_name][$subject_name] +=$marks['marks'];
+					$subject_sum[$subject_name]+=$marks['marks'];
+					$block_exam_subject_max_marks[$block_name][$exam_name][$subject_name] = $marks['max_marks'];
+					$grand_total_subject_marks[$subject_name] +=$marks['marks'];
+					$grand_total_subject_max_marks[$subject_name] +=$marks['marks'];
+				}
+			}
+			$blocks_total_fields[]=$block['total_title'];
+		}
+
+
 		$marks_array=array('subjects'=>array(),'exams'=>array(),'blocks'=>array(),'blocks_total_fields'=>array());
 		$exam_wise_sum=array();
 		$Max_Marks=array();
@@ -56,7 +90,8 @@ class View_MS_MainBlock extends View {
 			$block_max_sum=0;
 			foreach ($exam=$block->ref('MS_BlockExams') as $exam_junk) {
 				// Collecting all exam names here
-				if(! in_array("<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>",$marks_array['exams'])){
+				
+				if(! in_array($exam_name,$marks_array['exams'])){
 						$marks_array['exams'][] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
 						$exams[] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
 				}
