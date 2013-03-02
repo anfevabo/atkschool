@@ -11,6 +11,10 @@ class Model_Students_Marks extends Model_Table{
 		// $this->addExpression("roll_no")->set(function($m,$q){
 		// 	return $m->refSQL('student_id')->fieldQuery('roll_no');
 		// });
+		$this->addExpression('max_marks')->set(function($m,$q){
+			return $m->refSQL('examsub_map_id')->fieldQuery('max_marks');
+		});
+
 
 		$this->addHook('beforeSave',$this);
 	}
