@@ -21,21 +21,23 @@
 	</head>
 	<body>
 		<div id="atk-layout" class="atk-wrapper">
-			<div id="header">
-				<?logo?><div id="atk-logo" class="ui-widget-header float-left" style="width:120px; height:120px"><a 
-                                    href="<?page?>index<?/?>"><img src="<?template?>images/logo.png<?/?>" /></a></div><?/logo?>
-                                    <?welcome?>Welcome<?/welcome?>
-				<div id="header-right">
-					<?Menu?>
-                            <div class="atk-menu atk-menu-horizontal ui-widget">
-                                <ul>
-								    <li class="ui-state-default"><a href="javascript:void(0)">Menu is not defined</a></li>
-                                </ul>
-							</div>
-					<?/?>
-                                    <div id="atk-version"><?date?>Please Login<?/date?></div>
+			<?header?>
+				<div id="header">
+					<?logo?><div id="atk-logo" class="ui-widget-header float-left" style="width:120px; height:120px"><a 
+	                                    href="<?page?>index<?/?>"><img src="<?template?>images/logo.png<?/?>" /></a></div><?/logo?>
+	                                    <?welcome?>Welcome<?/welcome?>
+					<div id="header-right">
+						<?Menu?>
+	                            <div class="atk-menu atk-menu-horizontal ui-widget">
+	                                <ul>
+									    <li class="ui-state-default"><a href="javascript:void(0)">Menu is not defined</a></li>
+	                                </ul>
+								</div>
+						<?/?>
+	                                    <div id="atk-version"><?date?>Please Login<?/date?></div>
+					</div>
 				</div>
-			</div>
+			<?/header?>
 			<?$Content?>
 			<div id="atk-footer-guard"></div>
 		</div>

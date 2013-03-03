@@ -1,17 +1,23 @@
 <div id="<?$_name?>" style="padding:5px">
 	<table width="100%" style="border:1px solid black">
-		<tr style>
+		<tr>
 			<td>Parinaam</td><td><?final_result?>Result Not Declared<?/final_result?></td>
 		</tr>
 		<tr>
 			<td>Percentage</td><td><?percentage?>Result Not Declared<?/percentage?> %</td>
 		</tr>
+		<tr>
+			<td>Division</td><td><?division?>-<?/division?></td>
+		</tr>
+		<tr>
+			<td>Rank In Class</td><td><?rank_in_class?>-<?/rank_in_class?></td>
+		</tr>
 	</table>
 
 	<h3>Kripank</h3>
 	<table width="100%" style="border:1px solid black">
-		<tr style>
-			<td>Parinaam</td><td><?final_result?>Result Not Declared<?/final_result?></td>
+		<tr>
+			<td>Subject</td><td>Number</td>
 		</tr>
 		<tr>
 			<td>Percentage</td><td><?percentage?>Result Not Declared<?/percentage?> %</td>
@@ -20,11 +26,13 @@
 	
 	<h3>Distinction</h3>
 	<table width="100%" style="border:1px solid black">
-		<tr style>
-			<td>Parinaam</td><td><?final_result?>Result Not Declared<?/final_result?></td>
-		</tr>
 		<tr>
-			<td>Percentage</td><td><?percentage?>Result Not Declared<?/percentage?> %</td>
+			<td>Subject</td>
 		</tr>
+		<?distinction?>
+		<tr>
+			<td>-</td>
+		</tr>
+		<?/distinction?>
 	</table>
 </div>

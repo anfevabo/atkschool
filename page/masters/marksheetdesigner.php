@@ -31,6 +31,7 @@ class page_masters_marksheetdesigner extends Page{
 
 		if($crud->grid){
 			$crud->grid->addColumn("Expander","sectionblocks","Section Blocks");
+			$crud->grid->addColumn("Expander","sectionsubjects","Section Subject");
 		}
 	}
 
@@ -44,6 +45,24 @@ class page_masters_marksheetdesigner extends Page{
 		if($crud->grid){
 			$crud->grid->addColumn("Expander","blocksexam","Block Exams");
 		}
+	}
+
+	function page_sections_sectionsubjects(){
+		$this->api->stickyGET('marksheet_sections_id');
+
+		$section = $this->add('Model_MS_Sections')->load($_GET['marksheet_sections_id']);
+		
+		$options=array(
+				'leftModel' => $section,
+				'mappingModel' => 'MS_SectionSubjects',
+				'leftField' => 'marksheet_section_id',
+				'rightField' => 'subject_id',
+				'rightModel' => 'Subject',
+				'deleteFirst' => true,
+				'maintainSession' => true
+			);		
+		// $this->add('View')->set('Hi');
+		$p=$this->add('View_Mapping',$options);
 	}
 
 	function page_sections_sectionblocks_blocksexam(){
