@@ -6,6 +6,6 @@ class Model_MS_BlockExams extends Model_Table{
 		parent::init();
 		$this->hasOne("MS_SectionBlocks","marksheet_section_blocks_id")->caption("Block Name");
 		$this->hasOne("ExamClassMap","exammap_id")->caption("Exam");
-		$this->addField('max_marks')->display(array('grid'=>'grid/inline'));
+		// $this->addField('max_marks')->display(array('grid'=>'grid/inline'));
 	}
 }

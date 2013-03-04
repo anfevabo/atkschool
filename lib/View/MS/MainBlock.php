@@ -35,7 +35,7 @@ class xTable {
 				border: 1px solid black;
 			}
 		</style>
-		<table stype='border:1px solid black;' width='100%' class='marksheet'>";
+		<table stype='border:1px solid black;' width='100%' class='marksheet' >";
 		foreach ($this->Tr as $tr) {
 			$mytable .= $tr->render();
 		}
@@ -159,24 +159,24 @@ class View_MS_MainBlock extends View {
 		$cur_row = $table->Tr[] = new xTr();
 		$cur_td = $cur_row->Td[] = new xTd();
 		$cur_td->value = "Vishay";
-		$cur_td->attributes = "rowspan=2";
+		$cur_td->attributes = "rowspan=2 align='center'";
 		if($MM_4_Each_Row){
 			$cur_td = $cur_row->Td[] = new xTd();
 			$cur_td->value = "Purnank";
-			$cur_td->attributes="rowspan=2";
+			$cur_td->attributes="rowspan=2 align='center'";
 		}
 		foreach($blocks as $block_junk){
 			$cur_td = $cur_row->Td[] = new xTd();
 			$cur_td->value = $block_junk;
 			$colspan=$blocks_exam_count[$block_junk];
 			if(in_array($block_junk, $total_in_blocks)) $colspan++;
-			$cur_td->attributes = "colspan=" . $colspan;
+			$cur_td->attributes = "colspan=" . $colspan . " align='center'";
 		}
 
 		if($section['has_grand_total']){
 			$cur_td = $cur_row->Td[] = new xTd();
 			$cur_td->value = "Sarv Yog";
-			$cur_td->attributes="rowspan=2";
+			$cur_td->attributes="rowspan=2 align='center'";
 		}
 
 		// Exam RoW
@@ -185,10 +185,12 @@ class View_MS_MainBlock extends View {
 			foreach($block_exams[$block_junk] as $be){
 				$cur_td = $cur_row->Td[] = new xTd();
 				$cur_td->value = $be;
+				$cur_td->attributes = " align='center'";
 			}
 			if(in_array($block_junk, $total_in_blocks)){
 				$cur_td = $cur_row->Td[] = new xTd();
 				$cur_td->value = $blocks_total_fields[$block_junk];	
+				$cur_td->attributes = " align='center'";
 			}
 		}
 
@@ -200,19 +202,19 @@ class View_MS_MainBlock extends View {
 			foreach($blocks as $block_junk){
 				foreach($block_exams[$block_junk] as $exam){
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->attributes="style='font-weight:bold'";
+					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$subjects[0]];
 				}
 				if(in_array($block_junk, $total_in_blocks)){
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->attributes="style='font-weight:bold'";
+					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_subject_max_marks_sum[$block_junk][$subjects[0]];
 				}
 			}
 			
 			if($section['has_grand_total']){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold'";
+				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $subject_max_marks_sum[$subjects[0]];
 			}
 		}
@@ -230,19 +232,19 @@ class View_MS_MainBlock extends View {
 				foreach($blocks as $block_junk){
 					foreach($block_exams[$block_junk] as $exam){
 						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->attributes="style='font-weight:bold'";
+						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$sub];
 					}
 					if(in_array($block_junk, $total_in_blocks)){
 						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->attributes="style='font-weight:bold'";
+						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_subject_max_marks_sum[$block_junk][$sub];
 					}		
 				}	
 				
 				if($section['has_grand_total']){
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->attributes="style='font-weight:bold'";
+					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $subject_max_marks_sum[$sub];
 				}
 
@@ -254,15 +256,17 @@ class View_MS_MainBlock extends View {
 				foreach($block_exams[$block_junk] as $exam){
 					$cur_td = $cur_row->Td[] = new xTd();
 					$cur_td->value = $block_exam_subject_marks[$block_junk][$exam][$sub];
+					$cur_td->attributes = " align='center'";
 				}
 				if(in_array($block_junk, $total_in_blocks)){
 					$cur_td = $cur_row->Td[] = new xTd();
 					$cur_td->value = $block_subject_sum[$block_junk][$sub];
+					$cur_td->attributes = " align='center'";
 				}
 			}
 			if($section['has_grand_total']){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold'";
+				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $subject_sum[$sub];
 			}
 		}
@@ -280,19 +284,19 @@ class View_MS_MainBlock extends View {
 			foreach($blocks as $block_junk){
 				foreach($block_exams[$block_junk] as $exam){
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->attributes="style='font-weight:bold'";
+					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_exam_max_marks_sum[$block_junk][$exam];
 				}
 				if(in_array($block_junk, $total_in_blocks)){
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->attributes="style='font-weight:bold'";
+					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_max_marks_sum[$block_junk];
 				}
 			}	
 
 			if($section['has_grand_total']){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold'";
+				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $grand_total_max_marks;
 			}
 			
@@ -302,19 +306,19 @@ class View_MS_MainBlock extends View {
 		foreach($blocks as $block_junk){
 			foreach($block_exams[$block_junk] as $exam){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold'";
+				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $block_exam_marks_sum[$block_junk][$exam];
 			}
 			if(in_array($block_junk, $total_in_blocks)){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold'";
+				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $block_marks_sum[$block_junk];
 			}
 		}
 
 		if($section['has_grand_total']){
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->attributes="style='font-weight:bold'";
+			$cur_td->attributes="style='font-weight:bold' align='center'";
 			$cur_td->value = $grand_total_marks;
 		}
 

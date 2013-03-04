@@ -4,7 +4,7 @@ class page_student_marks extends Page{
 		// parent::init();
 
 		$form=$this->add('Form',null,null,array('form_horizontal'));
-		$class_field=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
+		$class_field=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi')->setNotNull();
 		$class_field->setModel('Class');
 
 		$ecm=$this->add('Model_ExamClassMap');
@@ -17,14 +17,14 @@ class page_student_marks extends Page{
 			$ecm->addCondition('class_id',$_GET['class_filter']);
 		}
 
-		$exam_field=$form->addField('dropdown','exam')->setEmptyText('----')->setAttr('class','hindi');
+		$exam_field=$form->addField('dropdown','exam')->setEmptyText('----')->setAttr('class','hindi')->setNotNull();
 
 		$exam_field->setModel($ecm);
 
 
 		$class_field->js('change',$form->js()->atk4_form('reloadField','exam',array($this->api->url(),'class_filter'=>$class_field->js()->val())));
 
-		$sub_field=$form->addField('dropdown','subject')->setEmptyText('----')->setAttr('class','hindi');
+		$sub_field=$form->addField('dropdown','subject')->setEmptyText('----')->setAttr('class','hindi')->setNotNull();
 
 		$ecsm=$this->add('Model_ExamClassSubjectMap');
 

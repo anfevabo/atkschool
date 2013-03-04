@@ -78,7 +78,7 @@ class page_student_msview extends Page {
 
 		$result=array('percentage'=>$percentage,'final_result'=>$final_result,'division'=>$division);
 		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank),'right_panel');
-
+		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur');
 	}
 
 	function defaultTemplate(){
@@ -86,7 +86,7 @@ class page_student_msview extends Page {
 	}
 
 	function render(){
-		$this->api->template->del('header');
+		// $this->api->template->del('header');
 		$this->api->template->del('logo');
 		$this->api->template->del('Menu');
 		$this->api->template->del('date');
