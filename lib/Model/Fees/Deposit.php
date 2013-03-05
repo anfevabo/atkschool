@@ -6,9 +6,9 @@ class Model_Fees_Deposit extends Model_Table{
 		parent::init();
 
 		$this->hasOne('Fees_Applicable','fee_applicable_id');
-		$this->addField('due');
+		// $this->addField('due');
 		$this->addField('paid');
-		$this->addField('due_date')->type('date');
+		// $this->addField('due_date')->type('date');
 		$this->addField('deposit_date')->type('date')->defaultValue(date('Y-m-d'));
 		$this->addField('receipt_number');
 	}

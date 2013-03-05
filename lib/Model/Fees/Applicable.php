@@ -17,15 +17,23 @@ class Model_Fees_Applicable extends Model_Table{
 		$this->addExpression('paid')->set(function ($m,$q){
 					return $m->refSQL('Fees_Deposit')->dsql()->del('field')->field('sum(paid)');
 		});
+
+		$this->addExpression('feehead_id')->set(function($m,$q){
+			return $m->refSQL('fee_class_mapping_id')->fieldQuery('feehead_id');
+		});
+		
 		$this->addHook('beforeSave',$this);
 	}
 
 	function beforeSave(){
 		if(!$this->loaded()){
 			$this['due'] = $this['amount'];
+		}else{
+			$amount_deposited_till_now = $this->ref('Fees_Deposit')->sum('paid')->getOne();
+			if($this['amount'] < $amount_deposited_till_now) throw $this->exception("Due Amount can not be greater then Total Amount ");
+			$this['due'] = $this['amount'] - $amount_deposited_till_now;
 		}
 
-		if($this['amount']<$this['due']) throw $this->exception("Due Amount can not be greater then Total Amount ");
 	}
 
 	function submitFee($amount,$onDate,$receiptNo){

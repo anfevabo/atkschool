@@ -46,40 +46,76 @@ class page_student_fee extends Page{
 		$this->api->stickyGET('student_id');
 		
 		$form = $this->add('Form');
+
+		$f=$this->add('Model_FeesHead');
+		$field_fee=$form->addField('dropdown','fee_head')->setEmptyText("----");
+		$field_fee->setModel($f);
+
 		$form->addField('line','amount_submitted')->setNotNull();
+		// $form->addField('line','due_amount');
+		// $form->addField('text','remarks');
 		$form->addField('line','receipt_number');
 		$form->addField('DatePicker','submitted_on')->set(date('Y-m-d'));
 		$form->addSubmit('Receive');
 
 		if($form->isSubmitted()){
+			try{			
+				$form->api->db->beginTransaction();
+				$student=$this->add('Model_Student');
+				$student->load($_GET['student_id']);
+				$class_id=$student['class_id'];
 
-			// First check if amount is less then equal to due amount.. do not take surplus amount
-			$amount_to_adjust=$form->get('amount_submitted');
+				$fee_head=$this->add('Model_FeesHead');
+				$fee_head->load($form->get('fee_head'));
+				
+				$amount_to_adjust=$form->get('amount_submitted');
 
-			$fa_chk=$this->add('Model_Fees_Applicable');
-			$fa_chk->addCondition('student_id',$_GET['student_id']);
-			// $fa_chk->_dsql()->delete('field')->field($fa_chk->dsql()->expr('SUM(due)'));
-			$total_due=$fa_chk->sum('due')->getOne();
-			if($amount_to_adjust > $total_due)
-				$form->js()->univ()->errorMessage("Can not take surplus amount, only $total_due is due for ". $_GET['student_id'])->execute();
+				foreach($fee=$fee_head->ref('Fee') as $fee_junk){
+					if($amount_to_adjust==0) break;
+					$fee_class_map=$this->add('Model_FeeClassMapping');
+					$fee_class_map->addCondition('fee_id',$fee->id);
+					$fee_class_map->addCondition('class_id',$class_id);
+					$fee_class_map->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+					$fee_class_map->tryLoadAny();
+					if(!$fee_class_map->loaded()) continue;
 
-			$fa=$this->add('Model_Fees_Applicable');
-			$fa->addCondition('student_id',$_GET['student_id']);
-			$fa->addCondition('due','>',0);
+					$fee_app=$this->add("Model_Fees_Applicable");
+					$fee_app->addCondition('fee_class_mapping_id',$fee_class_map->id);
+					$fee_app->addCondition('student_id',$student->id);
+					$fee_app->tryLoadAny();
+					if(!$fee_class_map->loaded()) throw $this->exception("Somthing done Wrong with this entry, Of particluar student");
 
-			foreach($fa as $junk){
+					$amount_for_this_fee= ($fee_app['due'] >= $amount_to_adjust)? $amount_to_adjust: $fee_app['due'];
+					// Add deposite row
+					// substract from this feeapp due 
+					// recalculate 
 
+					$fee_deposit=$this->add('Model_Fees_Deposit');
+					$fee_deposit['paid']=$amount_for_this_fee;
+					$fee_deposit['deposit_date']=$form->get('submitted_on');
+					$fee_deposit['fee_applicable_id']=$fee_app->id;
+					$fee_deposit->save();
+
+					$fee_app['due'] = $fee_app['due'] - $amount_for_this_fee;
+					$fee_app->save();
+
+					$amount_to_adjust = $amount_to_adjust - $amount_for_this_fee;
+
+				}
+
+				if($amount_to_adjust > 0 ) throw $this->exception('Exxcess fee deposited');
+			}catch(Exception $e){
+					$form->api->db->rollback();
+					// $form->js()->univ()->errorMessage($e->getMessage())->execute();
+					throw $e;
 			}
-
-
-
-			$form->js(null,array(
-					$form->js()->univ()->closeDialog(),
-					$form->js()->univ()->closeExpander())
-				)->univ()->successMessage('hi there')->execute();
+			$form->api->db->commit();
+			$form->js(null,$this->js()->reload())->univ()->successMessage("Student Record Upadated success fully ")->execute();
 		}
 
-	}
+
+	} 
+
 
 	function page_deposit_new_detailed(){
 		$this->add('Text')->set($_GET['var1']. "sdfs");
