@@ -81,8 +81,9 @@ class page_student_marks extends Page{
 		// 	$sm->addCondition('class',-1);
 		// }
 
-
+		$sm->_dsql()->order('roll_no','asc');
 		$grid->setModel($sm,array('roll_no','class','student','max_marks','marks'));
+		// $grid->dq->order('roll_no','asc');
 		$grid->addFormatter('student','hindi');
 		$grid->addFormatter('marks','grid/inline');
 	}
