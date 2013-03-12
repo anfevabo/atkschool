@@ -25,7 +25,11 @@ class page_student_msview extends Page {
 		// Percentage
 		$max=$this->api->recall('grand_total_max_marks',0);
 		$marks=$this->api->recall('grand_total_marks',0);
-		$percentage = round($marks/$max * 100.00,2);
+		if($max != 0)
+			$percentage = round($marks/$max * 100.00,2);
+		else
+			$percentage = 0;
+
 		
 		// Result
 		if($percentage >= 33) 
