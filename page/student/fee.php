@@ -37,6 +37,7 @@ class page_student_fee extends Page{
 		
 		$this->add('Button','add_fee')->setLabel('Fast Deposit')->js('click',$this->js()->univ()->frameURL('Fee Deposit (Fast/auto method)',$this->api->url('./new',array('student_id'=>$_GET['student_id']))));
 		$this->add('Button','add_fee_detail')->setLabel('Detailed Deposit')->js('click',$this->js()->univ()->frameURL('Fee Deposit (Detailed)',$this->api->url('./new_detailed',array('student_id'=>$_GET['student_id']))));
+		$this->add('Button','fee_manage')->setLabel('Manage Deposit Fees')->js('click',$this->js()->univ()->frameURL('Manage Deposit Fees',$this->api->url('./manage_deposit',array('student_id'=>$_GET['student_id']))));
 		$crud=$this->add('CRUD',array('allow_add'=>false));
 		$crud->setModel($fa,array('fee_class_mapping','amount','paid'));
 
@@ -145,33 +146,19 @@ class page_student_fee extends Page{
 		$feehead_field->setModel($feehead);
 		$fees_field->setModel($fee);
 
-		$crud=$this->add('CRUD',array("allow_add"=>false));
+		// $crud=$this->add('CRUD',array("allow_add"=>false));
 
-		$fs=$this->add("Model_Fees_Deposit");
-		// if($_GET['filter']){
-		// 	$fs->addCondition('fee_applicable_id',$this->add('Model_Fees_Applicable')->tryLoadAny->get->id);
-		// 	$fs->addCondition('paid',$_GET['amount_submit']);
-		// 	$fs->addCondition("receipt_number",$_GET['receipt_number']);
-		// 	$fs->addCondition('depost_date',$_GET['submitted_on']);
+		// $fs=$this->add("Model_Fees_Deposit");
+		
 
-		// }
-
-		$crud->setModel($fs);
+		// $crud->setModel($fs);
 
 		$feehead_field->js('change',$form->js()->atk4_form('reloadField','fees',array($this->api->url(),'feehead_id'=>$feehead_field->js()->val())));	
 
 		if($form->isSubmitted()){
 			try{
 
-				// if($crud->grid){
-				// 	$crud->grid->js()->reload("fees_head"=>$form->get("fees_head"),
-				// 							"fees"=>$form->get("fees"),
-				// 							"amount_submit"=>$form->get("amount_submit"),
-				// 							"receipt_number"=>$form->get("receipt_number"),
-				// 							"submitted_on"=>$form->get("submitted_on"),
-				// 							"filter"=>1
-				// 							)->execute();
-				// }
+				
 				$form->api->db->beginTransaction();
 				$student=$this->add('Model_Student');
 				$student->load($_GET['student_id']);
@@ -229,5 +216,14 @@ class page_student_fee extends Page{
 
 		}
 
+	}
+
+	function page_deposit_manage_deposit(){
+		$this->api->stickyGET('student_id');
+
+		$crud=$this->add('CRUD',array('allow_add'=>false));
+		$fd=$this->add('Model_Fees_Deposit');
+
+		$crud->setModel($fd);
 	}
 }

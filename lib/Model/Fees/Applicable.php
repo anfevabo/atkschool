@@ -1,5 +1,4 @@
 <?php
-
 class Model_Fees_Applicable extends Model_Table{
 	var $table="fee_applicable";
 	function init(){
@@ -18,8 +17,8 @@ class Model_Fees_Applicable extends Model_Table{
 					return $m->refSQL('Fees_Deposit')->dsql()->del('field')->field('sum(paid)');
 		});
 
-		$this->addExpression('feehead_id')->set(function($m,$q){
-			return $m->refSQL('fee_class_mapping_id')->fieldQuery('feehead_id');
+		$this->addExpression('name_xyz')->set(function($m,$q){
+			return $m->api->db->dsql()->table('fee')->field('name')->where('feehead_id',$m->refSQL('fee_class_mapping_id')->fieldQuery('feehead_id'))->limit(1);
 		});
 		
 		$this->addHook('beforeSave',$this);
