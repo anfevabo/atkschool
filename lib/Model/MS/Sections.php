@@ -7,6 +7,7 @@ class Model_MS_Sections extends Model_Table{
 
 		$this->addField("name")->caption("Section Name");
 		$this->addField("has_grand_total")->type('boolean')->caption("Has Grand Total");
+		$this->addField("extra_totals")->caption("Extra Totals");
 		$this->addField("max_marks_for_each_subject")->type('boolean')->caption("MM 4 Every Row");
 		$this->addField("grade_decider")->type('boolean');
 		
