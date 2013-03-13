@@ -66,14 +66,23 @@ class View_MS_MainBlock extends View {
 		$extra_totals_blocks =array();
 		$extra_total_after_exam=array();
 		$extra_total_title=array();
+		$extra_total_exams=array();
+		// B1=>A+B=>B=>Two Total;B2=>A+B+C+D+E=>E=>Five Total
+		$extra_total_sum_max_marks_afterexam_subject=array();
+		$extra_total_sum_marks_afterexam_subject=array();
+
+		$extra_total_sum_max_marks_afterexam = array();
+		$extra_total_sum_marks_afterexam = array();
+		
 		foreach($temp as $t){
 			$t=explode("=>", $t);
 			$extra_totals_blocks[] = $t[0];
+			$extra_total_exams[$t[2]]=$t[1];
 			$extra_total_after_exam[] = $t[2];
 			$extra_total_title[$t[2]] = $t[3];
 		}
 
-		// $this->pr($extra_totals_blocks);
+		// $this->pr($extra_total_exams);
 		// echo $Extra_Totals_Text;
 		/*
 			MAIN BLOCK DESIGNING
@@ -162,6 +171,16 @@ class View_MS_MainBlock extends View {
 					$block_marks_sum[$block_name] += $marks['marks'];
 					$grand_total_marks +=$marks['marks'];
 					$grand_total_max_marks +=$marks['max_marks'];
+					foreach($extra_total_exams as $after_exam=>$exams_text){
+						$exams_in_this_extra_total=explode("+", $exams_text);
+						if(in_array($exams_code[$exam_name], $exams_in_this_extra_total)){
+							$extra_total_sum_max_marks_afterexam_subject [$after_exam][$subject_name] += $marks['max_marks'] ;
+							$extra_total_sum_marks_afterexam_subject[$after_exam][$subject_name] += $marks['marks'];
+
+							$extra_total_sum_max_marks_afterexam [$after_exam] += $marks['max_marks'];
+							$extra_total_sum_marks_afterexam [$after_exam] += $marks['marks'];
+						}
+					}
 				}
 			}
 			if($block['is_total_required']){
@@ -230,6 +249,11 @@ class View_MS_MainBlock extends View {
 					$cur_td = $cur_row->Td[] = new xTd();
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$subjects[0]];
+					if(in_array($exams_code[$exam], $extra_total_after_exam)){
+						$cur_td = $cur_row->Td[] = new xTd();
+						$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$subjects[0]];
+						$cur_td->attributes = " align='center'";
+					}
 				}
 				// Extra total TODO
 				if(in_array($block_junk, $total_in_blocks)){
@@ -263,7 +287,7 @@ class View_MS_MainBlock extends View {
 						$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$sub];
 						if(in_array($exams_code[$exam], $extra_total_after_exam)){
 							$cur_td = $cur_row->Td[] = new xTd();
-							$cur_td->value = 111;
+							$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$sub];
 							$cur_td->attributes = " align='center'";
 						}
 					}
@@ -291,7 +315,7 @@ class View_MS_MainBlock extends View {
 					$cur_td->attributes = " align='center'";
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
 						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = 99;
+						$cur_td->value = $extra_total_sum_marks_afterexam_subject[$exams_code[$exam]][$sub];
 						$cur_td->attributes = " align='center'";
 					}
 				}
@@ -309,66 +333,67 @@ class View_MS_MainBlock extends View {
 		}
 
 		// Total in Sections as bottom TR
-		$cur_row = $table->Tr[] = new xTr();
-		$cur_td = $cur_row->Td[] = new xTd();
-		$cur_td->value = "YOOG";
-
-		if($MM_4_Each_Row){
-			$cur_td->attributes = "rowspan=2";
+		if($section['total_at_bottom']){
+			$cur_row = $table->Tr[] = new xTr();
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->value = "Purnank<br>Praptank";
-			$cur_td->attributes="rowspan=2";
+			$cur_td->value = "YOOG";
+
+			if($MM_4_Each_Row){
+				$cur_td->attributes = "rowspan=2";
+				$cur_td = $cur_row->Td[] = new xTd();
+				$cur_td->value = "Purnank<br>Praptank";
+				$cur_td->attributes="rowspan=2";
+				foreach($blocks as $block_junk){
+					foreach($block_exams[$block_junk] as $exam){
+						$cur_td = $cur_row->Td[] = new xTd();
+						$cur_td->attributes="style='font-weight:bold' align='center'";
+						$cur_td->value = $block_exam_max_marks_sum[$block_junk][$exam];
+						if(in_array($exams_code[$exam], $extra_total_after_exam)){
+							$cur_td = $cur_row->Td[] = new xTd();
+							$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]];
+							$cur_td->attributes = " align='center'";
+						}
+					}
+					if(in_array($block_junk, $total_in_blocks)){
+						$cur_td = $cur_row->Td[] = new xTd();
+						$cur_td->attributes="style='font-weight:bold' align='center'";
+						$cur_td->value = $block_max_marks_sum[$block_junk];
+					}
+				}	
+
+				if($section['has_grand_total']){
+					$cur_td = $cur_row->Td[] = new xTd();
+					$cur_td->attributes="style='font-weight:bold' align='center'";
+					$cur_td->value = $grand_total_max_marks;
+				}
+				
+				$cur_row = $table->Tr[] = new xTr();
+			}
+
 			foreach($blocks as $block_junk){
 				foreach($block_exams[$block_junk] as $exam){
 					$cur_td = $cur_row->Td[] = new xTd();
 					$cur_td->attributes="style='font-weight:bold' align='center'";
-					$cur_td->value = $block_exam_max_marks_sum[$block_junk][$exam];
+					$cur_td->value = $block_exam_marks_sum[$block_junk][$exam];
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
 						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = 88;
+						$cur_td->value = $extra_total_sum_marks_afterexam[$exams_code[$exam]];
 						$cur_td->attributes = " align='center'";
 					}
 				}
 				if(in_array($block_junk, $total_in_blocks)){
 					$cur_td = $cur_row->Td[] = new xTd();
 					$cur_td->attributes="style='font-weight:bold' align='center'";
-					$cur_td->value = $block_max_marks_sum[$block_junk];
+					$cur_td->value = $block_marks_sum[$block_junk];
 				}
-			}	
+			}
 
 			if($section['has_grand_total']){
 				$cur_td = $cur_row->Td[] = new xTd();
 				$cur_td->attributes="style='font-weight:bold' align='center'";
-				$cur_td->value = $grand_total_max_marks;
-			}
-			
-			$cur_row = $table->Tr[] = new xTr();
-		}
-
-		foreach($blocks as $block_junk){
-			foreach($block_exams[$block_junk] as $exam){
-				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold' align='center'";
-				$cur_td->value = $block_exam_marks_sum[$block_junk][$exam];
-				if(in_array($exams_code[$exam], $extra_total_after_exam)){
-					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->value = 77;
-					$cur_td->attributes = " align='center'";
-				}
-			}
-			if(in_array($block_junk, $total_in_blocks)){
-				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->attributes="style='font-weight:bold' align='center'";
-				$cur_td->value = $block_marks_sum[$block_junk];
+				$cur_td->value = $grand_total_marks;
 			}
 		}
-
-		if($section['has_grand_total']){
-			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->attributes="style='font-weight:bold' align='center'";
-			$cur_td->value = $grand_total_marks;
-		}
-
 		$this->add('Text')->setHtml($table->render());
 
 		$distinction_subjects=array();
