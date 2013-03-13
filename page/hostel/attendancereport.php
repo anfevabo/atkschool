@@ -67,9 +67,9 @@ class page_hostel_attendancereport extends Page{
 									join scholars_master sm on sm.id=s.scholar_id
 									$where
 									
-
 									$group
 									$having
+									order by building_name,room_no
 
 									";
 									
