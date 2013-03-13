@@ -8,6 +8,7 @@ class Model_MS_SectionBlocks extends Model_Table{
 		$this->addField("name")->caption("Marksheet Name");
 		$this->addField("is_total_required")->type('boolean');
 		$this->addField("total_title")->caption('Total Title');
+		$this->addField("column_code")->caption('Column Code');
 		
 		$this->hasOne("MS_Sections","marksheet_sections_id");
 		$this->hasMany("MS_BlockExams","marksheet_section_blocks_id");
