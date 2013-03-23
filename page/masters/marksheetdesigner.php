@@ -24,6 +24,7 @@ class page_masters_marksheetdesigner extends Page{
 		$this->api->memorize('marksheet_class',$md['class_id']);
 
 		$crud=$this->add("CRUD");
+		$this->add('View_Info')->set('B1=>A+B=>B=>Two Total;B2=>A+B+C+D+E=>E=>Five Total');
 		$mb=$md->ref('MS_Sections');
 		// $mb->addCondition('marksheet_designer_id',$_GET['marksheet_designer_id']);
 		/*$mb->addCondition('class_id',$this->api->recall('marksheet_class'));*/
