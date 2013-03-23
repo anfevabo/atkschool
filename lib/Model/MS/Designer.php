@@ -10,5 +10,11 @@ class Model_MS_Designer extends Model_Table {
 		$this->hasOne("Session","session_id");
 		$this->hasMany("MS_Sections","marksheet_designer_id");
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+
+		$this->addHook('beforeDelete',$this);
+	}
+
+	function beforeDelete(){
+		if($this->ref('MS_Sections')->count()->getOne()>0) throw $this->exception("You can Not Delete, It Contains Sections");
 	}
 }

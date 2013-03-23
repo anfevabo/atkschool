@@ -15,5 +15,12 @@ class Model_MS_Sections extends Model_Table{
 		$this->hasOne("MS_Designer","marksheet_designer_id");
 		$this->hasMany("MS_SectionBlocks","marksheet_sections_id");
 		$this->hasMany("MS_SectionSubjects","marksheet_section_id");
+
+		$this->addHook('beforeDelete',$this);
+	}
+
+	function beforeDelete(){
+		if($this->ref('MS_SectionBlocks')->count()->getOne()>0)
+			throw $this->exception("You can not Delete this Sections,It contains Blocks and Associated Subjects");
 	}
 }

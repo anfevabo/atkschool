@@ -7,5 +7,8 @@ class Model_MS_BlockExams extends Model_Table{
 		$this->hasOne("MS_SectionBlocks","marksheet_section_blocks_id")->caption("Block Name");
 		$this->hasOne("ExamClassMap","exammap_id")->caption("Exam");
 		$this->addField('column_code')->display(array('grid'=>'grid/inline'));
+
 	}
+
+
 }
