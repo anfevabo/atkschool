@@ -121,7 +121,7 @@ class page_student_report extends Page{
         // print_r($display_array);
         $grid->setModel($m,array_merge($display_array),array('class'));
 		  
-          $m->debug();
+          // $m->debug();
 		// $grid->add('  misc/Export');
 	
 	}

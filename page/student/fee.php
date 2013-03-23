@@ -126,7 +126,10 @@ class page_student_fee extends Page{
 			$form->js(null,
 					$form->js()->_selector('.fee_applicable')->trigger('reload')
 				)->univ()->closeDialog()->execute();
-			$form->js(null,$this->js()->reload())->univ()->successMessage("Student Record Upadated success fully ")->execute();
+			$form->js(null,$this->js()->reload())
+			->univ()
+			->successMessage("Student Record Upadated success fully ")
+			->execute();
 		}
 
 

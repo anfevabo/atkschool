@@ -38,13 +38,16 @@ class page_student_marks extends Page{
 
 		$sub_field->setModel($ecsm);
 
-		$exam_field->js('change',$form->js()->atk4_form('reloadField','subject',array($this->api->url(),'exam_filter'=>$exam_field->js()->val())));
+		$exam_field->js('change',$form->js()->atk4_form('reloadField','subject',
+			array($this->api->url(),'exam_filter'=>$exam_field->js()->val())));
 		
 		$form->addSubmit('GetList');
 
 		// removed from here
 		if($form->isSubmitted()){
-			$form->js()->univ()->newWindow($this->api->url("./marksinput",array('class'=>$form->get('class'),'subject'=>$form->get('subject'))),null,'height=689,width=1246,scrollbar=1')->execute();
+			$form->js()->univ()->newWindow($this->api->url("./marksinput",
+				array('class'=>$form->get('class'),'subject'=>$form->get('subject')))
+			,null,'height=689,width=1246,scrollbar=1')->execute();
 		}
 	}
 
