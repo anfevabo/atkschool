@@ -87,7 +87,7 @@ class View_MS_MainBlock extends View {
 			}
 		}
 
-		// $this->pr($extra_total_exams);
+		// $this->pr($push_in_last_extra_totals);
 		// echo $Extra_Totals_Text;
 		/*
 			MAIN BLOCK DESIGNING
@@ -224,6 +224,12 @@ class View_MS_MainBlock extends View {
 			$cur_td->attributes="rowspan=2 align='center'";
 		}
 
+		if($section['show_grade']){
+			$cur_td = $cur_row->Td[] = new xTd();
+			$cur_td->value = "Grade";
+			$cur_td->attributes="rowspan=2 align='center'";
+		}
+
 		// Exam RoW
 		$cur_row = $table->Tr[] = new xTr();
 		foreach($blocks as $block_junk){
@@ -253,6 +259,7 @@ class View_MS_MainBlock extends View {
 				$cur_td->attributes = " align='center'";
 				$set_show_extra_in_last=null;
 			}
+
 		}
 
 		// PURNANK ROW if not for each row
@@ -266,7 +273,7 @@ class View_MS_MainBlock extends View {
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$subjects[0]];
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
-						if(!in_array($exams_code[$be], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+						if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
 							$cur_td = $cur_row->Td[] = new xTd();
 							$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$subjects[0]];
 							$cur_td->attributes = " align='center'";
@@ -289,7 +296,7 @@ class View_MS_MainBlock extends View {
 				}
 				if($set_show_extra_in_last != null){ 
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->value = $extra_total_title[$set_show_extra_in_last];
+					$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$set_show_extra_in_last][$subjects[0]];
 					$cur_td->attributes = " align='center'";
 					$set_show_extra_in_last=null;
 				}
@@ -299,6 +306,12 @@ class View_MS_MainBlock extends View {
 				$cur_td = $cur_row->Td[] = new xTd();
 				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $subject_max_marks_sum[$subjects[0]];
+			}
+
+			if($section['show_grade']){
+				$cur_td = $cur_row->Td[] = new xTd();
+				$cur_td->value = "-";
+				$cur_td->attributes = " align='center'";
 			}
 		}
 
@@ -318,7 +331,7 @@ class View_MS_MainBlock extends View {
 						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$sub];
 						if(in_array($exams_code[$exam], $extra_total_after_exam)){
-							if(!in_array($exams_code[$be], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+							if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
 								$cur_td = $cur_row->Td[] = new xTd();
 								$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$sub];
 								$cur_td->attributes = " align='center'";
@@ -334,7 +347,7 @@ class View_MS_MainBlock extends View {
 					}		
 					if($set_show_extra_in_last != null){ 
 						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = $extra_total_title[$set_show_extra_in_last];
+						$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$set_show_extra_in_last][$sub];
 						$cur_td->attributes = " align='center'";
 						$set_show_extra_in_last=null;
 					}
@@ -344,6 +357,12 @@ class View_MS_MainBlock extends View {
 					$cur_td = $cur_row->Td[] = new xTd();
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $subject_max_marks_sum[$sub];
+				}
+
+				if($section['show_grade']){
+					$cur_td = $cur_row->Td[] = new xTd();
+					$cur_td->value = "-";
+					$cur_td->attributes = " align='center'";
 				}
 
 				// Add new row for achieved marks
@@ -356,7 +375,7 @@ class View_MS_MainBlock extends View {
 					$cur_td->value = $block_exam_subject_marks[$block_junk][$exam][$sub];
 					$cur_td->attributes = " align='center'";
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
-						if(!in_array($exams_code[$be], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+						if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
 							$cur_td = $cur_row->Td[] = new xTd();
 							$cur_td->value = $extra_total_sum_marks_afterexam_subject[$exams_code[$exam]][$sub];
 							$cur_td->attributes = " align='center'";
@@ -372,7 +391,7 @@ class View_MS_MainBlock extends View {
 				}
 				if($set_show_extra_in_last != null){ 
 					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->value = $extra_total_title[$set_show_extra_in_last];
+					$cur_td->value = $extra_total_sum_marks_afterexam_subject[$set_show_extra_in_last][$sub];
 					$cur_td->attributes = " align='center'";
 					$set_show_extra_in_last=null;
 				}
@@ -381,6 +400,11 @@ class View_MS_MainBlock extends View {
 				$cur_td = $cur_row->Td[] = new xTd();
 				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $subject_sum[$sub];
+			}
+			if($section['show_grade']){
+				$cur_td = $cur_row->Td[] = new xTd();
+				$cur_td->value = $subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub];
+				$cur_td->attributes = " align='center'";
 			}
 		}
 
@@ -401,9 +425,13 @@ class View_MS_MainBlock extends View {
 						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_exam_max_marks_sum[$block_junk][$exam];
 						if(in_array($exams_code[$exam], $extra_total_after_exam)){
-							$cur_td = $cur_row->Td[] = new xTd();
-							$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]];
-							$cur_td->attributes = " align='center'";
+							if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]];
+								$cur_td->attributes = " align='center'";
+							}else{
+								$set_show_extra_in_last = $exams_code[$exam];
+							}
 						}
 					}
 					if(in_array($block_junk, $total_in_blocks)){
@@ -411,6 +439,14 @@ class View_MS_MainBlock extends View {
 						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_max_marks_sum[$block_junk];
 					}
+
+					if($set_show_extra_in_last != null){ 
+						$cur_td = $cur_row->Td[] = new xTd();
+						$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]];
+						$cur_td->attributes = " align='center'";
+						$set_show_extra_in_last=null;
+					}
+
 				}	
 
 				if($section['has_grand_total']){
@@ -419,6 +455,12 @@ class View_MS_MainBlock extends View {
 					$cur_td->value = $grand_total_max_marks;
 				}
 				
+				if($section['show_grade']){
+					$cur_td = $cur_row->Td[] = new xTd();
+					$cur_td->attributes="style='font-weight:bold' align='center'";
+					$cur_td->value = "-";	
+				}
+
 				$cur_row = $table->Tr[] = new xTr();
 			}
 
@@ -445,6 +487,13 @@ class View_MS_MainBlock extends View {
 				$cur_td->attributes="style='font-weight:bold' align='center'";
 				$cur_td->value = $grand_total_marks;
 			}
+			
+			if($section['show_grade']){
+				$cur_td = $cur_row->Td[] = new xTd();
+				$cur_td->attributes="style='font-weight:bold' align='center'";
+				$cur_td->value = "-";	
+			}
+
 		}
 		$this->add('Text')->setHtml($table->render());
 
