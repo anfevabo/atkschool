@@ -13,20 +13,21 @@ class page_student_attendance extends Page{
        	 	$cm=$this->add('Model_Class');
     		$class_field->setModel($cm);
     		$month=$form->addField('dropdown','month')->setEmptyText('----')->setNotNull();
-            $month->setValueList(array('1'=>'Jan',
-            							'2'=>'Feb',
+            $month->setValueList(array('1'=>'January',
+            							'2'=>'February',
             							'3'=>'March',
             							'4'=>'April',
             							'5'=>'May',
             							'6'=>'Jun',
             							'7'=>'July',
             							'8'=>'Augest',
-            							'9'=>'Sep',
-            							'10'=>'Oct',
-            							'11'=>'Nov',
-            							'12'=>'Dec'
+            							'9'=>'September',
+            							'10'=>'Octomber',
+            							'11'=>'November',
+            							'12'=>'December'
             							));
              $att=$form->addField('line','att','Total Monthly Attendance');
+            $form->addField('checkbox','change_total_attendance');
             $att->js(true)->univ()->numericField()->disableEnter();
             $form->addSubmit('Allot');
         
@@ -40,6 +41,9 @@ class page_student_attendance extends Page{
                 $c->load($form->get('class'));
                 $total_students_in_class=$c->ref('Students_Current')->count()->getOne();
                 if($total_students_in_class != $students_in_attendance_table_for_this_class){
+                    if($form->get('att') == null ){
+                        $form->displayError('att','New Students Found to be added, Kindly give total monthly attendance again');
+                    }
                     foreach($c->ref('Students_Current') as $junk){
                         // Check every students existance, if not found add this student's entry in attendance table
                         $existing=$this->add('Model_Students_Attendance');
@@ -57,7 +61,9 @@ class page_student_attendance extends Page{
                         $existing->destroy();
                     }
                 }else{
-                    if($form->get('att') and $form->get('att')!=$sam['total_attendance']){
+                    if($form->get('att') and $form->get('change_total_attendance')==false)
+                        $form->displayError('att','Please Check the CheckBox for Fill Attendance');
+                    if($form->get('att') and $form->get('att')!=$sam['total_attendance'] and $form->get('change_total_attendance') == true){
                         $sam->unload();
                         $sam->_dsql()->set('total_attendance',$form->get('att'))->update();
                     }

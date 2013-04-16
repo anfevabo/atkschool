@@ -26,7 +26,7 @@ class Model_Hostel extends Model_Table{
 		// 	echo $x;
 		// 	return $x;
 		// });
-
+		// $this->_dsql()->del('order')->order('Rooms','asc');
 		  $this->addExpression("vacant")->set('building_name');//->display('diff');
 		  $this->addHook('beforeSave',$this);
 		  $this->addHook('beforeDelete',$this);

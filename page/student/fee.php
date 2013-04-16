@@ -3,17 +3,31 @@ class page_student_fee extends Page{
 	function page_index(){
 		// parent::init();
 
+		$c=$this->add('Model_Class');
+		$s=$this->add('Model_Student');
+		$sc=$this->add('Model_Students_Current');
+
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$field_class=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
-		$field_class->setModel('Class');
+		$field_class->setModel($c);
+
+		if($_GET['class_id']){
+			$s->addCondition('class_id',$_GET['class_id']);
+		}
+
+		$field_student=$form->addField('dropdown','student')->setEmptyText('----')->setAttr('class','hindi');
+
+		$field_student->setModel($s);
+
+		$field_class->js('change',$form->js()->atk4_form('reloadField','student',array($this->api->url(),'class_id'=>$field_class->js()->val())));
 		$form->addSubmit('GetList');
 
 		$grid=$this->add('Grid');
 
-		$sc=$this->add('Model_Students_Current');
 
 		if($_GET['filter']){
 			if($_GET['class']) $sc->addCondition('class_id',$_GET['class']);
+			if($_GET['student']) $sc->addCondition('id',$_GET['student']);
 		}else{
 			$sc->addCondition('class_id',-1);
 		}
@@ -24,6 +38,7 @@ class page_student_fee extends Page{
 
 		if($form->isSubmitted()){
 			$grid->js()->reload(array("class"=>$form->get('class'),
+										"student"=>$form->get('student'),
 										"filter"=>1))->execute();
 
 		}

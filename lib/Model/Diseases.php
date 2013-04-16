@@ -4,7 +4,7 @@ class Model_Diseases extends Model_Table{
 	function init(){
 		parent::init();
 		$this->addField('name')->display('hindi')->mandatory("Disease Name is Must");
-		$this->hasMany('Students_Diseases','disease_id');
+		$this->hasMany('Diseases','disease_id');
 		$this->addHook('beforeDelete',$this);
 	}
 

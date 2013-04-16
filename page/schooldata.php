@@ -12,5 +12,6 @@ class page_schooldata extends Page {
 		$tabs->addtabURL('student_marks','Student Marks Input');
 		$tabs->addtabURL('student_classassign','Student Class Assign');
 		$tabs->addtabURL('student_fee','Students Fee Deposite');
+		$tabs->addtabURL('student_status','Students Fee Status');
 	}
 }

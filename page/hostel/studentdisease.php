@@ -31,7 +31,7 @@ class page_hostel_studentdisease extends Page{
 
 		
 		$m->_dsql()->order('treatment_date','desc');
-		$crud->setModel($m,array('student_id','disease_id','treatment','treatment_date','fname'),array('student','disease','report_date','treatment','treatment_date','fname'));
+		$crud->setModel($m,array('class','student_id','disease_id','treatment','treatment_date','fname'),array('student','disease','report_date','treatment','treatment_date','fname'));
 		if($crud->grid){
 			
 			if($form->isSubmitted()){
@@ -51,9 +51,9 @@ class page_hostel_studentdisease extends Page{
 			$class_field->setModel($c);
 			if($_GET['class_idx']){
 				$crud->form->getElement('student_id')->dq->where('class_id',$_GET['class_idx'])->order('fname');
-			}else{ // on form load
-				$crud->form->getElement('student_id')->dq->where('class_id',-1);
 			}
+			// throw $this->Exception("Error Processing Request",$_GET['class_idx']);
+			
 			$class_field->js('change',$crud->form->js()->atk4_form('reloadField','student_id',array($this->api->getDestinationURL(), 'class_idx'=>$class_field->js()->val())));
 		
 			$crud->form->add('Order')->move('class','before','student_id')->now();
@@ -62,9 +62,11 @@ class page_hostel_studentdisease extends Page{
 
 	function page_addtreatment(){
 		$this->api->stickyGET('disease_master_id');
+		$dr=$this->add('Model_Disease_Remarks');
+		$dr->addCondition('disease_id',$_GET['disease_master_id']);
+		// $dr->load($_GET['disease_master_id']);
 
 		$crud=$this->add('CRUD');
-		$dr=$this->add('Model_Disease_Remarks');
 		$crud->setModel($dr,array('remarks'),array('remarks','created_at'));
 		if($crud->form) {
 					$crud->form->getElement('remarks')->setAttr('class','hindi');

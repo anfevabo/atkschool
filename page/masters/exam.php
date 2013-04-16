@@ -106,7 +106,7 @@ class page_masters_exam extends Page {
 				'rightField' => 'subject_id',
 				'rightModel' => $subject_class_map,
 				'deleteFirst' => true,
-				'maintainSession' => true,
+				'maintainSession' => false,
 				'allowediting' => false,
 				'onlymapped' => true,
 				'field_other_then_id'=>'subject_id' //from right model HOPE SO ...
@@ -143,7 +143,7 @@ class page_masters_exam extends Page {
 
 			$esm->load($_GET['examsub_map_id']);
 			$form=$this->add('Form');
-			$form->setModel($esm,array('min_marks','max_marks','in_ms_row','marksheet_section_id'));
+			$form->setModel($esm,array('min_marks','max_marks'));
 			$form->addSubmit('Save');
 
 			if($form->isSubmitted()){

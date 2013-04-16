@@ -4,7 +4,8 @@ class page_masters_hostel extends Page{
 	function page_index(){
 		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD',$acl->getPermissions());
-		$crud->setModel('Hostel');
+		$h=$this->add('Model_Hostel');
+		$crud->setModel($h);
 		if($crud->grid){
 			 $crud->grid->addColumn('expander','room','Add Rooms');
 			 $crud->grid->setFormatter('capacity','number');
@@ -14,7 +15,7 @@ class page_masters_hostel extends Page{
 			 $crud->grid->setFormatter('vacant','diff');
 			 $crud->grid->addFormatter('vacant','number');
 			 $crud->grid->addTotals(array('Rooms','capacity','alloted','vacant'));
-
+			 // $h->_dsql()->order('Rooms','asc');
 			}
 		
 	}
@@ -28,6 +29,6 @@ class page_masters_hostel extends Page{
 
         $g=$this->add('CRUD')->addStyle('background','#ddd');
         $g->setModel($hostel->ref('HostelRoom'),array('room_no','capacity','alloted','vacant'));
-
+        $hostel->_dsql()->order('room_no','asc');
 	}
 }

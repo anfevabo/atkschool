@@ -68,6 +68,7 @@ class page_school_scholars extends Page {
             $crud->form->getElement('mother_name')->setAttr('class','hindi');
             $crud->form->getElement('guardian_name')->setAttr('class','hindi');
             $crud->form->getElement('p_address')->setAttr('class','hindi');
+            $crud->form->getElement('class_id')->setAttr('class','hindi');
             // $crud->form->getElement('class_id')->setAttr('class','hindi');
 //            $drp_cat=$crud->form->addField('dropdown','categary');
 //            $cat=array("ST"=>"ST","SC"=>"SC","OBC"=>"OBC");

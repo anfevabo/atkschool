@@ -130,6 +130,7 @@ class page_student_marks extends Page{
 		// $sm->table_alias='sm1';
 		$smj=$sm->leftJoin('student.id', 'student_id', null, 'sm2');
 		$smj->addField('class_id');
+		// $smj->addField('subject_id');
 		$smj->addField('roll_no');
 		// $sm->debug();
 
@@ -154,9 +155,11 @@ class page_student_marks extends Page{
 		// }
 
 		$sm->_dsql()->order('roll_no', 'asc');
-		$grid->setModel($sm, array('roll_no', 'class', 'student', 'max_marks', 'marks'));
+		$grid->setModel($sm, array('roll_no','class','subject', 'student', 'max_marks', 'marks'));
 		// $grid->dq->order('roll_no','asc');
 		$grid->addFormatter('student', 'hindi');
+		$grid->addFormatter('class', 'hindi');
+		$grid->addFormatter('subject', 'hindi');
 		$grid->addFormatter('marks', 'grid/inline');
 	}
 

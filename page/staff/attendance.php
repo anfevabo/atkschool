@@ -5,6 +5,6 @@ class page_staff_attendance extends Page {
 		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 		// $grid=$this->add('CompleteLister',null,null,array('list/staffregister'));
-		$grid->setModel('Staff',array('hname','designation','attendance_status','contact'));
+		$grid->setModel('Staff',array('hname','ename','designation','attendance_status','contact'));
 	}
 }

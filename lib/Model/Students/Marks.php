@@ -15,6 +15,13 @@ class Model_Students_Marks extends Model_Table{
 			return $m->refSQL('examsub_map_id')->fieldQuery('max_marks');
 		});
 
+		$this->addExpression('class')->set(function($m,$q){
+			return $m->refSQL('student_id')->fieldQuery('class');
+		});
+		$this->addExpression('subject')->set(function($m,$q){
+			return $m->refSQL('examsub_map_id')->fieldQuery('subject');
+		});
+
 
 		$this->addHook('beforeSave',$this);
 	}

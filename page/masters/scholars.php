@@ -10,7 +10,8 @@ class page_masters_scholars extends Page {
 	}	
 			
 		$sc=$this->add('Model_Scholars_Current');
-		$sc->_dsql()->order('fname','asc');
+		$sc->_dsql()->del('order')->order('scholar_no','desc');
+		// $sc->_dsql()->order('fname','asc');
 		$crud->setModel($sc);
 		if($crud->form){
 			$crud->form->getElement('class_id')->setAttr('class','hindi');
