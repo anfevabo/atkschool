@@ -3,7 +3,8 @@ class page_correction7 extends Page{
 	function init(){
 		parent::init();
 		$q="
-			ALTER TABLE `marksheet_sections` ADD `show_grade` TINYINT NOT NULL DEFAULT '1'
+			ALTER TABLE `marksheet_sections` ADD `show_grade` TINYINT NOT NULL DEFAULT '1';
+			
 		";
 
 		$this->query($q);	

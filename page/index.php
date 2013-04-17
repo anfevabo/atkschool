@@ -14,7 +14,6 @@ class page_index extends Page {
 
        $this->add('HTML')->set('<center><img src="welcome.jpg" alt="Plase put a file named welcome.jpg in your d:\xampp\htdocs\soft folder"/></center>'); 
         
-        
 //       $Birthdate=$this->api->db->dsql()->expr("select dob from scholars_master where id =15 ")->getOne();
 //       echo $this->GetAge($Birthdate);
         

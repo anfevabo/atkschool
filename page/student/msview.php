@@ -25,6 +25,71 @@ class page_student_msview extends Page {
 		// Percentage
 		$max=$this->api->recall('grand_total_max_marks',0);
 		$marks=$this->api->recall('grand_total_marks',0);
+		$grace=array();
+		$supplimentry=array();
+
+		$failed_subjects=$this->api->recall('failed_subjects',array());
+		// print_r($failed_subjects);
+
+		if(count($failed_subjects) ==0){
+			$final_result="Pass";
+		}
+		elseif(count($failed_subjects) > 2){
+			// JUST FAIL
+			$final_result = 'Fail';
+		}else{
+			// Grace or suplimentory
+			if(count($failed_subjects)==1){
+				$failed_subjects_i =array_values($failed_subjects);
+				if($failed_subjects_i[0]['diff'] <= $failed_subjects_i[0]['grace_allowed']['5_per']){
+					$sub=array_keys($failed_subjects);
+					$grace[]=array($sub[0]=>$failed_subjects_i[0]['diff']);
+					$final_result='Grace';
+				}
+				// Or can be suplimentry
+				if(count($grace) != 1){
+					$grace=array();
+					// Check for suplimentry
+					if($failed_subjects_i[0]['can_suplimentry']){
+						foreach($failed_subjects as $subject=>$details){
+							if($details['can_suplimentry']){
+								$supplimentry[$subject] = $details['diff'];
+							}
+						}
+						$final_result='Suplimentry';
+					}else{
+						// FAILED
+						$supplimentry=array();
+						$final_result='Fail';
+					}
+				}
+			}else{
+				foreach($failed_subjects as $subject=>$details){
+					// Check the two subjects for 2 percent grade range
+					if($details['diff'] <= $details['grace_allowed']['2_per']){
+						$grace[]=array($subject=>$details['diff']);
+						$final_result='Grace';
+					}
+					// BUT IF both are not in range they might be in supplimentry
+					if(count($grace) != 2) {
+						$grace=array();
+						foreach($failed_subjects as $subject=>$details){
+							if($details['can_suplimentry']){
+								$supplimentry[$subject] = $details['diff'];
+							}
+						}
+						$final_result='Suplimentry';
+					}
+					if(count($supplimentry) != 2){
+						// NOW YOU ARE FAILED.. NO BODY CAN HELP YOU MAN.. AB PADHAI CHALU KARDO BUS
+						$supplimentry=array();
+						$final_result='Fail';
+					}
+				}
+			}
+		}
+
+
 		if($max != 0)
 			$percentage = round($marks/$max * 100.00,2);
 		else
@@ -32,7 +97,7 @@ class page_student_msview extends Page {
 
 		
 		// Result
-		if($percentage >= 33) 
+		if($percentage >= 36 AND $final_result = 'Pass') 
 			$final_result = 'Pass';
 		else
 			$final_result = "Fail";
@@ -40,9 +105,9 @@ class page_student_msview extends Page {
 		// Division
 		if($percentage >=60)
 			$division="First";
-		elseif($percentage >=50)
+		elseif($percentage >=48)
 			$division="Second";
-		elseif($percentage >=33)
+		elseif($percentage >=36)
 			$division="Third";
 		else
 			$division="-";
@@ -80,8 +145,12 @@ class page_student_msview extends Page {
 		// Distinction
 		$distinction = $this->api->recall('distinction_subjects',array());
 
-		$result=array('percentage'=>$percentage,'final_result'=>$final_result,'division'=>$division);
-		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank),'right_panel');
+		$result=array(
+			'percentage'=>$percentage,
+			'final_result'=>$final_result,
+			'division'=>$division
+			);
+		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry),'right_panel');
 		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur');
 	}
 

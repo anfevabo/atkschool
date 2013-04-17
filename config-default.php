@@ -9,6 +9,7 @@ $config['url_prefix']='?page=';
 $config['logger']['log_dir']='./';
 
 date_default_timezone_set('Asia/Calcutta');
+
 // echo date('H:i:s', time()); 
 
 # Agile Toolkit attempts to use as many default values for config file,

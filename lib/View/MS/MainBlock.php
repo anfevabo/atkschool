@@ -130,6 +130,8 @@ class View_MS_MainBlock extends View {
 
 		$examsub_map_id_array=array();
 
+		$failed_subjects=array();
+
 		foreach($subs=$section->ref('MS_SectionSubjects') as $secsub_junk){
 			$subjects[] = "<span class='hindi'>".$subs->ref('subject_id')->get('name')."</span>";
 		}
@@ -193,6 +195,23 @@ class View_MS_MainBlock extends View {
 				$blocks_total_fields[$block_name]=$block['total_title'];
 			}
 		}
+
+		// GRADE GRACE AND SUPPLIMENTRY DECIDER
+		foreach($subjects as $sub){
+			if($subject_sum[$sub] < ($subject_max_marks_sum[$sub] * 36 /100.0)){
+				$failed_subjects[$sub]['achieved'] = $subject_sum[$sub];
+				$failed_subjects[$sub]['max_marks'] = $subject_max_marks_sum[$sub];
+				$failed_subjects[$sub]['diff'] = ($subject_max_marks_sum[$sub] * 36 /100.0) - $subject_sum[$sub];
+				$failed_subjects[$sub]['grace_allowed']=array(
+														"5_per"=>$subject_max_marks_sum[$sub] * 5/100.0,
+														"2_per"=>$subject_max_marks_sum[$sub] * 2/100.0
+														);
+				$failed_subjects[$sub]['can_suplimentry'] = $subject_sum[$sub] > ($subject_max_marks_sum[$sub] * 25 /100.0);
+			}
+		}
+		$this->api->memorize('failed_subjects',$this->api->recall('failed_subjects',array()) + $failed_subjects );
+
+
 
 		// $this->pr($extra_totals_blocks);
 		// $this->pr($blocks_code);

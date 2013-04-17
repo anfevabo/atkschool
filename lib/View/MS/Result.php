@@ -5,6 +5,8 @@ class View_MS_Result extends View {
 	var $division;
 	var $distinction;
 	var $rank;
+	var $grace;
+	var $supplimentry;
 
 	function init(){
 		parent::init();
@@ -20,6 +22,18 @@ class View_MS_Result extends View {
 			$dist .= "</td></tr>";
 		}
 		$this->template->trySetHTML('distinction',$dist);
+
+		// print_r($this->grace);
+
+		$gr="";
+		foreach($this->grace as $grace){
+			$sub=array_keys($grace);
+			$sub=$sub[0];
+			$num = array_values($grace);
+			$num=$num[0];
+			$gr.="<tr><td>".$sub."</td><td>".$num."</td></tr>";
+		}
+		$this->template->trySetHTML('grace',$gr);
 		
 	}
 
