@@ -1,0 +1,79 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <table width="100%" border="1">
+      <tbody>
+        <tr>
+          <td width="50%"><br>
+          </td>
+          <td>
+            <h1 style="text-align: center;"> Bal Vinay Mandir U. M. Vidhyalay
+              Udaipur</h1>
+            <h2 style="text-align: center;">J . 11 Haridas ji ki Magari Udaipur</h2>
+            <table style="width: 100%;" border="0">
+              <tbody>
+                <tr>
+                  <td style="text-align: center;"><img alt="" src="templates/default/images/1logo.png"><br>
+                  </td>
+                  <td style="text-align: center;">Prgati - patr<br>
+                    Satr 2012-2013</td>
+                  <td><img alt="" src="templates/default/images/1logo.png"> </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <table width="100%" border="1">
+              <tbody>
+                <tr>
+                  <td style="text-align: center;"><?scholar_no?>Namank:-<?/scholar_no?>
+                  </td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;"><?hname?>Vidhyarthi ka Naam:-<?/hname?></td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;"><?class?>Class:-<?/class?></td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">Varg:-</td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">Father's Name:-</td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">Mother's Name:-</td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">Sanrakshak Ka Naam:-</td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">Abhibhavak/Sanrakshak Ka
+                    Naam:-</td>
+                  <td><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </body>
+</html>

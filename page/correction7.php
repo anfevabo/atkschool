@@ -3,8 +3,8 @@ class page_correction7 extends Page{
 	function init(){
 		parent::init();
 		$q="
-			ALTER TABLE `marksheet_sections` ADD `show_grade` TINYINT NOT NULL DEFAULT '1';
-			
+			ALTER TABLE `disease_remarks` ADD COLUMN `disease_id`  int(11) NOT NULL AFTER `created_at`;
+			ALTER TABLE `marksheet_sections` ADD COLUMN `show_grade`  tinyint(4) NOT NULL DEFAULT 1 AFTER `total_at_bottom`;
 		";
 
 		$this->query($q);	

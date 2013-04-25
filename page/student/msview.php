@@ -9,6 +9,7 @@ class page_student_msview extends Page {
 		$this->api->memorize('grand_total_marks',0);
 		$this->api->memorize('distinction_subjects',array());
 		$this->api->memorize('examsub_map_id_array',array());
+		$this->api->memorize('failed_subjects',array());
 
 
 		$topStudentView=$this->add('View_MS_StudentDetails',null,'student_panel');
@@ -50,7 +51,7 @@ class page_student_msview extends Page {
 				if(count($grace) != 1){
 					$grace=array();
 					// Check for suplimentry
-					if($failed_subjects_i[0]['can_suplimentry']){
+					if($failed_subjects_i[0]['can_suplimentry'] == '1'){
 						foreach($failed_subjects as $subject=>$details){
 							if($details['can_suplimentry']){
 								$supplimentry[$subject] = $details['diff'];
@@ -97,17 +98,15 @@ class page_student_msview extends Page {
 
 		
 		// Result
-		if($percentage >= 36 AND $final_result = 'Pass') 
+		if($percentage >= 36 AND $final_result == 'Pass') 
 			$final_result = 'Pass';
-		else
-			$final_result = "Fail";
 		
 		// Division
-		if($percentage >=60)
+		if($percentage >=60 AND $final_result == 'Pass')
 			$division="First";
-		elseif($percentage >=48)
+		elseif($percentage >=48 AND $final_result == 'Pass')
 			$division="Second";
-		elseif($percentage >=36)
+		elseif($percentage >=36 AND $final_result == 'Pass')
 			$division="Third";
 		else
 			$division="-";
@@ -152,10 +151,12 @@ class page_student_msview extends Page {
 			);
 		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry),'right_panel');
 		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur');
+		$fv=$this->add('View_MS_Front',null,'marksheet_front');
+		$fv->setModel($this->add('Model_Student')->load($_GET['student']));
 	}
 
 	function defaultTemplate(){
-		return array('view/marksheet/backside');
+		return array('view/marksheet/marksheet');
 	}
 
 	function render(){

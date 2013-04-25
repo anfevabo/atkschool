@@ -514,6 +514,7 @@ class View_MS_MainBlock extends View {
 			}
 
 		}
+		// $this->pr(json_decode(json_encode($table)));
 		$this->add('Text')->setHtml($table->render());
 
 		$distinction_subjects=array();
