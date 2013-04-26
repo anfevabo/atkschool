@@ -50,7 +50,7 @@ class View_MS_MainBlock extends View {
 	var $student;
 	var $section;
 
-	var $save_results=false;
+	var $print_block=true;
 
 	function init(){
 		parent::init();
@@ -515,7 +515,8 @@ class View_MS_MainBlock extends View {
 
 		}
 		// $this->pr(json_decode(json_encode($table)));
-		$this->add('Text')->setHtml($table->render());
+		if($this->print_block)
+			$this->add('Text')->setHtml($table->render());
 
 		$distinction_subjects=array();
 		if($section['grade_decider']){

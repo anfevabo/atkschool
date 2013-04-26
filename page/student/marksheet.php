@@ -4,7 +4,7 @@ class page_student_marksheet extends Page{
 		// parent::init();
 
 		$form=$this->add("Form",null,null,array('form_horizontal'));
-		$class_field=$form->addField('dropdown','class')->setEmptyText("----");
+		$class_field=$form->addField('dropdown','class')->setEmptyText("----")->validateNotNull();
 		$class_field->setAttr('class','hindi');
 		$c=$this->add("Model_Class");
 
@@ -12,7 +12,7 @@ class page_student_marksheet extends Page{
 
 		$s=$this->add("Model_Student");
 
-		$form->addSubmit('Save');
+		$form->addSubmit('Show');
 
 		if($_GET['class_id']){
 			$s->addCondition('class_id',$_GET['class_id']);
@@ -25,7 +25,10 @@ class page_student_marksheet extends Page{
 
 		if($form->isSubmitted()){
 			// $form->js()->univ()->successMessage('Hi')->execute();
-			$this->js()->univ()->newWindow($this->api->url("student_msview",array('class'=>$form->get('class'),'student'=>$form->get('students'))),null,'height=689,width=1246,scrollbar=1')->execute();
+			if($form->get('students'))
+				$this->js()->univ()->newWindow($this->api->url("student_msview",array('class'=>$form->get('class'),'student'=>$form->get('students'))),null,'height=689,width=1246,scrollbar=1')->execute();
+			else
+				$this->js()->univ()->newWindow($this->api->url("student_mslist",array('class'=>$form->get('class'))),null,'height=689,width=1246,scrollbar=1')->execute();
 		}
 	}
 

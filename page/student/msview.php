@@ -18,7 +18,7 @@ class page_student_msview extends Page {
 
 		foreach($marksheet=$c->ref('MS_Designer') as $marksheet_junk){
 			foreach($section = $marksheet->ref('MS_Sections') as $section_junk){
-				$v=$this->add('View_MS_MainBlock',array('class'=>$_GET['class'],'student'=>$_GET['student'],'section'=>$section->id,'save_results'=>$first));
+				$v=$this->add('View_MS_MainBlock',array('class'=>$_GET['class'],'student'=>$_GET['student'],'section'=>$section->id,'prnt_block'=>true));
 				$first=false;
 			}
 		}
@@ -152,7 +152,7 @@ class page_student_msview extends Page {
 		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry),'right_panel');
 		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur');
 		$fv=$this->add('View_MS_Front',null,'marksheet_front');
-		$fv->setModel($this->add('Model_Student')->load($_GET['student']));
+		$fv->setModel($this->add('Model_Student')->load($_GET['student'])->ref('scholar_id'));
 	}
 
 	function defaultTemplate(){
