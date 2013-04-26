@@ -1365,3 +1365,12 @@ input.ui-button,
     font-family : 'Kruti Dev 010';
     font-size : 15px;
 }
+
+.english
+{
+  font: 12px "Helvetica Neue", "Helvetica", sans-serif;
+}
+
+table .bordered tr td {
+  border: 1px solid black;
+}

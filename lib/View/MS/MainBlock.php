@@ -87,7 +87,7 @@ class View_MS_MainBlock extends View {
 			}
 		}
 
-		// $this->pr($push_in_last_extra_totals);
+		$this->pr($extra_totals_blocks);
 		// echo $Extra_Totals_Text;
 		/*
 			MAIN BLOCK DESIGNING
@@ -133,7 +133,7 @@ class View_MS_MainBlock extends View {
 		$failed_subjects=array();
 
 		foreach($subs=$section->ref('MS_SectionSubjects') as $secsub_junk){
-			$subjects[] = "<span class='hindi'>".$subs->ref('subject_id')->get('name')."</span>";
+			$subjects[] = "<span class='hindismall'>".$subs->ref('subject_id')->get('name')."</span>";
 		}
 
 		foreach($block=$section->ref('MS_SectionBlocks') as $block_junk){
@@ -142,10 +142,10 @@ class View_MS_MainBlock extends View {
 			$blocks_code[$block_name] = $block['column_code'];
 			$blocks_exam_count[$block_name]= $block->ref('MS_BlockExams')->count()->getOne();
 			foreach ($exam=$block->ref('MS_BlockExams') as $exam_junk) {
-				$exam_name="<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
+				$exam_name="<span class='hindismall'>".$exam->ref('exammap_id')->get('name')."</span>";
 				$block_exams[$block_name][]=$exam_name;
 				if(! in_array($exam_name,$exams)){
-						$exams[] = "<span class='hindi'>".$exam->ref('exammap_id')->get('name')."</span>";
+						$exams[] = "<span class='hindismall'>".$exam->ref('exammap_id')->get('name')."</span>";
 						$exams_code[$exam_name] = $exam['column_code'];
 				}
 				$exam_subjects=$this->add('Model_ExamClassSubjectMap');
@@ -153,7 +153,7 @@ class View_MS_MainBlock extends View {
 				// $exam_subjects->addCondition('marksheet_section_id',$this->section);
 				$exam_subjects->_dsql()->order('in_ms_row');
 				foreach($exam_subjects as $exam_subject_junk){
-					$subject_name = "<span class='hindi'>".$exam_subjects->ref('subject_id')->get('name')."</span>";
+					$subject_name = "<span class='hindismall'>".$exam_subjects->ref('subject_id')->get('name')."</span>";
 					$blocks_exams_subjects[$block_name][$exam_name][] = $subject_name;
 					if(!in_array($subject_name, $subjects)) continue;
 					// if(! in_array($subject_name,$subjects)){
@@ -197,16 +197,18 @@ class View_MS_MainBlock extends View {
 		}
 
 		// GRADE GRACE AND SUPPLIMENTRY DECIDER
-		foreach($subjects as $sub){
-			if($subject_sum[$sub] < ($subject_max_marks_sum[$sub] * 36 /100.0)){
-				$failed_subjects[$sub]['achieved'] = $subject_sum[$sub];
-				$failed_subjects[$sub]['max_marks'] = $subject_max_marks_sum[$sub];
-				$failed_subjects[$sub]['diff'] = ($subject_max_marks_sum[$sub] * 36 /100.0) - $subject_sum[$sub];
-				$failed_subjects[$sub]['grace_allowed']=array(
-														"5_per"=>$subject_max_marks_sum[$sub] * 5/100.0,
-														"2_per"=>$subject_max_marks_sum[$sub] * 2/100.0
-														);
-				$failed_subjects[$sub]['can_suplimentry'] = $subject_sum[$sub] > ($subject_max_marks_sum[$sub] * 25 /100.0);
+		if($section['grade_decider']){
+			foreach($subjects as $sub){
+				if($subject_sum[$sub] < ($subject_max_marks_sum[$sub] * 36 /100.0)){
+					$failed_subjects[$sub]['achieved'] = $subject_sum[$sub];
+					$failed_subjects[$sub]['max_marks'] = $subject_max_marks_sum[$sub];
+					$failed_subjects[$sub]['diff'] = ($subject_max_marks_sum[$sub] * 36 /100.0) - $subject_sum[$sub];
+					$failed_subjects[$sub]['grace_allowed']=array(
+															"5_per"=>$subject_max_marks_sum[$sub] * 5/100.0,
+															"2_per"=>$subject_max_marks_sum[$sub] * 2/100.0
+															);
+					$failed_subjects[$sub]['can_suplimentry'] = $subject_sum[$sub] > ($subject_max_marks_sum[$sub] * 25 /100.0);
+				}
 			}
 		}
 		$this->api->memorize('failed_subjects',$this->api->recall('failed_subjects',array()) + $failed_subjects );
@@ -221,11 +223,11 @@ class View_MS_MainBlock extends View {
 		// TOP ROW SUBJECT and BLOCKS
 		$cur_row = $table->Tr[] = new xTr();
 		$cur_td = $cur_row->Td[] = new xTd();
-		$cur_td->value = "Vishay";
+		$cur_td->value = 'fo"k;';
 		$cur_td->attributes = "rowspan=2 align='center'";
 		if($MM_4_Each_Row){
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->value = "Purnank";
+			$cur_td->value = PURNANK;
 			$cur_td->attributes="rowspan=2 align='center'";
 		}
 		foreach($blocks as $block_junk){
@@ -233,19 +235,23 @@ class View_MS_MainBlock extends View {
 			$cur_td->value = $block_junk;
 			$colspan=$blocks_exam_count[$block_junk];
 			if(in_array($block_junk, $total_in_blocks)) $colspan++;
-			if(in_array($blocks_code[$block_junk], $extra_totals_blocks) and $blocks_code[$block_junk] != null) $colspan++;
+			if(in_array($blocks_code[$block_junk], $extra_totals_blocks) and $blocks_code[$block_junk] != null){
+				$count_of_extra_totals_in_block=array_count_values($extra_totals_blocks);
+				$colspan += $count_of_extra_totals_in_block[$blocks_code[$block_junk]];
+				echo $blocks_code[$block_junk] . " is " . $count_of_extra_totals_in_block[$blocks_code[$block_junk]] . "times<br/>";
+			} 
 			$cur_td->attributes = "colspan=" . $colspan . " align='center'";
 		}
 
 		if($section['has_grand_total']){
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->value = "Sarv Yog";
+			$cur_td->value = SARVYOG;
 			$cur_td->attributes="rowspan=2 align='center'";
 		}
 
 		if($section['show_grade']){
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->value = "Grade";
+			$cur_td->value = "xzsM";
 			$cur_td->attributes="rowspan=2 align='center'";
 		}
 
@@ -285,7 +291,7 @@ class View_MS_MainBlock extends View {
 		if(!$MM_4_Each_Row){
 			$cur_row = $table->Tr[] = new xTr();
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->value = "Purnank";
+			$cur_td->value = PURNANK;
 			foreach($blocks as $block_junk){
 				foreach($block_exams[$block_junk] as $exam){
 					$cur_td = $cur_row->Td[] = new xTd();
@@ -342,7 +348,7 @@ class View_MS_MainBlock extends View {
 			if($MM_4_Each_Row){ //IF each row has max marks to be shown
 				$cur_td->attributes = "rowspan=2";
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->value = "Purnank<br>Praptank";
+				$cur_td->value = PURNANK. "<br>" . PRAPTANK;
 				$cur_td->attributes="rowspan=2";
 				foreach($blocks as $block_junk){
 					foreach($block_exams[$block_junk] as $exam){
@@ -422,8 +428,16 @@ class View_MS_MainBlock extends View {
 			}
 			if($section['show_grade']){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->value = $subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub];
-				$cur_td->attributes = " align='center'";
+				$cur_td->value = ($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  <= 30)
+								? 'E' :
+									($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  < 50)
+									? 'D':
+										($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  <= 70)
+										? 'C' :
+											($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  <= 85)
+											? 'B' : 'A';
+				;
+				$cur_td->attributes = " align='center' class='english'";
 			}
 		}
 
@@ -431,7 +445,7 @@ class View_MS_MainBlock extends View {
 		if($section['total_at_bottom']){
 			$cur_row = $table->Tr[] = new xTr();
 			$cur_td = $cur_row->Td[] = new xTd();
-			$cur_td->value = "YOOG";
+			$cur_td->value = TOTAL;
 
 			if($MM_4_Each_Row){
 				$cur_td->attributes = "rowspan=2";

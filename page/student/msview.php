@@ -33,11 +33,11 @@ class page_student_msview extends Page {
 		// print_r($failed_subjects);
 
 		if(count($failed_subjects) ==0){
-			$final_result="Pass";
+			$final_result=PASS;
 		}
 		elseif(count($failed_subjects) > 2){
 			// JUST FAIL
-			$final_result = 'Fail';
+			$final_result = FAIL;
 		}else{
 			// Grace or suplimentory
 			if(count($failed_subjects)==1){
@@ -61,7 +61,7 @@ class page_student_msview extends Page {
 					}else{
 						// FAILED
 						$supplimentry=array();
-						$final_result='Fail';
+						$final_result=FAIL;
 					}
 				}
 			}else{
@@ -84,7 +84,7 @@ class page_student_msview extends Page {
 					if(count($supplimentry) != 2){
 						// NOW YOU ARE FAILED.. NO BODY CAN HELP YOU MAN.. AB PADHAI CHALU KARDO BUS
 						$supplimentry=array();
-						$final_result='Fail';
+						$final_result=FAIL;
 					}
 				}
 			}
@@ -98,16 +98,16 @@ class page_student_msview extends Page {
 
 		
 		// Result
-		if($percentage >= 36 AND $final_result == 'Pass') 
-			$final_result = 'Pass';
+		if($percentage >= 36 AND $final_result == PASS) 
+			$final_result = PASS;
 		
 		// Division
-		if($percentage >=60 AND $final_result == 'Pass')
-			$division="First";
-		elseif($percentage >=48 AND $final_result == 'Pass')
-			$division="Second";
-		elseif($percentage >=36 AND $final_result == 'Pass')
-			$division="Third";
+		if($percentage >=60 AND $final_result == PASS)
+			$division="I";
+		elseif($percentage >=48 AND $final_result == PASS)
+			$division="II";
+		elseif($percentage >=36 AND $final_result == PASS)
+			$division="III";
 		else
 			$division="-";
 
@@ -150,9 +150,19 @@ class page_student_msview extends Page {
 			'division'=>$division
 			);
 		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry),'right_panel');
-		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur');
+		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('<span class="hindi">cky fou; efUnj mPp ek/;fed fo|ky; mn;iqj </span>');
 		$fv=$this->add('View_MS_Front',null,'marksheet_front');
 		$fv->setModel($this->add('Model_Student')->load($_GET['student'])->ref('scholar_id'));
+
+		$att_model=$this->add('Model_Students_Attendance');
+        // $att_model->addCondition('class_id',$form->get('class'));
+        // $att_model->addCondition('month',$form->get('month'));
+        $att_model->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+        $att_model->addCondition('student_id',$_GET['student']);
+		$atv=$fv->add('View_MS_Attendance',null,'attendance_block');
+		$atv->setModel($att_model);
+
+
 	}
 
 	function defaultTemplate(){
