@@ -161,7 +161,7 @@ class page_student_mslist extends Page {
 				'division'=>$division
 			);
 
-			$grid_data[] = array('StudentName'=>$each_student['name'],'Percentage'=>$percentage,'FinalResult'=>$final_result);
+			$grid_data[] = array("sno"=>1,'StudentName'=>$each_student['name'],"father_name"=>$each_student['father_name'],'Percentage'=>$percentage,'FinalResult'=>$final_result,'obtained_marks'=>$marks);
 			// $this->add( 'View_MS_Result', array( 'result'=>$result, 'distinction'=>$distinction, 'rank'=>$rank, 'grace' =>$grace, 'supplimentry'=>$supplimentry ), 'right_panel' );
 			// $this->api->add( 'H1', null, 'header' )->setAttr( 'align', 'center' )->setHTML( 'Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur' );
 			// $fv=$this->add( 'View_MS_Front', null, 'marksheet_front' );
@@ -169,7 +169,10 @@ class page_student_mslist extends Page {
 		}
 		
 		$grid=$this->add('Grid');
+		$grid->addColumn('sno','sno');
 		$grid->addColumn('hindi','StudentName');
+		$grid->addColumn('hindi','father_name');
+		$grid->addColumn('text','obtained_marks');
 		$grid->addColumn('text','Percentage');
 		$grid->addColumn('text','FinalResult');
 		$grid->setSource($grid_data);

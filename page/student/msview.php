@@ -79,7 +79,7 @@ class page_student_msview extends Page {
 								$supplimentry[$subject] = $details['diff'];
 							}
 						}
-						$final_result='Suplimentry';
+						$final_result='iwjd'; //suplimentry
 					}
 					if(count($supplimentry) != 2){
 						// NOW YOU ARE FAILED.. NO BODY CAN HELP YOU MAN.. AB PADHAI CHALU KARDO BUS
@@ -92,7 +92,7 @@ class page_student_msview extends Page {
 
 
 		if($max != 0)
-			$percentage = round($marks/$max * 100.00,2);
+			$percentage = $marks/$max * 100.00;
 		else
 			$percentage = 0;
 
@@ -103,11 +103,11 @@ class page_student_msview extends Page {
 		
 		// Division
 		if($percentage >=60 AND $final_result == PASS)
-			$division="I";
+			$division="izFke";
 		elseif($percentage >=48 AND $final_result == PASS)
-			$division="II";
+			$division="f}rh;";
 		elseif($percentage >=36 AND $final_result == PASS)
-			$division="III";
+			$division="r`rh;";
 		else
 			$division="-";
 

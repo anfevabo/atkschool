@@ -87,7 +87,7 @@ class View_MS_MainBlock extends View {
 			}
 		}
 
-		$this->pr($extra_totals_blocks);
+		// $this->pr($extra_totals_blocks);
 		// echo $Extra_Totals_Text;
 		/*
 			MAIN BLOCK DESIGNING
@@ -234,11 +234,15 @@ class View_MS_MainBlock extends View {
 			$cur_td = $cur_row->Td[] = new xTd();
 			$cur_td->value = $block_junk;
 			$colspan=$blocks_exam_count[$block_junk];
+			// echo "colspan without total" . $colspan . "<br/>";
 			if(in_array($block_junk, $total_in_blocks)) $colspan++;
+			// echo "colspan after total" . $colspan . "<br/>";
 			if(in_array($blocks_code[$block_junk], $extra_totals_blocks) and $blocks_code[$block_junk] != null){
-				$count_of_extra_totals_in_block=array_count_values($extra_totals_blocks);
-				$colspan += $count_of_extra_totals_in_block[$blocks_code[$block_junk]];
-				echo $blocks_code[$block_junk] . " is " . $count_of_extra_totals_in_block[$blocks_code[$block_junk]] . "times<br/>";
+				foreach($extra_totals_blocks as $etb){
+					// echo $etb .'=='. $blocks_code[$block_junk]. "<br/>";
+					if($etb == $blocks_code[$block_junk] ) $colspan += 1;
+					// echo "yes eq colspan " . $colspan . "<br/>";
+				}
 			} 
 			$cur_td->attributes = "colspan=" . $colspan . " align='center'";
 		}

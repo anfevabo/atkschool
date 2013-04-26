@@ -14,6 +14,7 @@ class View_MS_Result extends View {
 		$this->template->trySet('percentage',round($this->result['percentage'],2));
 		$this->template->trySet('division',$this->result['division']);
 		$this->template->trySet('rank_in_class',$this->rank);
+		$this->template->trySet('today_date',date('d/m/Y'));
 
 		$dist="";
 		foreach($this->distinction as $sub){
@@ -34,6 +35,14 @@ class View_MS_Result extends View {
 			$gr.="<tr><td>".$sub."</td><td>".$num."</td></tr>";
 		}
 		$this->template->trySetHTML('grace',$gr);
+
+		$sup="";
+		foreach($this->supplimentry as $sub=>$marks){
+			$sup.="<tr><td>".$sub."</td></tr>";
+		}
+		$this->template->trySetHTML('supplimentry',$sup);
+
+		
 		
 	}
 
