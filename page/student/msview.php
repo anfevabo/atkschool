@@ -161,7 +161,7 @@ class page_student_msview extends Page {
         $att_model->addCondition('student_id',$_GET['student']);
 		$atv=$fv->add('View_MS_Attendance',null,'attendance_block');
 		$atv->setModel($att_model);
-
+		$this->add('Text',null,'today_date')->set(date('d-m-Y'));
 
 	}
 

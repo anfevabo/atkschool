@@ -36,13 +36,14 @@ class page_student_attendance extends Page{
                 $sam->addCondition('class_id',$form->get('class'));
                 $sam->addCondition('month',$form->get('month'));
                 $sam->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+                // $sam->debug();
                 $students_in_attendance_table_for_this_class= $sam->count()->getOne();
                 $c=$this->add('Model_Class');
                 $c->load($form->get('class'));
                 $total_students_in_class=$c->ref('Students_Current')->count()->getOne();
                 if($total_students_in_class != $students_in_attendance_table_for_this_class){
                     if($form->get('att') == null ){
-                        $form->displayError('att','New Students Found to be added, Kindly give total monthly attendance again');
+                        $form->displayError('att','New Students Found to be added, Kindly give total monthly attendance again'. $total_students_in_class .'and'.$students_in_attendance_table_for_this_class);
                     }
                     foreach($c->ref('Students_Current') as $junk){
                         // Check every students existance, if not found add this student's entry in attendance table
