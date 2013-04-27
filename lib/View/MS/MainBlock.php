@@ -68,7 +68,7 @@ class View_MS_MainBlock extends View {
 		$extra_total_title=array();
 		$extra_total_exams=array();
 		$push_in_last_extra_totals=array();
-		$set_show_extra_in_last = null;
+		$set_show_extra_in_last = array();
 		// B1=>A+B=>B=>Two Total;B2=>A+B+C+D+E=>E=>Five Total=>last
 		$extra_total_sum_max_marks_afterexam_subject=array();
 		$extra_total_sum_marks_afterexam_subject=array();
@@ -79,15 +79,15 @@ class View_MS_MainBlock extends View {
 		foreach($temp as $t){
 			$t=explode("=>", $t);
 			$extra_totals_blocks[] = $t[0]; //In which block
-			$extra_total_exams[$t[2]]=$t[1]; // after_exam => what exams code to be added
+			$extra_total_exams[$t[2]][] =$t[1]; // after_exam => what exams code to be added
 			$extra_total_after_exam[] = $t[2]; //after which exam
-			$extra_total_title[$t[2]] = $t[3]; //Total title
+			$extra_total_title[$t[2]][count($extra_total_exams[$t[2]])-1] = $t[3]; //Total title
 			if(isset($t[4])){ //Is to be set in last after blocks total
-				$push_in_last_extra_totals[] = $t[2];
+				$push_in_last_extra_totals[$t[2]] = count($extra_total_exams[$t[2]])-1; //No value ref line : 183 approx foreach($exams_texts as $no=>$exams_text){
 			}
 		}
 
-		$this->pr($extra_total_after_exam);
+		// $this->pr($extra_total_title);
 		// echo $Extra_Totals_Text;
 		/*
 			MAIN BLOCK DESIGNING
@@ -178,15 +178,21 @@ class View_MS_MainBlock extends View {
 					$block_marks_sum[$block_name] += $marks['marks'];
 					$grand_total_marks +=$marks['marks'];
 					$grand_total_max_marks +=$marks['max_marks'];
-					foreach($extra_total_exams as $after_exam=>$exams_text){
-						$exams_in_this_extra_total=explode("+", $exams_text);
-						if(in_array($exams_code[$exam_name], $exams_in_this_extra_total)){
-							$extra_total_sum_max_marks_afterexam_subject [$after_exam][$subject_name] += $marks['max_marks'] ;
-							$extra_total_sum_marks_afterexam_subject[$after_exam][$subject_name] += $marks['marks'];
+					foreach($extra_total_exams as $after_exam=>$exams_texts){
 
-							$extra_total_sum_max_marks_afterexam [$after_exam] += $marks['max_marks'];
-							$extra_total_sum_marks_afterexam [$after_exam] += $marks['marks'];
-						}
+						foreach($exams_texts as $no=>$exams_text){
+
+							$exams_in_this_extra_total=explode("+", $exams_text);
+							if(in_array($exams_code[$exam_name], $exams_in_this_extra_total)){
+								$extra_total_sum_max_marks_afterexam_subject [$after_exam][$no][$subject_name] += $marks['max_marks'] ;
+								$extra_total_sum_marks_afterexam_subject[$after_exam][$no][$subject_name] += $marks['marks'];
+
+								$extra_total_sum_max_marks_afterexam [$after_exam][$no] += $marks['max_marks'];
+								$extra_total_sum_marks_afterexam [$after_exam][$no] += $marks['marks'];
+							}
+					
+
+						}	
 					}
 				}
 			}
@@ -215,7 +221,7 @@ class View_MS_MainBlock extends View {
 
 
 
-		// $this->pr($extra_totals_blocks);
+		// $this->pr($extra_total_sum_max_marks_afterexam);
 		// $this->pr($blocks_code);
 		// TABLE start
 		$table = new xTable();
@@ -267,13 +273,15 @@ class View_MS_MainBlock extends View {
 				$cur_td->value = $be;
 				$cur_td->attributes = " align='center'";
 				if(in_array($exams_code[$be], $extra_total_after_exam)){
-					if(!in_array($exams_code[$be], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
-						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = $extra_total_title[$exams_code[$be]];
-						$cur_td->attributes = " align='center'";
+					if(!array_key_exists($exams_code[$be], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+						foreach($extra_total_exams[$exams_code[$be]] as $no=>$exams_texts){
+							$cur_td = $cur_row->Td[] = new xTd();
+							$cur_td->value = $extra_total_title[$exams_code[$be]][$no];
+							$cur_td->attributes = " align='center'";
+						}
 					}
 					else{
-						$set_show_extra_in_last=$exams_code[$be];
+						$set_show_extra_in_last[$push_in_last_extra_totals[$exams_code[$be]]][]=$exams_code[$be];
 					}
 				}
 			}
@@ -282,12 +290,17 @@ class View_MS_MainBlock extends View {
 				$cur_td->value = $blocks_total_fields[$block_junk];	
 				$cur_td->attributes = " align='center'";
 			}
-			if($set_show_extra_in_last != null){ 
-				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->value = $extra_total_title[$set_show_extra_in_last];
-				$cur_td->attributes = " align='center'";
-				$set_show_extra_in_last=null;
+			if(count($set_show_extra_in_last) != 0){ 
+				// chk
+				foreach($set_show_extra_in_last as $no=>$sseil){
+					foreach($sseil as $extra_title_temp){
+						$cur_td = $cur_row->Td[] = new xTd();
+						$cur_td->value = $extra_total_title[$extra_title_temp][$no];
+						$cur_td->attributes = " align='center'";
+					}
+				}
 			}
+			$set_show_extra_in_last=array();
 
 		}
 
@@ -302,12 +315,14 @@ class View_MS_MainBlock extends View {
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$subjects[0]];
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
-						if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
-							$cur_td = $cur_row->Td[] = new xTd();
-							$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$subjects[0]];
-							$cur_td->attributes = " align='center'";
+						if(!array_key_exists($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+							foreach($extra_total_exams[$exams_code[$exam]] as $no=>$exams_texts){
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$no][$subjects[0]];
+								$cur_td->attributes = " align='center'";
+							}
 						}else{
-							$set_show_extra_in_last = $exams_code[$exam];
+							$set_show_extra_in_last[$push_in_last_extra_totals[$exams_code[$exam]]][]=$exams_code[$exam];
 						}
 					}
 					// if(in_array($exams_code[$exam], $extra_total_after_exam)){
@@ -323,11 +338,16 @@ class View_MS_MainBlock extends View {
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_subject_max_marks_sum[$block_junk][$subjects[0]];
 				}
-				if($set_show_extra_in_last != null){ 
-					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$set_show_extra_in_last][$subjects[0]];
-					$cur_td->attributes = " align='center'";
-					$set_show_extra_in_last=null;
+				if(count($set_show_extra_in_last) != 0){ 
+					// chk
+					foreach($set_show_extra_in_last as $no=>$sseil){
+						foreach($sseil as $extra_temp){
+							$cur_td = $cur_row->Td[] = new xTd();
+							$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$extra_temp][$no][$subjects[0]];
+							$cur_td->attributes = "style='font-weight:bold' align='center'";
+						}
+					}
+					$set_show_extra_in_last=array();
 				}
 			}
 			
@@ -360,12 +380,14 @@ class View_MS_MainBlock extends View {
 						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_exam_subject_max_marks[$block_junk][$exam][$sub];
 						if(in_array($exams_code[$exam], $extra_total_after_exam)){
-							if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
-								$cur_td = $cur_row->Td[] = new xTd();
-								$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$sub];
-								$cur_td->attributes = " align='center'";
+							if(!array_key_exists($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+								foreach($extra_total_exams[$exams_code[$exam]] as $no=>$exams_texts){
+									$cur_td = $cur_row->Td[] = new xTd();
+									$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$exams_code[$exam]][$no][$sub];
+									$cur_td->attributes = " align='center'";
+								}
 							}else{
-								$set_show_extra_in_last = $exams_code[$exam];
+								$set_show_extra_in_last[$push_in_last_extra_totals[$exams_code[$exam]]][]=$exams_code[$exam];
 							}
 						}
 					}
@@ -374,11 +396,16 @@ class View_MS_MainBlock extends View {
 						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_subject_max_marks_sum[$block_junk][$sub];
 					}		
-					if($set_show_extra_in_last != null){ 
-						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$set_show_extra_in_last][$sub];
-						$cur_td->attributes = " align='center'";
-						$set_show_extra_in_last=null;
+					if(count($set_show_extra_in_last) != 0){ 
+						// chk
+						foreach($set_show_extra_in_last as $no=>$sseil){
+							foreach($sseil as $extra_temp){
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_max_marks_afterexam_subject[$extra_temp][$no][$sub];
+								$cur_td->attributes = "style='font-weight:bold' align='center'";
+							}
+						}
+						$set_show_extra_in_last=array();
 					}
 				}	
 				
@@ -404,12 +431,14 @@ class View_MS_MainBlock extends View {
 					$cur_td->value = $block_exam_subject_marks[$block_junk][$exam][$sub];
 					$cur_td->attributes = " align='center'";
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
-						if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
-							$cur_td = $cur_row->Td[] = new xTd();
-							$cur_td->value = $extra_total_sum_marks_afterexam_subject[$exams_code[$exam]][$sub];
-							$cur_td->attributes = " align='center'";
+						if(!array_key_exists($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+							foreach($extra_total_exams[$exams_code[$exam]] as $no=>$exams_texts){
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_marks_afterexam_subject[$exams_code[$exam]][$no][$sub];
+								$cur_td->attributes = " align='center'";
+							}
 						}else{
-							$set_show_extra_in_last = $exams_code[$exam];
+							$set_show_extra_in_last[$push_in_last_extra_totals[$exams_code[$exam]]][]=$exams_code[$exam];
 						}
 					}
 				}
@@ -418,11 +447,16 @@ class View_MS_MainBlock extends View {
 					$cur_td->value = $block_subject_sum[$block_junk][$sub];
 					$cur_td->attributes = " align='center'";
 				}
-				if($set_show_extra_in_last != null){ 
-					$cur_td = $cur_row->Td[] = new xTd();
-					$cur_td->value = $extra_total_sum_marks_afterexam_subject[$set_show_extra_in_last][$sub];
-					$cur_td->attributes = " align='center'";
-					$set_show_extra_in_last=null;
+				if(count($set_show_extra_in_last) != 0){ 
+					// chk
+					foreach($set_show_extra_in_last as $no=>$sseil){
+						foreach($sseil as $extra_temp){
+							$cur_td = $cur_row->Td[] = new xTd();
+							$cur_td->value = $extra_total_sum_marks_afterexam_subject[$extra_temp][$no][$sub];
+							$cur_td->attributes = " align='center'";
+						}
+					}
+					$set_show_extra_in_last=array();
 				}
 			}
 			if($section['has_grand_total']){
@@ -454,7 +488,7 @@ class View_MS_MainBlock extends View {
 			if($MM_4_Each_Row){
 				$cur_td->attributes = "rowspan=2";
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->value = "Purnank<br>Praptank";
+				$cur_td->value = PURNANK."<br>" . PRAPTANK;
 				$cur_td->attributes="rowspan=2";
 				foreach($blocks as $block_junk){
 					foreach($block_exams[$block_junk] as $exam){
@@ -462,12 +496,14 @@ class View_MS_MainBlock extends View {
 						$cur_td->attributes="style='font-weight:bold' align='center'";
 						$cur_td->value = $block_exam_max_marks_sum[$block_junk][$exam];
 						if(in_array($exams_code[$exam], $extra_total_after_exam)){
-							if(!in_array($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
-								$cur_td = $cur_row->Td[] = new xTd();
-								$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]];
-								$cur_td->attributes = " align='center'";
+							if(!array_key_exists($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+								foreach($extra_total_exams[$exams_code[$exam]] as $no=>$exams_texts){
+									$cur_td = $cur_row->Td[] = new xTd();
+									$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]][$no];
+									$cur_td->attributes = " align='center'";
+								}
 							}else{
-								$set_show_extra_in_last = $exams_code[$exam];
+								$set_show_extra_in_last[][$push_in_last_extra_totals[$exams_code[$exam]]]=$exams_code[$exam];
 							}
 						}
 					}
@@ -477,11 +513,16 @@ class View_MS_MainBlock extends View {
 						$cur_td->value = $block_max_marks_sum[$block_junk];
 					}
 
-					if($set_show_extra_in_last != null){ 
-						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = $extra_total_sum_max_marks_afterexam[$exams_code[$exam]];
-						$cur_td->attributes = " align='center'";
-						$set_show_extra_in_last=null;
+					if(count($set_show_extra_in_last) != 0){
+						// chk 
+						foreach($set_show_extra_in_last as $sseil){
+							foreach($sseil as $no=>$exam_code){
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_max_marks_afterexam[$exam_code][$no];
+								$cur_td->attributes = "style='font-weight:bold' align='center'";
+							}
+						}
+						$set_show_extra_in_last=array();
 					}
 
 				}	
@@ -507,9 +548,15 @@ class View_MS_MainBlock extends View {
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_exam_marks_sum[$block_junk][$exam];
 					if(in_array($exams_code[$exam], $extra_total_after_exam)){
-						$cur_td = $cur_row->Td[] = new xTd();
-						$cur_td->value = $extra_total_sum_marks_afterexam[$exams_code[$exam]];
-						$cur_td->attributes = " align='center'";
+						if(!array_key_exists($exams_code[$exam], $push_in_last_extra_totals)){ //NOT SET Last then show here or set to be shown after Total
+							foreach($extra_total_exams[$exams_code[$exam]] as $no=>$exams_texts){
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_marks_afterexam[$exams_code[$exam]][$no];
+								$cur_td->attributes = " align='center'";
+							}
+						}else{
+								$set_show_extra_in_last[][$push_in_last_extra_totals[$exams_code[$exam]]]=$exams_code[$exam];
+						}
 					}
 				}
 				if(in_array($block_junk, $total_in_blocks)){
@@ -517,6 +564,17 @@ class View_MS_MainBlock extends View {
 					$cur_td->attributes="style='font-weight:bold' align='center'";
 					$cur_td->value = $block_marks_sum[$block_junk];
 				}
+				if(count($set_show_extra_in_last) != 0){
+						// chk 
+						foreach($set_show_extra_in_last as $sseil){
+							foreach($sseil as $no=>$exam_code){
+								$cur_td = $cur_row->Td[] = new xTd();
+								$cur_td->value = $extra_total_sum_marks_afterexam[$exam_code][$no];
+								$cur_td->attributes = "style='font-weight:bold' align='center'";
+							}
+						}
+						$set_show_extra_in_last=array();
+					}
 			}
 
 			if($section['has_grand_total']){
