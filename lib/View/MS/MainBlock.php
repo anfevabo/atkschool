@@ -78,16 +78,16 @@ class View_MS_MainBlock extends View {
 		
 		foreach($temp as $t){
 			$t=explode("=>", $t);
-			$extra_totals_blocks[] = $t[0];
-			$extra_total_exams[$t[2]]=$t[1];
-			$extra_total_after_exam[] = $t[2];
-			$extra_total_title[$t[2]] = $t[3];
-			if(isset($t[4])){
+			$extra_totals_blocks[] = $t[0]; //In which block
+			$extra_total_exams[$t[2]]=$t[1]; // after_exam => what exams code to be added
+			$extra_total_after_exam[] = $t[2]; //after which exam
+			$extra_total_title[$t[2]] = $t[3]; //Total title
+			if(isset($t[4])){ //Is to be set in last after blocks total
 				$push_in_last_extra_totals[] = $t[2];
 			}
 		}
 
-		// $this->pr($extra_totals_blocks);
+		$this->pr($extra_total_after_exam);
 		// echo $Extra_Totals_Text;
 		/*
 			MAIN BLOCK DESIGNING

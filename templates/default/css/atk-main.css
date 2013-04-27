@@ -1374,3 +1374,7 @@ input.ui-button,
 table .bordered tr td {
   border: 1px solid black;
 }
+
+.allcenter td {
+  text-align: center;
+}
