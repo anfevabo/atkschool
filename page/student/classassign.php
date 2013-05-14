@@ -3,7 +3,7 @@
 class page_student_classassign extends Page{
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$this->api->stickyGET('filter');
 		$this->api->stickyGET('class');
 

@@ -2,7 +2,7 @@
 class page_student_status extends Page{
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$c=$this->add('Model_Class');
 		$s=$this->add('Model_Student');
 
@@ -68,7 +68,7 @@ class page_student_status extends Page{
 		}
 
 
-		$grid->setModel($fees_deposite,array('hname','amount','paid','deposit_date'));
+		$grid->setModel($fees_deposite,array('fname','amount','paid','deposit_date'));
 		// $grid->getElement('hname')->addFormatter('class','hindi');
 
 

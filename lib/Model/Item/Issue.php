@@ -33,6 +33,7 @@ class Model_Item_Issue extends Model_Table{
 			$temp->tryLoadAny();
 			// $temp->debug();
 			if($temp->loaded()){
+				// Keeping single receipt number for a month for any student
 				$this['receipt_no']=$temp['receipt_no'];
 			}else{
 			// get new recipt number

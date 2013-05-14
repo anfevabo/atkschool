@@ -2,7 +2,7 @@
 class page_student_mslist extends Page {
 	function init() {
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$c=$this->add( 'Model_Class' )->load( $_GET['class'] );
 
 		$grid_data=array();

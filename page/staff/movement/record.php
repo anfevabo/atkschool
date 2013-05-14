@@ -2,6 +2,7 @@
 class page_staff_movement_record extends Page {
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$crud=$this->add('CRUD',array('allow_add'=>false,'allow_edit'=>false));
 		// $grid=$this->add('Grid');

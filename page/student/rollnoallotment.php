@@ -2,7 +2,7 @@
 class page_student_rollnoallotment extends Page{
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$this->api->stickyGET('class');
 		$this->memorize('class',$_GET['class']);
 

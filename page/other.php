@@ -2,6 +2,7 @@
 class page_other extends Page{
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$grid=$this->add('Grid');
 		$t=$this->add('Model_Item');
 		// $grid->getElement('category')->setFormatter('class','hindi');

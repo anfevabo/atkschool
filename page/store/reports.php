@@ -77,7 +77,11 @@ class page_store_reports extends Page{
         
            if($form->isSubmitted())
       {
-       $this->js()->univ()->newWindow($this->api->url("store/reciept",array("month"=>$form->get('month'),"store_no"=>$form->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+        if($form->get('month')==0){          
+              $this->js()->univ()->newWindow($this->api->url("store/recieptAll",array("month"=>$form->get('month'),"store_no"=>$form->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+            }else{
+                $this->js()->univ()->newWindow($this->api->url("store/reciept",array("month"=>$form->get('month'),"store_no"=>$form->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+        }
       }
 
 

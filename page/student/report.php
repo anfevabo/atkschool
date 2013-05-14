@@ -4,7 +4,7 @@ class page_student_report extends Page{
 	public $field_list=array('sno','roll_no','scholar_no','class','name','fname','father_name','age','mother_name','admission_date','isScholared','ishostler', 'dob','contact','p_address','sex','category','image_url');
 
 	function page_index(){
-
+        
 		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form',null,null,array('form_empty'));
 		$class=$form->addField('dropdown','class_field')->setEmptyText('----')->setAttr('class','hindi');
@@ -120,7 +120,7 @@ class page_student_report extends Page{
         // $m->debug();
         // print_r($display_array);
         $grid->setModel($m,array_merge($display_array),array('class'));
-		  
+		  $grid->setFormatter('class','hindi');
           // $m->debug();
 		// $grid->add('  misc/Export');
 	

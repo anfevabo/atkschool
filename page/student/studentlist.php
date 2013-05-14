@@ -2,7 +2,7 @@
 class page_student_studentlist_removed extends Page{
 	function init(){
 		parent::init();
-
+        $acl=$this->add('xavoc_acl/Acl');
         $this->api->stickyGET('class');
         $this->api->stickyGET('sex');
         $this->api->stickyGET('category');

@@ -2,7 +2,7 @@
 
 class page_masters_fee extends Page{
 	function page_index(){
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add('CRUD');
 		$crud->setModel('Fee');
 

@@ -6,7 +6,7 @@ class page_student_attendance extends Page{
         // $this->api->stickyGET('filter');
         // $this->api->stickyGET('month');
         // $this->api->stickyGET('att');
-
+        $acl=$this->add('xavoc_acl/Acl');
         try{
     		$form=$this->add('Form',null,null,array('form_horizontal'));
     		$class_field=$form->addField('dropdown','class')->setEmptyText('----')->setNotNull()->setAttr('class','hindi');

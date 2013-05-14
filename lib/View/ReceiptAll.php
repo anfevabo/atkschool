@@ -1,5 +1,5 @@
 <?php
-class View_Receipt extends View {
+class View_ReceiptAll extends View {
 	public $store_no;
 	public $month;
 	public $grid;
@@ -12,30 +12,31 @@ class View_Receipt extends View {
 		$sc=$st->ref('scholar_id');
 		
 		$ism = $st->ref('Item_Issue');
-		$ism->addExpression('date_month')->set('Month(date)');
-		$ism->addCondition('date_month',$_GET['month']);
+		$ism->addExpression('date_month')->set('FORMAT(Month(date),"M")');
+		// $ism->addCondition('date_month',$_GET['month']);
 		$ism->addExpression('total_qty')->set('sum(quantity)');
 		$ism->addExpression('total_amount')->set('sum(quantity * rate)');
-		$ism->_dsql()->group('item_id')->group('rate')->group('date_month');
+		$ism->_dsql()->group('date_month');
+		$ism->_dsql()->order('receipt_no','asc');
 
-		$ism_2=clone $ism;
-		$receipt_no=$ism_2->_dsql()->limit(1)->del('field')->field('receipt_no')->getRow();
-		// print_r($receipt_no);
-		$receipt_no= $receipt_no[1];
+		// $ism_2=clone $ism;
+		// $receipt_no=$ism_2->_dsql()->limit(1)->del('field')->field('receipt_no')->getRow();
+		// // print_r($receipt_no);
+		// $receipt_no= $receipt_no[1];
 
 		$this->template->trySet('student_name',$st['name']);
 		$this->template->trySet('father_name',$sc['father_name']);
 		$this->template->trySet('class_name',$st->ref('class_id')->get('name'));
-		$this->template->trySet('receipt',$receipt_no);
+		$this->template->tryDel('receipt');
 		$this->template->trySet('store_no',$st['store_no']);
-		$this->template->trySet('month',date("M",strtotime("2000-".$_GET['month']."-01")));
+		// $this->template->trySet('month',date("M",strtotime("2000-".$_GET['month']."-01")));
 
 		$this->grid=$this->add('Grid');
-		// $this->grid->addColumn('month','month');
+		$this->grid->addColumn('sno','sno');
 
 		// $ism->debug();
-		$this->grid->setModel($ism,array('item','total_qty','month','rate','total_amount'));
-		$this->grid->addFormatter('item','hindi');
+		$this->grid->setModel($ism,array('sno','date_month','total_qty','receipt_no','total_amount'));
+		$this->grid->addFormatter('date_month','month');
 		$this->grid->setFormatter('total_amount','money');
 		$this->grid->setFormatter('total_qty','number');
 
@@ -47,7 +48,7 @@ class View_Receipt extends View {
 	}
 
 	function defaultTemplate(){
-		return array('view/receipt');
+		return array('view/receiptAll');
 	}
 
 	function render(){

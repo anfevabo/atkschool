@@ -2,6 +2,7 @@
 class page_hostel_attendancereport extends Page{
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$this->api->stickyGET('filter');
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$class_att=$form->addField('dropdown','class_name')->setEmptyText('---')->setAttr('class','hindi');

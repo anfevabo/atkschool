@@ -2,7 +2,7 @@
 class page_student_fee extends Page{
 	function page_index(){
 		// parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$c=$this->add('Model_Class');
 		$s=$this->add('Model_Student');
 		$sc=$this->add('Model_Students_Current');

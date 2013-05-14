@@ -2,7 +2,7 @@
 class page_student_msview extends Page {
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$c=$this->add('Model_Class')->load($_GET['class']);
 
 		$this->api->memorize('grand_total_max_marks',0);

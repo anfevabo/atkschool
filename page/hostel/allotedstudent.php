@@ -3,7 +3,7 @@
 class page_hostel_allotedstudent extends Page{
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$c=$this->add('Model_Class');
 		$form=$this->add('Form');
 		$class_field=$form->addField('dropdown','class')->setEmptyText('-----')->setAttr('class','hindi');
@@ -11,7 +11,7 @@ class page_hostel_allotedstudent extends Page{
 		$form->addSubmit("Get List");
 
 		$h=$this->add('Model_Hosteler');
-		$h->_dsql()->del('order')->order('class','asc')->order('building_name','asc')->order('room_no','asc');
+		$h->_dsql()->del('order')->order('building_name','asc')->order('room_no','asc')->order('class','asc');
 		// $h->_dsql()->order('scholar','asc');
 		if($_GET['filter']){
 			$h->addCondition('class_id',$_GET['class']);

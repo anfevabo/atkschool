@@ -2,6 +2,7 @@
 class page_student_contact extends Page{
 	function init(){
 		parent::init();
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form');
 		$class_field=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
 		$class_field->setModel('Class');

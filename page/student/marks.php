@@ -16,7 +16,7 @@ class page_student_marks extends Page{
 	 */
 	function page_index() {
 		// parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form', null, null, array('form_horizontal'));
 		$class_field=$form->addField('dropdown', 'class')->setEmptyText('----')->setAttr('class', 'hindi')->setNotNull();
 		$class_field->setModel('Class');

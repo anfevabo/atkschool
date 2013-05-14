@@ -2,7 +2,7 @@
 class page_masters_marksheetdesigner extends Page{
 	function page_index(){
 		// parent ::init();
-		
+		$acl=$this->add('xavoc_acl/Acl');
 		$crud=$this->add("CRUD");
 
 		$crud->setModel("MS_Designer");

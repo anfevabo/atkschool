@@ -3,6 +3,7 @@
 class page_school_scholars extends Page {
 	function init(){
 		parent::init();
+        $acl=$this->add('xavoc_acl/Acl');
         $this->api->stickyGET('filter');
         $this->api->stickyGET('class');
 

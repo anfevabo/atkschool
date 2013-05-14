@@ -5,9 +5,11 @@ class page_staff_add extends Page {
 		parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
 		$crud = $this->add('CRUD',$acl->getPermissions());
+		// if($crud->form)
+		// 	$crud->form->add('Model_Staff')->getElement('image_url')->caption('Remarks');
 		if($crud->grid)
 			$crud->grid->addColumn('sno','sno');
-		$crud->setModel('Staff',null,array('hname','designation','contact','image_url'));
+		$crud->setModel('Staff',array('doj','ename','hname','designation','father_name','mother_name','guardian_name','dob','contact','pan_no','image','address','sex','accno','insurance_no','ofhostel','remarks',''),array('hname','designation','contact','image_url'));
 	
 	}
 }
