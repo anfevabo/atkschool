@@ -8,7 +8,7 @@ class page_student_mslist extends Page {
 		$grid_data=array();
 
 		$each_student=$this->add('Model_Students_Current');
-		$each_student->addCondition('class_id',$_GET['class']);//->_dsql()->limit(5);
+		$each_student->addCondition('class_id',$_GET['class']);//->_dsql()->limit(2);
 		foreach ( $each_student as $junk ) {
 			$this->api->forget('grand_total_max_marks');
 			$this->api->forget('grand_total_marks');
@@ -161,20 +161,29 @@ class page_student_mslist extends Page {
 				'division'=>$division
 			);
 
-			$grid_data[] = array("sno"=>1,'StudentName'=>$each_student['name'],"father_name"=>$each_student['father_name'],'Percentage'=>$percentage,'FinalResult'=>$final_result,'obtained_marks'=>$marks);
+			$grid_data[] = array("sno"=>1,"roll_no"=>$each_student['roll_no'],'StudentName'=>$each_student['name'],"father_name"=>$each_student['father_name'],'Percentage'=>$percentage,'FinalResult'=>$final_result,'obtained_marks'=>$marks);
 			// $this->add( 'View_MS_Result', array( 'result'=>$result, 'distinction'=>$distinction, 'rank'=>$rank, 'grace' =>$grace, 'supplimentry'=>$supplimentry ), 'right_panel' );
 			// $this->api->add( 'H1', null, 'header' )->setAttr( 'align', 'center' )->setHTML( 'Bal Vinay Uchch Madhyamik Vidhyalay, Udaipur' );
 			// $fv=$this->add( 'View_MS_Front', null, 'marksheet_front' );
 			// $fv->setModel( $this->add( 'Model_Student' )->load( $_GET['student'] )->ref( 'scholar_id' ) );
 		}
 		
+
 		$grid=$this->add('Grid');
 		$grid->addColumn('sno','sno');
+		$grid->addColumn('text','roll_no');
 		$grid->addColumn('hindi','StudentName');
 		$grid->addColumn('hindi','father_name');
 		$grid->addColumn('text','obtained_marks');
 		$grid->addColumn('text','Percentage');
 		$grid->addColumn('text','FinalResult');
+
+
+		usort($grid_data, function ($a, $b) { 
+				return $a['roll_no'] >  $b['roll_no']; 
+			});
+
+
 		$grid->setSource($grid_data);
 	}
 

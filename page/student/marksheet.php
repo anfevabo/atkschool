@@ -18,6 +18,8 @@ class page_student_marksheet extends Page{
 			$s->addCondition('class_id',$_GET['class_id']);
 		}
 
+		$s->_dsql()->order('roll_no');
+
 		$class_field->setModel($c);
 		$student_feild->setModel($s);
 

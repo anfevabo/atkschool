@@ -62,7 +62,7 @@ class View_MS_MainBlock extends View {
 
 		$MM_4_Each_Row=$section['max_marks_for_each_subject'];
 		$Extra_Totals_Text = $section['extra_totals'];
-		$temp = explode(";", $Extra_Totals_Text);
+		$temp = explode(";;", $Extra_Totals_Text);
 		$extra_totals_blocks =array();
 		$extra_total_after_exam=array();
 		$extra_total_title=array();

@@ -45,7 +45,7 @@ class page_student_msview extends Page {
 				if($failed_subjects_i[0]['diff'] <= $failed_subjects_i[0]['grace_allowed']['5_per']){
 					$sub=array_keys($failed_subjects);
 					$grace[]=array($sub[0]=>$failed_subjects_i[0]['diff']);
-					$final_result='Grace';
+					$final_result='lk- mÙkh.kZ'; //grace
 				}
 				// Or can be suplimentry
 				if(count($grace) != 1){
@@ -57,7 +57,7 @@ class page_student_msview extends Page {
 								$supplimentry[$subject] = $details['diff'];
 							}
 						}
-						$final_result='Suplimentry';
+						$final_result='iwjd'; //supplimentry
 					}else{
 						// FAILED
 						$supplimentry=array();
@@ -69,7 +69,7 @@ class page_student_msview extends Page {
 					// Check the two subjects for 2 percent grade range
 					if($details['diff'] <= $details['grace_allowed']['2_per']){
 						$grace[]=array($subject=>$details['diff']);
-						$final_result='Grace';
+						$final_result='lk- mÙkh.kZ'; //Grace
 					}
 					// BUT IF both are not in range they might be in supplimentry
 					if(count($grace) != 2) {
@@ -150,7 +150,7 @@ class page_student_msview extends Page {
 			'division'=>$division
 			);
 		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry),'right_panel');
-		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('<span class="hindi">cky fou; efUnj mPp ek/;fed fo|ky; mn;iqj </span>');
+		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('<span class="hindi" style="font-size: 25px">cky fou; efUnj mPp ek/;fed fo|ky; mn;iqj </span>');
 		$fv=$this->add('View_MS_Front',null,'marksheet_front');
 		$fv->setModel($this->add('Model_Student')->load($_GET['student'])->ref('scholar_id'));
 
