@@ -46,6 +46,7 @@ class page_student_fee extends Page{
 	}
 	
 	function page_deposit(){
+
 		$this->api->stickyGET('student_id');
 		$fa=$this->add('Model_Fees_Applicable');
 		$fa->addCondition('student_id',$_GET['student_id']);
@@ -56,12 +57,17 @@ class page_student_fee extends Page{
 		$this->add('Button','fee_manage')->setLabel('Manage Deposit Fees')->js('click',$this->js()->univ()->frameURL('Manage Deposit Fees',$this->api->url('./manage_deposit',array('student_id'=>$_GET['student_id']))));
 		$crud=$this->add('CRUD',array('allow_add'=>false,'allow_del'=>false));
 		
+		$crud->setModel($fa,array('fee_class_mapping','amount','paid','due'));
+		
 		if($crud->grid){
+			$crud->grid->setFormatter('amount','number');
+			$crud->grid->setFormatter('paid','number');
+			$crud->grid->setFormatter('due','number');
 			$crud->grid->addClass('fee_applicable');
+			$crud->grid->addTotals(array('amount','paid','due'));
 			$crud->grid->js('reload',$crud->grid->js()->reload());
 		}
 
-		$crud->setModel($fa,array('fee_class_mapping','amount','paid','due'));
 
 	}
 

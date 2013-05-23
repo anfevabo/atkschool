@@ -125,6 +125,13 @@ class page_student_marks extends Page{
 		$this->api->stickyGET('class');
 		$this->api->stickyGET('subject');
 
+		$subject=$this->add('Model_ExamClassSubjectMap');
+		$subject->load($_GET['subject']);
+		$class=$this->add('Model_Class');
+		$class->load($_GET['class']);
+
+		$this->add('View_Info')->setHTML('Class:- '." <span class='hindi'>".$class['class_name']."   "."</span>  "."Subject:- "." <span class='hindi'>". $subject->ref('subject_id')->get('name')."</span>");
+
 		$grid=$this->add('Grid');
 		$sm=$this->add('Model_Students_Marks');
 		// $sm->table_alias='sm1';
@@ -155,11 +162,11 @@ class page_student_marks extends Page{
 		// }
 
 		$sm->_dsql()->order('roll_no', 'asc');
-		$grid->setModel($sm, array('roll_no','class','subject', 'student', 'max_marks', 'marks'));
+		$grid->setModel($sm, array('roll_no', 'student', 'max_marks', 'marks'));
 		// $grid->dq->order('roll_no','asc');
 		$grid->addFormatter('student', 'hindi');
-		$grid->addFormatter('class', 'hindi');
-		$grid->addFormatter('subject', 'hindi');
+		// $grid->addFormatter('class', 'hindi');
+		// $grid->addFormatter('subject', 'hindi');
 		$grid->addFormatter('marks', 'grid/inline');
 	}
 

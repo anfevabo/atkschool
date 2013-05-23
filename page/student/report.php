@@ -120,7 +120,7 @@ class page_student_report extends Page{
         // $m->debug();
         // print_r($display_array);
         $grid->setModel($m,array_merge($display_array),array('class'));
-		  $grid->setFormatter('class','hindi');
+		  // $grid->setFormatter('class','hindi');
           // $m->debug();
 		// $grid->add('  misc/Export');
 	
