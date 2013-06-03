@@ -466,14 +466,11 @@ class View_MS_MainBlock extends View {
 			}
 			if($section['show_grade']){
 				$cur_td = $cur_row->Td[] = new xTd();
-				$cur_td->value = ($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  <= 30)
-								? 'E' :
-									($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  < 50)
-									? 'D':
-										($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  <= 70)
-										? 'C' :
-											($subject_sum[$sub] . " / " .$subject_max_marks_sum[$sub] * 100  <= 85)
-											? 'B' : 'A';
+				$cur_td->value = ($subject_sum[$sub] / $subject_max_marks_sum[$sub] * 100  <= 85)
+											? ($subject_sum[$sub] / $subject_max_marks_sum[$sub] * 100  <= 70)
+												? ($subject_sum[$sub] / $subject_max_marks_sum[$sub] * 100  < 50)
+													? ($subject_sum[$sub] / $subject_max_marks_sum[$sub] * 100  <= 30)
+								? 'E' :'D' : 'C': 'B': 'A';
 				;
 				$cur_td->attributes = " align='center' class='english'";
 			}

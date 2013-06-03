@@ -5,7 +5,8 @@ class page_store_reports extends Page{
     $acl=$this->add('xavoc_acl/Acl');
 		$tabs=$this->add('Tabs');
 		$tabs->addTabURL("./storealltlist","Store Alloted List");
-		$tabs->addTabURL("./recipt","Reciept");
+    $tabs->addTabURL("./recipt","Reciept");
+		$tabs->addTabURL("./toatlReport","All Report");
 	}
 	function page_storealltlist(){
     $acl=$this->add('xavoc_acl/Acl');
@@ -84,6 +85,41 @@ class page_store_reports extends Page{
         }
       }
 
+
+    }
+
+    function page_toatlReport(){
+      $acl=$this->add('xavoc_acl/Acl');
+      $form=$this->add('Form',null,null,array('form_horizontal'));
+        
+                    
+        $store_no=$form->addField('line','store_no')->setNotNull();
+        $month=$form->addField('dropdown','month');//->setEmptyText('p;u d{kk');
+        $month->setValueList(array(0=>"----",
+                                    1=>"Jan",
+                                   2=>"Feb",
+            3=>"March",
+            4=>"April",
+            5=>"May",
+            6=>"Jun",
+            7=>"July",
+            8=>"Aug",
+            9=>"Sep",
+            10=>"Oct",
+            11=>"Nov",
+            12=>"Dec"
+           ));
+        $form->addsubmit('Print');
+        
+           if($form->isSubmitted())
+
+      {
+        if($form->get('month')==0){          
+              $this->js()->univ()->newWindow($this->api->url("store/totalreciept",array("month"=>$form->get('month'),"store_no"=>$form->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+            }else{
+                $this->js()->univ()->newWindow($this->api->url("store/feereciept",array("month"=>$form->get('month'),"store_no"=>$form->get('store_no'))),null,'height=689,width=1246,menubar=1')->execute();
+        }
+      }
 
     }
 
