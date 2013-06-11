@@ -48,8 +48,6 @@ class Model_FeeClassMapping extends Model_Table{
 			$fa=$this->add('Model_Fees_Applicable');
 
 			foreach($c->ref('Students_Current') as $junk){
-
-
 					$fa['fee_class_mapping_id'] = $this->id;
 					$fa['student_id'] =$junk['id'];
 					$fa['amount']=$f['scholaredamount'];
@@ -74,7 +72,7 @@ class Model_FeeClassMapping extends Model_Table{
 			
 
 			foreach($c->ref('Students_Current') as $junk){
-				$fa=$this->add('Model_Fees_Applicable');
+				$fa=$this->add('Model_FeeClassMapping');
 				$fa->addCondition('student_id',$junk['id']);
 				$fa->addCondition('fee_class_mapping_id',$this->id);
 				$fa->tryLoadAny();
@@ -82,6 +80,22 @@ class Model_FeeClassMapping extends Model_Table{
 
 			}
 
+	}
+
+	function promote($from_session, $to_session){
+
+		$old_mapping=$this->add('Model_FeeClassMapping');
+		$old_mapping->addCondition('session_id',$from_session);
+
+		foreach ($old_mapping as $old) {
+
+			$new=$this->add('Model_FeeClassMapping');
+			$new['fee_id']=$old['fee_id'];
+			$new['class_id']=$old['class_id'];
+			$new['session_id'] = $to_session;
+			$new->save();
+			$new->destroy();
+		}
 	}
 
 }

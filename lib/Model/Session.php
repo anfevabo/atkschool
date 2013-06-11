@@ -33,5 +33,13 @@ class Model_Session extends Model_Table{
         $this->set('iscurrent',true)->update();
     }
 
+    function create($name, $start_date, $end_date){
+        $new_session=$this->add('Model_Session');
+        $new_session['name']=$name;
+        $new_session['start_date']=$start_date;
+        $new_session['end_date']=$end_date;
+        $new_session->save();
+        return $new_session->id;
+    }
 }
 

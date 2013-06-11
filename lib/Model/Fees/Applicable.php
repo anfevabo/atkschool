@@ -45,4 +45,8 @@ class Model_Fees_Applicable extends Model_Table{
 	function submitFee($amount,$onDate,$receiptNo){
 		
 	}
+
+	function promote($from_session, $to_session){
+
+	}
 }

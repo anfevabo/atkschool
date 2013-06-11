@@ -16,4 +16,19 @@ class Model_ExamClassMapAll extends Model_Table {
 
 	}
 
+	function promote($from_session, $to_session){
+
+		$old_mapping=$this->add('Model_ExamClassMapAll');
+		$old_mapping->addCondition('session_id',$from_session);
+
+		foreach ($old_mapping as $old) {
+
+			$new=$this->add('Model_ExamClassMapAll');
+			$new['exam_id']=$old['exam_id'];
+			$new['class_id']=$old['class_id'];
+			$new['session_id'] = $to_session;
+			$new->save();
+			$new->destroy();
+		}
+	}
 }
