@@ -90,6 +90,8 @@ class page_student_fee extends Page{
 				$student->load($_GET['student_id']);
 				$class_id=$student['class_id'];
 
+				// $form->displayError('receipt_number',$form->get('receipt_number'));
+
 				$fee_head=$this->add('Model_FeesHead');
 				// $fee_head->load($form->get('fee_head'));
 
@@ -125,6 +127,7 @@ class page_student_fee extends Page{
 
 						$fee_deposit=$this->add('Model_Fees_Deposit');
 						$fee_deposit['paid']=$amount_for_this_fee;
+						$fee_deposit['receipt_number']=$form->get('receipt_number');
 						$fee_deposit['deposit_date']=$form->get('submitted_on');
 						$fee_deposit['fee_applicable_id']=$fee_app->id;
 						$fee_deposit->save();
@@ -213,6 +216,7 @@ class page_student_fee extends Page{
 
 					$fee_deposit=$this->add('Model_Fees_Deposit');
 					$fee_deposit['paid']=$amount_for_this_fee;
+					$fee_deposit['receipt_number']=$form->get('receipt_number');
 					$fee_deposit['deposit_date']=$form->get('submitted_on');
 					$fee_deposit['fee_applicable_id']=$fee_app->id;
 					$fee_deposit->save();
@@ -338,8 +342,14 @@ class page_student_fee extends Page{
 					throw $e;
 			}
 			$form->api->db->commit();
-			$form->js(null,$this->js()->reload())->univ()->successMessage("Student Record Upadated success fully ")->execute();
-
+			// $form->js(null,$this->js()->reload())->univ()->successMessage("Student Record Upadated success fully ")->execute();
+			$form->js(null,
+					$form->js()->_selector('.fee_applicable')->trigger('reload')
+				)->univ()->closeDialog()->execute();
+			$form->js(null,$this->js()->reload())
+			->univ()
+			->successMessage("Student Record Upadated success fully ")
+			->execute();
 
 		}
 
