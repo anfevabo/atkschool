@@ -3,12 +3,17 @@ class View_ReceiptAll extends View {
 	public $store_no;
 	public $month;
 	public $grid;
+	public $condense_grid=false;
 
 	function init(){
 		parent::init();
 		$st=$this->add('Model_Hosteler');
 		$st->addCondition('store_no',$this->store_no);
 		$st->tryLoadAny();
+		if(!$st->loaded()) {
+			$this->destroy();
+			return;
+		}
 		$sc=$st->ref('scholar_id');
 		
 		$ism = $st->ref('Item_Issue');
@@ -31,7 +36,7 @@ class View_ReceiptAll extends View {
 		$this->template->trySet('store_no',$st['store_no']);
 		// $this->template->trySet('month',date("M",strtotime("2000-".$_GET['month']."-01")));
 
-		$this->grid=$this->add('Grid');
+		$this->grid=$this->add('Grid',null,null,array('condensegrid'));
 		$this->grid->addColumn('sno','sno');
 
 		// $ism->debug();
@@ -52,8 +57,8 @@ class View_ReceiptAll extends View {
 	}
 
 	function render(){
-		$this->api->template->del('logo');
-		$this->api->template->del('Menu');
+		$this->api->template->tryDel('logo');
+		$this->api->template->tryDel('Menu');
 
 		parent::render();
 	}

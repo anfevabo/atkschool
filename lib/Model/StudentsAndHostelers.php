@@ -1,6 +1,6 @@
 <?php
 
-class Model_StudentsAndHostelers extends Model_Student{
+class Model_StudentsAndHostelers extends Model_Students_Current{
 
 	function init(){
 		parent::init();

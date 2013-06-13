@@ -44,6 +44,24 @@ class Model_Student extends Model_Table{
               
 
 	}
+
+        function promote($from_session, $to_session, $from_class, $to_class){
+
+                $old_students=$this->add('Model_Student');
+                $old_students->addCondition('class_id',$from_class);
+                $old_students->addCondition('session_id',$from_session);
+
+                foreach ($old_students as $student) {
+                        $new_student=$this->add('Model_Student');
+                        $new_student['scholar_id'] = $student['scholar_id'];
+                        $new_student['class_id'] = $to_class;
+                        $new_student['session_id']= $to_session;
+                        $new_student['bpl'] = $student['bpl'];
+                        $new_student->save();
+                        $new_student->destroy();
+                }
+                
+        }
         
 
 }

@@ -4,7 +4,7 @@ class page_student_fee extends Page{
 		// parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
 		$c=$this->add('Model_Class');
-		$s=$this->add('Model_Student');
+		$s=$this->add('Model_Students_Current');
 		$sc=$this->add('Model_Students_Current');
 
 		$form=$this->add('Form',null,null,array('form_horizontal'));

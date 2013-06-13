@@ -1,13 +1,13 @@
 <?php
 
-class Model_FeesHead extends Model_Table{
+class Model_FeesHead extends Model_TableSafe{
 	var $table="fee_heads";
 	function init(){
 		parent::init();
 
 		$this->addField('name');
 		$this->hasMany('Fee','feehead_id');
-		$this->addHook('beforeDelete',$this);
+		// $this->addHook('beforeDelete',$this);
 	}
 
     function beforeDelete(){

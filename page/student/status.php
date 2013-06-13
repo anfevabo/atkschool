@@ -2,9 +2,12 @@
 class page_student_status extends Page{
 	function init(){
 		parent::init();
+		$this->api->stickyGET('student');
 		$acl=$this->add('xavoc_acl/Acl');
+		
 		$c=$this->add('Model_Class');
-		$s=$this->add('Model_Student');
+		$s=$this->add('Model_Students_Current');
+		// $s->debug();
 
 
 
@@ -39,13 +42,18 @@ class page_student_status extends Page{
 		$fees_deposite=$this->add('Model_Fees_Deposit');
 		$fees_deposite_join_fees_Applicable=$fees_deposite->join('fee_applicable.id','fee_applicable_id');
 		$fees_deposite_join_fees_Applicable_join_student=$fees_deposite_join_fees_Applicable->join('student.id','student_id');
+
+		$fees_deposite_join_fees_Applicable->addField('student_id');
 		
-		$fees_deposite_join_fees_Applicable_join_student=$fees_deposite_join_fees_Applicable->join('student.id','student_id');
+		// $fees_deposite_join_fees_Applicable_join_student=$fees_deposite_join_fees_Applicable->join('student.id','student_id');
 		$scholar=$fees_deposite_join_fees_Applicable_join_student->join('scholars_master.id','scholar_id');
 		$scholar->addField('hname');
 		$scholar->addField('fname');
 		$fees_deposite_join_fees_Applicable_join_student->hasOne('Class','class_id');
 		$fees_deposite_join_fees_Applicable->addField('amount');
+		$fees_deposite_join_fees_Applicable->addField('due');
+		// $fees_deposite->addExpresstion('Paid')->set('amount-due');
+		// $fees_deposite->debug();
 
 		if($_GET['filter']){
 			if($_GET['class']) $fees_deposite->addCondition('class_id',$_GET['class']);
@@ -53,22 +61,24 @@ class page_student_status extends Page{
 			if($_GET['student']) $fees_deposite->addCondition('student_id',$_GET['student']);
 
 			if($_GET['status']){
-				if($_GET['paid'] == 'paid')
-					$emi->addCondition('Amount-Paid', 0);
+				if($_GET['status'] == 'paid'){
+					$fees_deposite->addCondition('due', 0);
+					
+				}
 				
-				if($_GET['due'])
-					$emi->addCondition('Amount-Paid','<>',0);
+				if($_GET['status'] == 'due')
+					$fees_deposite->addCondition(,'<>',0);
 				
 			}
 
-			if($_GET['from_date']) $emi->addCondition('deposit_date','>=',$_GET['from_date']);
+			if($_GET['from_date']) $fees_deposite->addCondition('deposit_date','>=',$_GET['from_date']);
 			
-			if($_GET['to_date']) $emi->addCondition('deposit_date','<=',$_GET['to_date']); 
+			if($_GET['to_date']) $fees_deposite->addCondition('deposit_date','<=',$_GET['to_date']); 
 
 		}
 
 
-		$grid->setModel($fees_deposite,array('fname','amount','paid','deposit_date'));
+		$grid->setModel($fees_deposite,array('fname','amount','paid','deposit_date','hname'));
 		// $grid->getElement('hname')->addFormatter('class','hindi');
 
 
