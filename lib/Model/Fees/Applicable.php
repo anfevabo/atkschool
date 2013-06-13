@@ -19,7 +19,7 @@ class Model_Fees_Applicable extends Model_Table{
 		});
 
 		$this->addExpression('due')->set(function ($m,$q){
-			return $m->dsql()->expr('amount - IFNULL((select sum(paid) from `fee_deposit_master` where `fee_deposit_master`.`fee_applicable_id` = `fee_applicable`.`id` ),0)');
+			return $m->dsql()->expr($m->table.'.amount - IFNULL((select sum(paid) from `fee_deposit_master` where `fee_deposit_master`.`fee_applicable_id` = `fee_applicable`.`id` ),0)');
 			// return $m->dsql()->expr('amount - paid');
 		});
 
