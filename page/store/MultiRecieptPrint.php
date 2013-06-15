@@ -12,8 +12,10 @@ class page_store_MultiRecieptPrint extends Page {
       	$end_store = $stores[1];
 
 
-      	for($i=$start_store; $i<= $end_store; $i++)
-	      $this->add('View_ReceiptAll',array('store_no'=>$i),null,array('view/receiptAllPrint'));
+      	for($i=$start_store; $i<= $end_store; $i++){
+	    	$v=$this->add('View_ReceiptAll',array('store_no'=>$i),null,array('view/receiptAllPrint'));
+	    	$v->grid->template->trySet('table_width','75%');
+	  	}
 
 
 	}
