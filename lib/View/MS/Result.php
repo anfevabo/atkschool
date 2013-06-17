@@ -7,6 +7,8 @@ class View_MS_Result extends View {
 	var $rank;
 	var $grace;
 	var $supplimentry;
+	var $show_grade;
+	var $grade;
 
 	function init(){
 		parent::init();
@@ -14,7 +16,12 @@ class View_MS_Result extends View {
 		$this->template->trySet('percentage',round($this->result['percentage'],2));
 		$this->template->trySet('division',$this->result['division']);
 		$this->template->trySet('rank_in_class',$this->rank);
-		$this->template->trySet('today_date',date('d/m/Y'));
+		if(!$this->show_grade) {
+			$this->template->tryDel('show_grade');
+		}else{
+			$this->template->trySet('grade',$this->grade);
+		}
+		// $this->template->trySet('today_date',date('d/m/Y'));
 
 		$dist="";
 		foreach($this->distinction as $sub){

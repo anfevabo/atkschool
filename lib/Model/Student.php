@@ -17,6 +17,7 @@ class Model_Student extends Model_Table{
                 $this->addField('isalloted')->type('boolean')->defaultValue(false);
                
                 $this->addField('bpl')->type('boolean')->defaultValue(false);
+                $this->addField('result_stopped')->type('boolean')->defaultValue(false);
 
                 $this->hasMany('RoomAllotement','student_id');
                 $this->hasMany('Item_Issue','student_id');
