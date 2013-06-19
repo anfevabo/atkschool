@@ -31,11 +31,12 @@ class View_Receipt extends View {
 		$this->template->trySet('month',date("M",strtotime("2000-".$_GET['month']."-01")));
 
 		$this->grid=$this->add('Grid');
-		// $this->grid->addColumn('month','month');
+		$this->grid->addColumn('sno','sno');
 
 		// $ism->debug();
-		$this->grid->setModel($ism,array('item','total_qty','month','rate','total_amount'));
+		$this->grid->setModel($ism,array('sno','item','total_qty','month','rate','total_amount'));
 		$this->grid->addFormatter('item','hindi');
+		// $this->grid->addFormatter('sno','sno');
 		$this->grid->setFormatter('total_amount','money');
 		$this->grid->setFormatter('total_qty','number');
 

@@ -8,6 +8,7 @@ class Model_Fee extends Model_Table{
 		$this->hasOne('FeesHead','feehead_id');
 		$this->addField('name');
 		$this->addField('isOptional')->type('boolean');
+		$this->addField('for_hostler_only')->type('boolean');
 		$this->addField('scholaredamount');
 
 		// $this->hasMany('Fees_Applicable','fee_id');

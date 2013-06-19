@@ -70,7 +70,7 @@ class page_student_attendance extends Page{
                     }
                 }
 
-                $form->js()->univ()->newWindow($this->api->url("./attinput",array('class'=>$form->get('class'),'month'=>$form->get('month'),'att'=>$form->get('att'))),null,'height=689,width=1246,scrollbar=1')->execute();
+                $form->js(null,$form->js()->reload())->univ()->newWindow($this->api->url("./attinput",array('class'=>$form->get('class'),'month'=>$form->get('month'),'att'=>$form->get('att'))),null,'height=689,width=1246,scrollbar=1')->execute();
             }		
         }catch(Exception $e){
             $this->js()->univ()->errorMessage($e->getMessage())->excute();

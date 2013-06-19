@@ -42,6 +42,7 @@ class Model_FeeClassMapping extends Model_Table{
 			// This is new saved entry not edited
 			$c=$this->add('Model_Class');
 			$c->load($this['class_id']);
+			
 			$f=$this->add('Model_Fee');
 			$f->load($this['fee_id']);
 			
@@ -52,7 +53,7 @@ class Model_FeeClassMapping extends Model_Table{
 					$fa['student_id'] =$junk['id'];
 					$fa['amount']=$f['scholaredamount'];
 					$fa['due']= $f['scholaredamount'];
-
+					if(!$junk['is_hostler'] and $f['for_hostler_only']) continue;
 					$fa->saveAndUnload();
 
 			}

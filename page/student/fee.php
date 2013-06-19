@@ -6,7 +6,8 @@ class page_student_fee extends Page{
 		$c=$this->add('Model_Class');
 		$s=$this->add('Model_Students_Current');
 		$sc=$this->add('Model_Students_Current');
-
+		try{
+			// $form->api->db->beginTransaction();
 		$form=$this->add('Form',null,null,array('form_horizontal'));
 		$field_class=$form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
 		$field_class->setModel($c);
@@ -16,7 +17,7 @@ class page_student_fee extends Page{
 		}
 
 		$field_student=$form->addField('dropdown','student')->setEmptyText('----')->setAttr('class','hindi');
-
+		$s->setOrder('fname','asc');
 		$field_student->setModel($s);
 
 		$field_class->js('change',$form->js()->atk4_form('reloadField','student',array($this->api->url(),'class_id'=>$field_class->js()->val())));
@@ -42,8 +43,11 @@ class page_student_fee extends Page{
 										"filter"=>1))->execute();
 
 		}
+		}catch(Exception $e){
+			$this->js()->univ()->errorMessage($e->getMessage())->execute();
 
 	}
+}
 	
 	function page_deposit(){
 
@@ -57,7 +61,7 @@ class page_student_fee extends Page{
 		$this->add('Button','fee_manage')->setLabel('Manage Deposit Fees')->js('click',$this->js()->univ()->frameURL('Manage Deposit Fees',$this->api->url('./manage_deposit',array('student_id'=>$_GET['student_id']))));
 		$crud=$this->add('CRUD',array('allow_add'=>false,'allow_del'=>false));
 		
-		$crud->setModel($fa,array('fee_class_mapping','amount','paid','due'));
+		$crud->setModel($fa,array('fee_class_mapping','amount','paid','due','remarks'));
 		
 		if($crud->grid){
 			$crud->grid->setFormatter('amount','number');
@@ -80,6 +84,7 @@ class page_student_fee extends Page{
 		// $form->addField('line','due_amount');
 		// $form->addField('text','remarks');
 		$form->addField('line','receipt_number');
+		$form->addField('text','remarks');
 		$form->addField('DatePicker','submitted_on')->set(date('Y-m-d'));
 		$form->addSubmit('Receive');
 
@@ -128,6 +133,7 @@ class page_student_fee extends Page{
 						$fee_deposit=$this->add('Model_Fees_Deposit');
 						$fee_deposit['paid']=$amount_for_this_fee;
 						$fee_deposit['receipt_number']=$form->get('receipt_number');
+						$fee_deposit['remarks']=$form->get('remarks');
 						$fee_deposit['deposit_date']=$form->get('submitted_on');
 						$fee_deposit['fee_applicable_id']=$fee_app->id;
 						$fee_deposit->save();
@@ -142,7 +148,7 @@ class page_student_fee extends Page{
 				if($amount_to_adjust > 0 ) throw $this->exception('Exxcess fee deposited '.$amount_to_adjust);
 			}catch(Exception $e){
 					$form->api->db->rollback();
-					// $form->js()->univ()->errorMessage($e->getMessage())->execute();
+					$form->js()->univ()->errorMessage($e->getMessage())->execute();
 					throw $e;
 			}
 			$form->api->db->commit();
@@ -173,6 +179,7 @@ class page_student_fee extends Page{
 		// $form->addField('line','due_amount');
 		// $form->addField('text','remarks');
 		$form->addField('line','receipt_number');
+		$form->addField('text','remarks');
 		$form->addField('DatePicker','submitted_on')->set(date('Y-m-d'));
 		$form->addSubmit('Receive');
 
@@ -217,6 +224,7 @@ class page_student_fee extends Page{
 					$fee_deposit=$this->add('Model_Fees_Deposit');
 					$fee_deposit['paid']=$amount_for_this_fee;
 					$fee_deposit['receipt_number']=$form->get('receipt_number');
+					$fee_deposit['remarks']=$form->get('remarks');
 					$fee_deposit['deposit_date']=$form->get('submitted_on');
 					$fee_deposit['fee_applicable_id']=$fee_app->id;
 					$fee_deposit->save();
@@ -231,7 +239,7 @@ class page_student_fee extends Page{
 				if($amount_to_adjust > 0 ) throw $this->exception('Exxcess fee deposited '.$amount_to_adjust);
 			}catch(Exception $e){
 					$form->api->db->rollback();
-					// $form->js()->univ()->errorMessage($e->getMessage())->execute();
+					$form->js()->univ()->errorMessage($e->getMessage())->execute();
 					throw $e;
 			}
 			$form->api->db->commit();
@@ -260,7 +268,7 @@ class page_student_fee extends Page{
 
 		$form->addField('line','amount_submit')->setNotNull();
 		$form->addField('line','receipt_number');
-		// $form->addField('text','remarks');
+		$form->addField('text','remarks');
 		$form->addField('DatePicker','submitted_on')->set(date('Y-m-d'));
 		$form->addSubmit('Receive');
 
@@ -324,6 +332,7 @@ class page_student_fee extends Page{
 						$fee_deposit=$this->add('Model_Fees_Deposit');
 						$fee_deposit['paid']=$amount_for_this_fee;
 						$fee_deposit['receipt_number']=$form->get('receipt_number');
+						$fee_deposit['remarks']=$form->get('remarks');
 						$fee_deposit['deposit_date']=$form->get('submitted_on');
 						$fee_deposit['fee_applicable_id']=$fee_app->id;
 						$fee_deposit->save();
@@ -338,7 +347,7 @@ class page_student_fee extends Page{
 				if($amount_to_submit > 0 ) throw $this->exception('Exxcess fee deposited');
 			}catch(Exception $e){
 					$form->api->db->rollback();
-					// $form->js()->univ()->errorMessage($e->getMessage())->execute();
+					$form->js()->univ()->errorMessage($e->getMessage())->execute();
 					throw $e;
 			}
 			$form->api->db->commit();
@@ -373,9 +382,24 @@ class page_student_fee extends Page{
 
 		$crud=$this->add('CRUD',array('allow_add'=>false));
 		$fd=$this->add('Model_Fees_Deposit');
-		$fd->addCondition('fee_applicable_id','in',$fee_applicable_array);
+		$fd->addExpression('fee_name')->set(function($m,$q){
+			$m1=$m->add('Model_Fees_Deposit');
+			$m1->table_alias='tempdeposit';
+			$fee_applicable = $m1->join('fee_applicable.id','fee_applicable_id');
+			$class_fee = $fee_applicable->join('fee_class_mapping.id','fee_class_mapping_id');
+			$fee = $class_fee->join('fee.id','fee_id');
+			$fee->addField('feename','name');
+			$m1->addCondition($m1->getField('id'),$q->getfield('id'));
+			return $m1->fieldQuery('feename');
+		});
 
+		$fd->join('fee_applicable.id','fee_applicable_id')
+			->addField('student_id');
+
+		$fd->addCondition('student_id',$_GET['student_id']);
+
+		// $fd->addCondition('fee_applicable_id','in',$fee_applicable_array);
 		// $fd->debug();
-		$crud->setModel($fd,array('paid','deposit_date','receipt_number'),array('fee_applicable_id','paid','deposit_date','receipt_number'));
+		$crud->setModel($fd,array('paid','deposit_date','receipt_number','remarks'),array('fee_name','paid','deposit_date','receipt_number','remarks'));
 	}
 }

@@ -14,6 +14,8 @@ class page_correct extends Page {
 						PRIMARY KEY ( `id` )
 						) ENGINE = InnoDB DEFAULT CHARSET = latin1;');
 		$this->query('ALTER TABLE `student` ADD `result_stopped` TINYINT NOT NULL ');
+		$this->query(" ALTER TABLE `fee` ADD `for_hostler_only` TINYINT NOT NULL AFTER `scholaredamount` ");
+		$this->query("  ALTER TABLE `fee_deposit_master` CHANGE `remarks` `remarks` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ");
 	}
 
 	function query($q){

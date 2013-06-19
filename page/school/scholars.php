@@ -2,11 +2,13 @@
 
 class page_school_scholars extends Page {
 	function init(){
-		parent::init();
+        parent::init();
+            
         $acl=$this->add('xavoc_acl/Acl');
         $this->api->stickyGET('filter');
         $this->api->stickyGET('class');
-
+        
+        try{
         $form=$this->add('Form');
          $classs_field= $form->addField('dropdown','class')->setEmptyText('----')->setAttr('class','hindi');
         $c=$this->add('Model_Class');
@@ -19,7 +21,7 @@ class page_school_scholars extends Page {
 
 
         $acl=$this->add('xavoc_acl/Acl');
-		$crud=$this->add('CRUD',array('allow_del'=>false,"allow_edit"=>false));
+        $crud=$this->add('CRUD',array('allow_del'=>false,"allow_edit"=>false));
         $scm=$this->add('Model_Scholars_Current');
         $scm->_dsql()->del('order')->order('class_id','asc')->order('fname');
         if($_GET['filter']){
@@ -32,7 +34,7 @@ class page_school_scholars extends Page {
 
         if($crud->grid) $crud->grid->addColumn('sno','sno');
         
-		$crud->setModel($scm
+        $crud->setModel($scm
             ,array('admission_date','scholar_no','fname','hname','father_name','mother_name'
                 ,'guardian_name','dob','contact','student_image','p_address','sex','isActive',
                'leaving_date','category','class_id','ishostler','isScholared','bpl' ),array('fname','hname','scholar_no','class','image_url'));
@@ -46,14 +48,14 @@ class page_school_scholars extends Page {
                 ))->execute();
 
         }
-		if($crud->grid){
+        if($crud->grid){
 
-			$crud->grid->addFormatter('class','hindi');
+            $crud->grid->addFormatter('class','hindi');
             $crud->grid->addQuickSearch(array('scholar_no','fname'));
              // $crud->grid->add("misc/Controller_AutoPaginator")->setLimit(50);
             $crud->grid->addPaginator();
-		}
-		if($crud->form){
+        }
+        if($crud->form){
             // make form flow in 2 columns
             // if($crud->form->model->loaded()){
             //     // $crud->form->getElement('class_id')->disable(true)->setFieldHint('You cannot edit class from here now');
@@ -75,5 +77,11 @@ class page_school_scholars extends Page {
 //            $cat=array("ST"=>"ST","SC"=>"SC","OBC"=>"OBC");
 //            $drp_cat->setValueList($cat);
         }
-	}
+    }catch(Exception $e){
+            $this->js()->univ()->errorMessage($e->getMessage())->execute();
+            
+        }
+
+
+}
 }

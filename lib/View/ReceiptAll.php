@@ -15,6 +15,7 @@ class View_ReceiptAll extends View {
 			return;
 		}
 		$sc=$st->ref('scholar_id');
+		// $sc->addField('father_name');
 		
 		$ism = $st->ref('Item_Issue');
 		$ism->addExpression('date_month')->set('FORMAT(Month(date),"M")');
@@ -40,10 +41,10 @@ class View_ReceiptAll extends View {
 		$this->grid->addColumn('sno','sno');
 
 		// $ism->debug();
-		$this->grid->setModel($ism,array('sno','date_month','total_qty','receipt_no','total_amount'));
+		$this->grid->setModel($ism,array('sno','date_month','receipt_no','total_amount'));
 		$this->grid->addFormatter('date_month','month');
 		$this->grid->setFormatter('total_amount','money');
-		$this->grid->setFormatter('total_qty','number');
+		// $this->grid->setFormatter('total_qty','number');
 
 		$this->grid->addTotals(array('total_amount'));
 
