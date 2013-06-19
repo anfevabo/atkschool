@@ -3,7 +3,7 @@
 class page_session_createnew extends Page {
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form');
 		$class=$this->add('Model_Class');
 		$i=1;

@@ -85,17 +85,38 @@ class page_student_attendance extends Page{
         $this->api->stickyGET('att');
 
         $grid=$this->add('Grid');
-        $sa=$this->add('Model_Students_Attendance');
-        $sa->addCondition('class_id',$_GET['class']);
-        $sa->addCondition('month',$_GET['month']);
+        $s=$this->add('Model_Student');
+        $s->addCondition('class_id',$_GET['class']);
 
-        $grid->setModel($sa,array('roll_no','class','student','month','total_attendance','present'));
-        $sa->_dsql()->del('order')->order('roll_no','asc');
+
+        // $s=$this->add('Model_Student');
+        $s->addExpression('all_meeting')->set(function($m,$q){
+            return $m->refSQL('Students_Attendance')->sum('total_attendance');
+        });
+        $s->addExpression('all_attendance')->set(function($m,$q){
+            return $m->refSQL('Students_Attendance')->sum('present');
+        });
+        // $s->addExpression('month')->set(function($m,$q){
+        //     return $m->refSQL('Students_Attendance')->fieldQuery('month');
+        // });
+        $s->addExpression('total_attendance')->set(function($m,$q){
+            return $m->refSQL('Students_Attendance')->addCondition('month',$_GET['month'])->sum('total_attendance');
+        });
+        $s->addExpression('present')->set(function($m,$q){
+            return $m->refSQL('Students_Attendance')->addCondition('month',$_GET['month'])->sum('present');
+        });
+
+        // $s->addCondition('month',$_GET['month']);
+        $grid->setModel($s,array('roll_no','class','name','all_meeting','all_attendance','total_attendance','present'));
+        $s->_dsql()->del('order')->order('roll_no','asc');
         // if($crud->grid){
-        $grid->setFormatter('student','hindi');
+        // $grid->setFormatter('student','hindi');
         $grid->setFormatter('class','hindi');
         // $grid->addColumn('expander','edit');
         $grid->addFormatter('present','grid/inline');
+
+        // $this->api->template->tryDel('logo');
+        $this->api->template->tryDel('header');
 
     }
 

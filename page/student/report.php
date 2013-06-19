@@ -1,7 +1,7 @@
 <?php
 class page_student_report extends Page{
 
-	public $field_list=array('sno','roll_no','scholar_no','class','name','fname','father_name','age','mother_name','admission_date','isScholared','ishostler', 'dob','contact','p_address','sex','category','image_url');
+	public $field_list=array('sno','roll_no','scholar_no','class','name','fname','father_name','gardian_name','age','mother_name','admission_date','isScholared','ishostler', 'dob','contact','p_address','sex','category','image_url');
 
 	function page_index(){
         
@@ -73,6 +73,12 @@ class page_student_report extends Page{
 
          $m=$this->add('Model_Scholars_Current');
         
+        $m->addExpression('gardian_name')->set(function($m,$q){
+            $m1=$m->add('Model_Scholars_Guardian');
+            $m1->_dsql()->limit(1);
+            $m1->addCondition('scholar_id',$q->getField('id'));
+            return $m1->fieldQuery('gname');
+        })->display(array('grid'=>'hindi'));
 	
         if($_GET["class_drp"]){
         	$m->addCondition('class_id',$_GET['class_drp']);
