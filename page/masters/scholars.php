@@ -1,24 +1,68 @@
 <?php
 class page_masters_scholars extends Page {
-	function init(){
+	function init() {
 		parent::init();
-		$acl=$this->add('xavoc_acl/Acl');
-		$crud = $this->add('CRUD',array("allow_add"=>false,"allow_del"=>false));
-		if($crud->grid){
-		$crud->grid->addPaginator(10);
-		$crud->grid->addColumn('sno','sno');
-	}	
-			
-		$sc=$this->add('Model_Scholars_Current');
-		$sc->_dsql()->del('order')->order('scholar_no','desc');
-		// $sc->_dsql()->order('fname','asc');
-		$crud->setModel($sc);
-		if($crud->form){
-			$crud->form->getElement('class_id')->setAttr('class','hindi');
+		$acl=$this->add( 'xavoc_acl/Acl' );
+
+		try{
+			$crud = $this->add( 'CRUD' );
+			if ( $crud->grid ) {
+				$crud->grid->addPaginator( 10 );
+				$crud->grid->addColumn( 'sno', 'sno' );
+			}
+
+
+
+			$sc=$this->add( 'Model_Scholar' );
+			$sc->getField( 'image_url' )->system( false );
+			$sc->getField( 'student_image' )->system( true );
+
+
+			$st=$sc->leftJoin( 'student.scholar_id', 'id' );
+			$st->addField( 'session_id' );
+
+			$sc->addCondition( 'session_id', $this->add( 'Model_Sessions_Current' )->tryLoadAny()->get( 'id' ) );
+
+
+
+			if ( $crud->grid ) {
+				$st->hasOne( 'Class', 'class_id' );
+				$crud->grid->addQuickSearch( array( 'sc_fname', 'scholar_no' ) );
+			}
+
+			$crud->setModel( $sc );
+
+			if ( $crud->grid ) {
+				$crud->grid->setFormatter( 'class', 'hindi' );
+			}
+		}catch( Exception $e ) {
+			$this->js()->univ()->errorMessage( $e->getMessage() )->execute();
+
 		}
-		if($crud->grid){
-		$crud->grid->setFormatter('class','hindi');
-		$crud->grid->addQuickSearch(array('fname','scholar_no'));
+	}
+
+	function init_old_saved() {
+		parent::init();
+		$acl=$this->add( 'xavoc_acl/Acl' );
+		$crud = $this->add( 'CRUD', array( "allow_add"=>false, "allow_del"=>false ) );
+		if ( $crud->grid ) {
+			$crud->grid->addPaginator( 10 );
+			$crud->grid->addColumn( 'sno', 'sno' );
+		}
+
+		$st=$this->add( 'Model_Scholars_Current' );//->debug();
+		$st->_dsql()->del( 'order' )->order( 'scholar_no', 'desc' );
+		// $st->_dsql()->order('fname','asc');
+		$crud->setModel( $st );
+		if ( $crud->form ) {
+			$crud->form->getElement( 'class_id' )->setAttr( 'class', 'hindi' );
+			if ( $crud->form->model->loaded() ) {
+				$crud->form->model->addCondition( 'session_id', $this->add( 'Model_Sessions_Current' )->tryLoadAny()->get( 'id' ) );
+			}
+		}
+		if ( $crud->grid ) {
+			$crud->grid->setFormatter( 'class', 'hindi' );
+			$crud->grid->addQuickSearch( array( 'fname', 'scholar_no' ) );
 		}
 	}
 }

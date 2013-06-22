@@ -40,6 +40,8 @@ class Model_Student extends Model_Table{
                         return $m->refSQL('scholar_id')->fieldQuery('father_name');
                 });
 
+                
+
                 $this->dsql()->order('fname','asc');
 
               

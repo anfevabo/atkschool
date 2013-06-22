@@ -11,6 +11,7 @@ class Model_Scholars_Current extends Model_Scholar {
         // $st = $this->join('student.scholar_id',
         //                 $q->andExpr()->where('s.scholar_id',$q->getField('id'))->where('s.session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'))
         //                 ,null,'s');
+        // $st = $this->join('student',$this->dsql()->expr('_s.scholar_id = ' . $this->dsql()->getField('id'). " and _s.session_id = " . $this->add('Model_Sessions_Current')->tryLoadAny()->get('id') ));
         $st = $this->join('student.scholar_id');
         $st->hasOne('Class', 'class_id');
         $st->addField('ishostler')->type('boolean');
@@ -27,5 +28,14 @@ class Model_Scholars_Current extends Model_Scholar {
         $this->_dsql()->order('class_id','asc');
         // $st->_dsql()->order('fname','asc');
         // $this->debug();
+
+        $this->addHook('beforeSave',$this);
 	}
+
+        function beforeSave(){
+                if($this->loaded()){
+                        $this->_dsql()->where('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+                        $this->debug();
+                }
+        }
 }
