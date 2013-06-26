@@ -25,8 +25,14 @@ class page_session_createnew extends Page {
 
 		if($form->isSubmitted()){
 			try{
+
+
+
 				$this->api->db->beginTransaction();
 
+
+				throw $this->exception("Not Implemented Yet");
+				
 				$to_promote=array(
 					'Model_SubjectClassMapAll',
 					'Model_ExamClassMapAll',
