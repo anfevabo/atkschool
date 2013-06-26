@@ -3,7 +3,7 @@
 class page_session_createnew extends Page {
 	function init(){
 		parent::init();
-
+		$acl=$this->add('xavoc_acl/Acl');
 		$form=$this->add('Form');
 		$class=$this->add('Model_Class');
 		$i=1;
@@ -70,7 +70,8 @@ class page_session_createnew extends Page {
 
 
 				$this->api->db->commit();
-				$this->js()->univ()->closeDialog()->successMessage("Done")->execute();
+				$this->js()->univ()->successMessage("Done")->execute();
+				// $this->js()->univ()->closeDialog()->successMessage("Done")->execute();
 			}catch(Exception $e){
 				$this->api->db->rollback();
 				$this->js()->univ()->errorMessage($e->getMessage())->execute();

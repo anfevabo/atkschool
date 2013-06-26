@@ -32,8 +32,8 @@ class Model_Scholar extends Model_Table {
                 $this->_dsql()->order('scholar_no','asc');
                 $this->_dsql()->del('order')->order('fname','asc');
 
-                $this->addExpression('name')->set('hname')->display('hindi');
-                $this->addExpression('Student_name')->set('fname');
+                // $this->addExpression('name')->set('hname')->display('hindi');
+                // $this->addExpression('Student_name')->set('fname');
                 $this->addExpression('age')->set('year(now())-year(dob)');
 
                 $fs=$this->leftJoin('filestore_file','student_image')
@@ -58,6 +58,7 @@ class Model_Scholar extends Model_Table {
                 if($this->loaded()){
                         // editing
                         $s->addCondition('id','<>',$this->id);
+                        
                 }else{
                         // Adding
                 }
@@ -70,6 +71,12 @@ class Model_Scholar extends Model_Table {
         }
 
         function beforeDelete(){
+
+
+                if($this->ref('Student')->count()->getOne() > 0){
+                        throw $this->exception("You can not Delete Scholar, It is a Student");
+                        
+                }
                 
         }
         

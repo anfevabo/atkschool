@@ -21,8 +21,13 @@ class page_staff_movement_record extends Page {
 
 
 
-		$m=$this->add('Model_Staff_Movement');
-		$crud->setModel($m,array('staff','	name','date','action'));
+		$sm=$this->add('Model_Staff_Movement');
+
+		$sm=$this->add('Model_Staff_Movement');
+		$sm->addExpression('ename')->set(function($m,$q){
+			return $m->refSQL('staff_id')->fieldQuery('ename');
+		});
+		$crud->setModel($sm,array('staff','ename','date','action'));
 		if($form->isSubmitted()){
 			$crud->grid->js()->reload(array('staff_id'=>$form->get('staff')))->execute();
 		}

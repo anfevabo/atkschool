@@ -11,6 +11,7 @@ class Model_Fees_Deposit extends Model_Table{
 		// $this->addField('due_date')->type('date');
 		$this->addField('deposit_date')->type('date')->defaultValue(date('Y-m-d'));
 		$this->addField('receipt_number');
+		$this->addField('remarks');
 
 		$this->addHook('beforeSave',$this);
 		$this->addHook('beforeDelete',$this);

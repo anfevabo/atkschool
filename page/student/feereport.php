@@ -3,9 +3,12 @@ class page_student_feereport extends Page{
 	function page_index(){
 		// parent::init();
 
+		$fname_array = array('fname');
+		
 		$class=$this->add('Model_Class');
 		$student=$this->add('Model_Student');
 
+		$student->setOrder('fname','asc');
 
 
 		$form=$this->add('Form',null,null,array('form_horizontal'));
@@ -40,16 +43,20 @@ class page_student_feereport extends Page{
 		$fee_applicable_join_feeclassmapping_join_fee->addField('FeeName','name');
 		if($_GET['filter']){
 			if($_GET['class']) $fee_applicable->addCondition('class_id',$_GET['class']);
-			if($_GET['student']) $fee_applicable->addCondition('student_id',$_GET['student']);
-
+			if($_GET['student']){ 
+				$fee_applicable->addCondition('student_id',$_GET['student']);
+				$fname_array=array();
+			}
 			if($_GET['status']){
 				if($_GET['status']=='paid') $fee_applicable->addCondition('due',0);
 				if($_GET['status']=='due') $fee_applicable->addCondition('due','<>',0);
 			}
+		}else{
+			$fee_applicable->addCondition('id',-1);
 		}
 
 
-		$grid->setModel($fee_applicable,array('fname','FeeName','amount','paid','due'))	;
+		$grid->setModel($fee_applicable,array_merge($fname_array,array('FeeName','amount','paid','due')))	;
 		$grid->addPaginator(10);
 
 		$grid->addColumn('expander','details','Deposite Details');
@@ -69,9 +76,19 @@ class page_student_feereport extends Page{
 
 		$fd=$this->add('Model_Fees_Deposit');
 		$fd->addCondition('fee_applicable_id',$_GET['fee_applicable_id']);
+		$fd->addExpression('fee_name')->set(function($m,$q){
+			$m1=$m->add('Model_Fees_Deposit');
+			$m1->table_alias='tempdeposit';
+			$fee_applicable = $m1->join('fee_applicable.id','fee_applicable_id');
+			$class_fee = $fee_applicable->join('fee_class_mapping.id','fee_class_mapping_id');
+			$fee = $class_fee->join('fee.id','fee_id');
+			$fee->addField('feename','name');
+			$m1->addCondition($m1->getField('id'),$q->getfield('id'));
+			return $m1->fieldQuery('feename');
+		});
 
 		$grid=$this->add('Grid');
-		$grid->setModel($fd);
+		$grid->setModel($fd,array('fee_name','paid','deposit_date','receipt_number','remarks'));
 
 	}
 }

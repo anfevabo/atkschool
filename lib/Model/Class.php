@@ -26,7 +26,7 @@ class Model_Class extends Model_Table{
             return $m->refSQL('SubjectClassMap')->count();
         });
         
-        $this->_dsql()->order('id','asc');
+        $this->_dsql()->order($this->getField('id'),'asc');
         $this->addHook('beforeSave',$this);
         $this->addHook('beforeDelete',$this);
 	}

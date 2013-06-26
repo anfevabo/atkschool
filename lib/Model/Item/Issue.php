@@ -11,11 +11,11 @@ class Model_Item_Issue extends Model_Table{
 		$this->hasOne('Item','item_id');
 		$this->hasOne('Session','session_id');
 
-		$this->addField('quantity');
+		$this->addField('quantity')->mandatory('quantity is Must To Select');
 		$this->addField('rate')->mandatory('Rate is Must To Select');
 		$this->addField('date')->type('date')->defaultValue(date('Y-m-d'));
 		$this->addField('receipt_no')->system(true);
-		$this->addExpression('amount')->set('quantity * rate');
+		$this->addExpression('amount')->set('round(quantity * rate,2)');
 		$this->addExpression("month")->set('Month(`date`)')->display('month');
 		$this->addExpression('year')->set('Year(`date`)');
 		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));

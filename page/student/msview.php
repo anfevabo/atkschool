@@ -16,12 +16,13 @@ class page_student_msview extends Page {
 		$topStudentView->setModel($this->add('Model_Student')->load($_GET['student']));
 		$first=true;
 
-		foreach($marksheet=$c->ref('MS_Designer') as $marksheet_junk){
+		$marksheet=$c->ref('MS_Designer')->tryLoadAny();
+		// foreach($marksheet as $marksheet_junk){
 			foreach($section = $marksheet->ref('MS_Sections') as $section_junk){
 				$v=$this->add('View_MS_MainBlock',array('class'=>$_GET['class'],'student'=>$_GET['student'],'section'=>$section->id,'prnt_block'=>true));
 				$first=false;
 			}
-		}
+		// }
 		
 		// Percentage
 		$max=$this->api->recall('grand_total_max_marks',0);
@@ -149,7 +150,11 @@ class page_student_msview extends Page {
 			'final_result'=>$final_result,
 			'division'=>$division
 			);
-		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry),'right_panel');
+
+		$show_final_grade = $marksheet['show_grade'];
+		$final_grade = $this->add('Model_Grade')->calculate($marks,$max);
+
+		$this->add('View_MS_Result',array('result'=>$result,'distinction'=>$distinction,'rank'=>$rank,'grace' =>$grace,'supplimentry'=>$supplimentry ,'show_grade'=>$show_final_grade,'grade'=>$final_grade),'right_panel');
 		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('<span class="hindi" style="font-size: 25px">cky fou; efUnj mPp ek/;fed fo|ky; mn;iqj </span>');
 		$fv=$this->add('View_MS_Front',null,'marksheet_front');
 		$fv->setModel($this->add('Model_Student')->load($_GET['student'])->ref('scholar_id'));
@@ -161,7 +166,7 @@ class page_student_msview extends Page {
         $att_model->addCondition('student_id',$_GET['student']);
 		$atv=$fv->add('View_MS_Attendance',null,'attendance_block');
 		$atv->setModel($att_model);
-		$this->add('Text',null,'today_date')->set(date('d-m-Y'));
+		$this->add('Text',null,'declare_date')->set(date('d-M-Y',strtotime($marksheet['declare_date'])));
 
 	}
 

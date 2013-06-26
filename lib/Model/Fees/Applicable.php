@@ -8,6 +8,7 @@ class Model_Fees_Applicable extends Model_Table{
 		$this->hasOne('FeeClassMapping','fee_class_mapping_id')->caption('Fee Applicable');
 		// $this->hasOne('Fee','fee_id');
 		$this->addField('amount');
+		
 		// $this->addField('due')->defaultValue(0);
 
 

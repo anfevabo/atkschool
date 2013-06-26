@@ -4,7 +4,6 @@ class page_hosteldata extends Page{
 	function init(){
 		parent::init();
 		$acl=$this->add('xavoc_acl/Acl');
-		$acl=$this->add('xavoc_acl/Acl');
 		$tab=$this->add('Tabs');
 		
 		$tab->addTabURL('hostel_hostelallotement','Hostel Allotement');
