@@ -60,6 +60,8 @@ class Model_Student extends Model_Table{
                         $new_student['class_id'] = $to_class;
                         $new_student['session_id']= $to_session;
                         $new_student['bpl'] = $student['bpl'];
+                        $new_student['ishostler'] = $student['ishostler'];
+                        $new_student['isScholared'] = $student['isScholared'];
                         $new_student->save();
                         $new_student->destroy();
                 }

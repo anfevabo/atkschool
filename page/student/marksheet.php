@@ -10,7 +10,7 @@ class page_student_marksheet extends Page{
 
 		$student_feild=$form->addField('dropdown','students')->setEmptyText("-----")->setAttr('class','hindi');
 
-		$s=$this->add("Model_Student");
+		$s=$this->add("Model_Students_Current");
 
 		$form->addSubmit('Show');
 

@@ -1,4 +1,4 @@
-<?php
+[<?php
 
 class page_session_createnew extends Page {
 	function init(){

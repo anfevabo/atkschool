@@ -27,6 +27,8 @@ class page_hostel_studentmovementreport extends Page {
 		$crud=$this->add('CRUD',array('allow_add'=>false));
 		$m=$this->add('Model_Students_Movement');
 
+		$m->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+
 		$this->api->stickyGET('filter');
 		$this->api->stickyGET('class_id');
 		$this->api->stickyGET('from_date');

@@ -27,7 +27,7 @@ class Model_Staff extends Model_Table {
                 $this->addExpression('name')->set('hname');
                 $this->_dsql()->order('ename','asc');
                 $this->addExpression('attendance_status')->set(function ($m,$q){
-                        return $m->refSQL('Staff_Movement')->dsql()->del('field')->field('action')->limit(1)->order('id','desc');
+                        return $m->refSQL('Staff_Movement')->addCondition('session_id',$m->add('Model_Sessions_Current')->tryLoadAny()->get('id'))->_dsql()->del('field')->field('action')->limit(1)->order('id','desc');
                 })->display('attendance');
 
                 $fs=$this->leftJoin('filestore_file','image')

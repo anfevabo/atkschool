@@ -18,7 +18,7 @@ class Model_Hostel extends Model_Table{
 		});
 
 		$this->addExpression('alloted')->set(function ($m,$q){
-			return $m->refSQL('HostelRoom')->dsql()->del('field')->field($q->dsql()->expr('sum((select count(*) from `hostel_allotement` where `hostel_allotement`.`room_id` = `rooms`.`id` ))'));
+			return $m->refSQL('HostelRoom')->dsql()->del('field')->field($q->dsql()->expr('sum((select count(*) from `hostel_allotement` where `hostel_allotement`.`room_id` = `rooms`.`id` AND `hostel_allotement`.session_id = '.$m->add('Model_Sessions_Current')->tryLoadAny()->get('id') .' ))'));
 		});
 
 		// $this->addExpression('alloted')->set(function ($m,$q){
