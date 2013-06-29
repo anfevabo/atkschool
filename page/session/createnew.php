@@ -31,7 +31,7 @@ class page_session_createnew extends Page {
 				$this->api->db->beginTransaction();
 
 
-				throw $this->exception("Not Implemented Yet");
+				// throw $this->exception("Not Implemented Yet");
 				
 				$to_promote=array(
 					'Model_SubjectClassMapAll',
