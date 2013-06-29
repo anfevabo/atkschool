@@ -27,12 +27,16 @@ class page_staff_movement_record extends Page {
 		$sm->addExpression('ename')->set(function($m,$q){
 			return $m->refSQL('staff_id')->fieldQuery('ename');
 		});
+
+
+		$sm->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+		// $sm->debug();
 		$crud->setModel($sm,array('staff','ename','date','action'));
 		if($form->isSubmitted()){
 			$crud->grid->js()->reload(array('staff_id'=>$form->get('staff')))->execute();
 		}
 
-		if($_GET['staff_id']) $m->addCondition('staff_id',$_GET['staff_id']);
+		if($_GET['staff_id']) $sm->addCondition('staff_id',$_GET['staff_id']);
 
 		if($crud->grid){
 			$crud->grid->dq->order('id','desc');

@@ -46,8 +46,10 @@ class Grid extends Grid_Advanced
     function format_attendance($field){
       if($this->current_row[$field] == 'inward' OR $this->current_row[$field] == 1) 
           $color='green';
-      else
+      else{
           $color='red';
+          if($this->current_row[$field] !== 0) $this->current_row[$field]='outward';
+      }
 
         if($this->current_row[$field] === '1' ) $this->current_row[$field]='present';
         if($this->current_row[$field] === '0' ) $this->current_row[$field]='absent';

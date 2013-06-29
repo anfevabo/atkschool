@@ -84,9 +84,11 @@ class page_student_attendance extends Page{
         $this->api->stickyGET('month');
         $this->api->stickyGET('att');
 
+
         $grid=$this->add('Grid');
         $s=$this->add('Model_Student');
         $s->addCondition('class_id',$_GET['class']);
+        $s->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 
 
         // $s=$this->add('Model_Student');

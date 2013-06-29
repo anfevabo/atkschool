@@ -6,7 +6,7 @@ class page_student_feereport extends Page{
 		$fname_array = array('fname');
 		
 		$class=$this->add('Model_Class');
-		$student=$this->add('Model_Student');
+		$student=$this->add('Model_Students_Current');
 
 		$student->setOrder('fname','asc');
 

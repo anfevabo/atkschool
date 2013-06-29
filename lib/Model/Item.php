@@ -19,9 +19,12 @@ class Model_Item extends Model_Table{
 			return $m->refSQL('Item_Inward')->dsql()->del('field')->field('rate')->limit(1)->order('id','desc');
 		});
 		
-
 		$this->addExpression("TotalInward")->set(function ($m,$q){
-				return $m->refSQL("Item_Inward")->sum('quantity');
+			$itm=$m->add('Model_Item_Inward');
+			$itm->join('bill_master.id','bill_id')->addField('session_id');
+			$itm->addCondition('session_id',$m->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+
+				return $itm->sum('quantity');
 		})->caption('Total In Qty');
 
 		$this->addExpression("TotalIssued")->set(function ($m,$q){

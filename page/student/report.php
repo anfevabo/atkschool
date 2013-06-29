@@ -75,8 +75,8 @@ class page_student_report extends Page{
         
         $m->addExpression('gardian_name')->set(function($m,$q){
             $m1=$m->add('Model_Scholars_Guardian');
-            $m1->_dsql()->limit(1);
             $m1->addCondition('scholar_id',$q->getField('id'));
+            $m1->_dsql()->limit(1);
             return $m1->fieldQuery('gname');
         })->display(array('grid'=>'hindi'));
 	
