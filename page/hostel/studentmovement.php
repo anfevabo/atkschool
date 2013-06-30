@@ -12,6 +12,7 @@ class page_hostel_studentmovement extends Page{
 
 		$c=$this->add('Model_Class');
 		$s=$this->add('Model_Hosteler');
+		$s->add('Controller_CurrentSession');
 
 		if($_GET['class_id']){
 			$s->addCondition('class_id',$_GET['class_id']);

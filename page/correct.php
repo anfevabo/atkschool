@@ -16,11 +16,18 @@ class page_correct extends Page {
 		$this->query('ALTER TABLE `student` ADD `result_stopped` TINYINT NOT NULL ');
 		$this->query(" ALTER TABLE `fee` ADD `for_hostler_only` TINYINT NOT NULL AFTER `scholaredamount` ");
 		$this->query("  ALTER TABLE `fee_deposit_master` CHANGE `remarks` `remarks` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ");
+		$this->query("  ALTER TABLE `hosteller_outward` ADD COLUMN `session_id`  int(11) NOT NULL AFTER `remark`");
+		$this->query("  ALTER TABLE `staff_outward` ADD COLUMN `session_id`  int(11) NOT NULL AFTER `staff_id`");
+		$this->query("  ALTER TABLE `student` MODIFY COLUMN `result_stopped`  tinyint(4) NOT NULL AFTER `is_present`");
+		$this->query("  ALTER TABLE `rooms` ADD `session_id` INT NOT NULL ");
+		$this->query("  ALTER TABLE `staff_master` ADD `is_active` TINYINT NOT NULL");
 
 
 		// SECOND FILE CORRECTIONS ....
 		$this->query('ALTER TABLE `hosteller_outward` ADD `session_id` INT NOT NULL ');
+		$this->query('UPDATE `rooms` SET `session_id`=8');
 		$this->query('UPDATE `hosteller_outward` SET `session_id`=8');
+		$this->query('UPDATE `staff_outward` SET `session_id`=8');
 
 
 

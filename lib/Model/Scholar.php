@@ -14,7 +14,7 @@ class Model_Scholar extends Model_Table {
                 //$this->add("filestore/Field_Image","f_image")->caption('father Image');
                 $this->addField('mother_name')->mandatory("Required Field")->caption('Mother`s Name')->display('hindi');;
                 //$this->add("filestore/Field_Image","m_image")->caption('Mother Image');
-                $this->addField('guardian_name');
+                // $this->addField('guardian_name');
                 $this->addField('dob')->type('date')->mandatory("Required Field")->caption('Date of Birth');
                 $this->addField('contact')->mandatory("Required Field");
                 $this->add("filestore/Field_Image","student_image")->type('image');//$this->add("filestore/Field_Image", "student_image"); 

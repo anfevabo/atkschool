@@ -23,9 +23,12 @@ class Model_Item extends Model_Table{
 			$itm=$m->add('Model_Item_Inward');
 			$itm->join('bill_master.id','bill_id')->addField('session_id');
 			$itm->addCondition('session_id',$m->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+			$itm->addCondition('item_id',$m->getField('id'));
+			return $itm->sum('quantity');
 
-				return $itm->sum('quantity');
 		})->caption('Total In Qty');
+
+		// $this->debug();
 
 		$this->addExpression("TotalIssued")->set(function ($m,$q){
 				return $m->refSQL("Item_Issue")->sum('quantity');

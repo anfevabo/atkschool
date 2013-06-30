@@ -11,6 +11,7 @@ class page_hostel_allotedstudent extends Page{
 		$form->addSubmit("Get List");
 
 		$h=$this->add('Model_Hosteler');
+		$h->add('Controller_CurrentSession');
 		$h->_dsql()->del('order')->order('building_name','asc')->order('room_no','asc')->order('class','asc');
 		// $h->_dsql()->order('scholar','asc');
 		if($_GET['filter']){

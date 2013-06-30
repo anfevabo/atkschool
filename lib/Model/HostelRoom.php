@@ -8,6 +8,7 @@ class Model_HostelRoom extends Model_Table{
 		parent::init();
 
 		$this->hasOne('Hostel','hostel_id');
+		$this->hasOne('Sessions_Current','session_id');
 		$this->addField('room_no');
 		$this->addField('capacity');
 	
@@ -20,6 +21,8 @@ class Model_HostelRoom extends Model_Table{
 		});
 
 		$this->addExpression('name')->set('room_no');
+
+		$this->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 		$this->_dsql()->order('room_no','asc');
 		$this->addHook('beforeSave',$this);
 		

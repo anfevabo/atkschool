@@ -75,6 +75,7 @@ class page_masters_exam extends Page {
 				'rightField' => 'subject_id',
 				'rightModel' => $subject_class_map,
 				'deleteFirst' => false,
+				'maintainOld' => true,
 				'maintainSession' => true,
 				'allowediting' => true,
 				'onlymapped' => false,
