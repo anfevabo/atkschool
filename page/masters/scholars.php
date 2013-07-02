@@ -5,12 +5,11 @@ class page_masters_scholars extends Page {
 		$acl=$this->add( 'xavoc_acl/Acl' );
 
 		try{
-			$crud = $this->add( 'CRUD' );
+			$crud = $this->add( 'CRUD',array('allow_add'=>false));
 			if ( $crud->grid ) {
 				$crud->grid->addPaginator( 10 );
 				$crud->grid->addColumn( 'sno', 'sno' );
 			}
-
 
 
 			$sc=$this->add( 'Model_Scholar' );
@@ -18,24 +17,26 @@ class page_masters_scholars extends Page {
 			$sc->getField( 'student_image' )->system( true );
 
 
-			$st=$sc->leftJoin( 'student.scholar_id', 'id' );
-			$st->addField( 'session_id' );
-
-			$sc->addCondition( 'session_id', $this->add( 'Model_Sessions_Current' )->tryLoadAny()->get( 'id' ) );
-
 
 
 			if ( $crud->grid ) {
-				$st->hasOne( 'Class', 'class_id' );
-				$crud->grid->addQuickSearch( array( 'sc_fname', 'scholar_no' ) );
+				$crud->grid->addQuickSearch( array( 'fname', 'scholar_no' ) );
 			}
 
 			$crud->setModel( $sc );
+			
+			if($crud->grid){
+				$st=$crud->grid->getModel()->leftJoin( 'student.scholar_id', 'id' );
+				$st->hasOne( 'Class', 'class_id' );
+				$st->addField( 'session_id' );
+				$sc->addCondition( 'session_id', $this->add( 'Model_Sessions_Current' )->tryLoadAny()->get( 'id' ) );
+			}
 
 			if ( $crud->grid ) {
-				$crud->grid->setFormatter( 'class', 'hindi' );
+				// $crud->grid->setFormatter( 'class', 'hindi' );
 			}
 		}catch( Exception $e ) {
+			throw $e;
 			$this->js()->univ()->errorMessage( $e->getMessage() )->execute();
 
 		}

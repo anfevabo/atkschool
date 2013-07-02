@@ -25,6 +25,9 @@ class View_Scholar_Details extends CompleteLister{
 
 
 		parent::setModel($model);
+
+		$extrarows=10 - $model->count()->getOne();
+		for ($i=1; $i<=$extrarows; $i++) $this->add('View',null,'ExtraRows',array('view/extrarows'));
 	}
 
 	function formatRow(){

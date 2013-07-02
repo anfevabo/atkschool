@@ -13,6 +13,7 @@ class page_hostel_studentmovement extends Page{
 		$c=$this->add('Model_Class');
 		$s=$this->add('Model_Hosteler');
 		$s->add('Controller_CurrentSession');
+		
 
 		if($_GET['class_id']){
 			$s->addCondition('class_id',$_GET['class_id']);
@@ -26,6 +27,8 @@ class page_hostel_studentmovement extends Page{
 		$class_field->js('change',$form->js()->atk4_form('reloadField','student',array($this->api->url(),'class_id'=>$class_field->js()->val())));
 
 		$hm=$this->add('Model_Hosteler');
+// 
+		// $hm['session_id']=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
 		if($_GET['hostler_id']){
 			$hm->addCondition('id',$_GET['hostler_id']);
 		}else{

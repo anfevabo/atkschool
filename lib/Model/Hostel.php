@@ -47,8 +47,11 @@ class Model_Hostel extends Model_Table{
 	function beforeDelete(){
 
 		$h=$this->add('Model_HostelRoom');
-		$h->addCondition('room_no',$this->id);
-		if($h->count()->get() > 0)
+		$h->addCondition('hostel_id',$this->id);
+
+		$h->tryLoadAny();
+
+		if($h->loaded())
 			throw $this->exception("This Building has Room,cannot Delete ");
 	}
 }

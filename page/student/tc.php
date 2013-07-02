@@ -34,8 +34,8 @@ class page_student_tc extends Page{
 
 		$this->api->stickyGET('scholar_id');
 		$scholar=$this->add('Model_Scholar');
-		$scholar->addExpression('age_years')->set("(SELECT FLOOR((admission_date - dob) / 31536000))");
-		$scholar->addExpression('age_month')->set("(SELECT MOD((admission_date - dob) / 31536000 * 12, 12))"); 
+		// $scholar->addExpression('age_years')->set("(SELECT FLOOR((admission_date - dob) / 31536000))");
+		// $scholar->addExpression('age_month')->set("(SELECT MOD((admission_date - dob) / 31536000 * 12, 12))"); 
 		
 		$scholar->load($_GET['scholar_id']);
 

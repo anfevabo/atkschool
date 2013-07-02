@@ -36,6 +36,6 @@ class page_hostel_studentgardian extends Page{
 
 		$crud=$v->add('CRUD');
 		
-		$crud->setModel($sc->ref('Scholars_Guardian'),null,array('gname','contact','relation','image_url'));
+		$crud->setModel($sc->ref('Scholars_GuardianAll'),array('gname','contact','relation','address','image','is_active'),array('gname','contact','relation','address','image_url','is_active'));
 	}
 }

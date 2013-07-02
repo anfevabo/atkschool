@@ -111,7 +111,7 @@ class page_student_marks extends Page{
 			// print_r($new_students);
 
 			$form->js()->univ()->newWindow($this->api->url("./marksinput",
-					array('class'=>$form->get('class'), 'subject'=>$form->get('examsubjectmap')))
+					array('class'=>$form->get('class'), 'subject'=>$form->get('examsubjectmap'),'exammap'=>$form->get('exammap')))
 				, null, 'height=689,width=1246,scrollbar=1')->execute();
 		}
 	}
@@ -124,13 +124,17 @@ class page_student_marks extends Page{
 
 		$this->api->stickyGET('class');
 		$this->api->stickyGET('subject');
+		$this->api->stickyGET('exammap');
 
 		$subject=$this->add('Model_ExamClassSubjectMap');
 		$subject->load($_GET['subject']);
 		$class=$this->add('Model_Class');
 		$class->load($_GET['class']);
 
-		$this->add('View_Info')->setHTML('Class:- '." <span class='hindi'>".$class['class_name']."   "."</span>  "."Subject:- "." <span class='hindi'>". $subject->ref('subject_id')->get('name')."</span>");
+		$ecm=$this->add('Model_ExamClassMapAll');
+		$ecm->load($_GET['exammap']);
+
+		$this->add('View_Info')->setHTML('Class:- '." <span class='hindi'>".$class['class_name']."   "."</span>  "."Subject:- "." <span class='hindi'>". $subject->ref('subject_id')->get('name')."</span>" . " Exam:- "." <span class='hindi'>". $ecm['name']."</span>");
 
 		$grid=$this->add('Grid');
 		$sm=$this->add('Model_Students_Marks');

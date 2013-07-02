@@ -19,6 +19,7 @@ class page_school_studentClassMapping extends Page {
 		$class->load($_GET['class_master_id']);
 	
 		$grid = $v->add('Grid');
+		$grid->addQuickSearch(array('fname'));
 		$scm=$class->ref('Students_Current');
 		$scm->_dsql()->del('order')->order('fname','asc');
 		$grid->setModel($scm,array('fname','name','father_name','section','roll_number','ishostler','isScholared','bpl'));

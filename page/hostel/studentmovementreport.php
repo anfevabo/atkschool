@@ -14,7 +14,8 @@ class page_hostel_studentmovementreport extends Page {
 		$form->addField('dropdown','status')->setValueList(array('inward'=>'inward','outward'=>'outward'))->setEmptyText('---');
 		$form->addSubmit('Filter');
 
-		$students_m=$this->add('Model_Students_Current');
+		$students_m=$s=$this->add('Model_Hosteler');
+		$students_m->add('Controller_CurrentSession');
 		if($_GET['filter_class'])
 			$students_m->addCondition('class_id',$_GET['filter_class']);
 		// else
@@ -28,6 +29,7 @@ class page_hostel_studentmovementreport extends Page {
 		$m=$this->add('Model_Students_Movement');
 
 		$m->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+		$m['session_id']=$this->add('Model_Sessions_Current')->tryLoadAny()->get('id');
 
 		$this->api->stickyGET('filter');
 		$this->api->stickyGET('class_id');

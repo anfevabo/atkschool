@@ -12,6 +12,6 @@ class page_reports extends Page{
 		$tab->addTabURL('student_marksheet','Marksheet');
 		$tab->addtabURL('student_feereport','Student Fee Report');
 		$tab->addtabURL('student_feereport2','Student Fees Date Wise Report');
-		$tab->addtabURL('student_tc','Student T. C.');
+		$tab->addtabURL('student_tc','Scholar T. C.');
 	}
 }

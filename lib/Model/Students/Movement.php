@@ -5,7 +5,7 @@ class Model_Students_Movement extends Model_Table{
 		parent::init();
 
 		$this->hasOne('Students_Current','student_id');
-		$this->hasOne('Scholars_Guardian','gaurdian_id');
+		$this->hasOne('Scholars_GuardianAll','gaurdian_id');
 		$this->hasOne('Sessions_Current','session_id');
 		$this->addField('date')->type('datetime')->defaultValue(date('Y-m-d H:i:s'));
 		$this->addField('purpose')->enum(array('inward','outward','enquiry'))->mandatory('Purpose must be selected');
@@ -24,9 +24,11 @@ class Model_Students_Movement extends Model_Table{
 
 	function afterDelete(){
 		$h=$this->add('Model_Hosteler');
-		$h->load();
-		if($h['attendance status']=='inward') $h['is_present']=true;
-		if($h['attendance status']=='outward') $h['is_present']=false;
+		$h->load($this['student_id']);
+		if($h['attendance_status']=='inward') $h['is_present']=true;
+		if($h['attendance_status']=='outward') $h['is_present']=false;
+
+		$h->save();
 
 	}
 
