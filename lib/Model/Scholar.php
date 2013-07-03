@@ -23,8 +23,8 @@ class Model_Scholar extends Model_Table {
                 $this->addField('sex')->setValueList(array('M'=>'Male','F'=>'Female'))->mandatory("This Field is Must");
                 $this->addField("isActive")->type('boolean')->mandatory("Is This Active")->defaultValue(true);
                 $this->addField('leaving_date')->type('date')->defaultValue(null);
-                $this->addField('previouse_school_name');
-                $this->addField('previouse_class_name');
+                $this->addField('previouse_school_name')->display('hindi');
+                $this->addField('previouse_class_name')->display('hindi');
                 $this->addField('category')->setValueList(array(null=>'Select Category', 'GEN'=>'GEN',"ST"=>"ST","SC"=>"SC","TAD"=>"TAD(ST)","OBC"=>"OBC","SOBC"=>"SPECIAL OBC","MINORITY"=>"MINORITY"))->mandatory("category is must");
                 
                 $this->hasMany('Student','scholar_id');
