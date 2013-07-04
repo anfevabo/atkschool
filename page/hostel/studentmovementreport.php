@@ -52,9 +52,15 @@ class page_hostel_studentmovementreport extends Page {
 		$m->addExpression('guardian_image')->set(function($m,$q){
 			return $m->refSQL('gaurdian_id')->fieldQuery('image_url');
 		});
+
+
+		$m->addExpression('father_name')->set(function ($m,$q){
+			return $m->refSQL('student_id')->fieldQuery('father_name');
+
+		})->display('hindi');
 	
 
-		$crud->setModel($m,array('student','gaurdian','date','purpose','remark','class','guardian_image'));
+		$crud->setModel($m,array('student',"father_name",'gaurdian','date','purpose','remark','class','guardian_image'));
 		if($crud->grid){
 			$crud->grid->setFormatter('student','hindi');
 			$crud->grid->setFormatter('purpose','attendance');

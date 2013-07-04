@@ -13,6 +13,7 @@ class page_masters_scholars extends Page {
 
 
 			$sc=$this->add( 'Model_Scholar' );
+
 			$sc->getField( 'image_url' )->system( false );
 			$sc->getField( 'student_image' )->system( true );
 
@@ -24,17 +25,17 @@ class page_masters_scholars extends Page {
 				$crud->grid->addQuickSearch( array( 'fname', 'scholar_no' ) );
 			}
 
-			$crud->setModel( $sc );
 			
 			if($crud->grid){
-				$st=$crud->grid->getModel()->leftJoin( 'student.scholar_id', 'id' );
+				$st=$sc->leftJoin( 'student.scholar_id', 'id' );
 				$st->hasOne( 'Class', 'class_id' );
 				$st->addField( 'session_id' );
 				
 				$sc->addCondition( 'session_id', $this->add( 'Model_Sessions_Current' )->tryLoadAny()->get( 'id' ) );
+			}
 				
 
-			}
+			$crud->setModel( $sc);
 
 			if ( $crud->grid ) {
 				// $crud->grid->setFormatter( 'class', 'hindi' );
