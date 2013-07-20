@@ -61,6 +61,10 @@ class Grid extends Grid_Advanced
       $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="30%" height="30%"/>';
     }
 
+    function format_pic($field){
+      $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="80%" height="80%"/>';
+    }
+
     function format_sno($field){
       $this->current_row[$field] = $this->mysno + $_GET[$this->name.'_paginator_skip'];
       $this->mysno++;

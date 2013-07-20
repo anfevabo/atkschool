@@ -43,7 +43,7 @@ class Model_Scholar extends Model_Table {
                 $fs=$this->leftJoin('filestore_file','student_image')
                         ->leftJoin('filestore_image.original_file_id')
                         ->leftJoin('filestore_file','thumb_file_id');
-                $fs->addField('image_url','filename')->display(array('grid'=>'picture'))->system(true);
+                $fs->addField('image_url','filename')->display(array('grid'=>'pic'))->system(false);
 
                 $this->addExpression('active_in_session')->set(function($m,$q){
                         return $m->refSQL('Student')->addCondition('session_id',$m->add('Model_Sessions_Current')->tryLoadAny()->get('id'))->count();

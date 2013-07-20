@@ -14,8 +14,8 @@ class page_masters_scholars extends Page {
 
 			$sc=$this->add( 'Model_Scholar' );
 
-			$sc->getField( 'image_url' )->system( false );
-			$sc->getField( 'student_image' )->system( true );
+			// $sc->getField( 'image_url' )->system( false );
+			$sc->getField( 'student_image' )->system( false );
 
 			$sc->_dsql()->del( 'order' )->order( 'scholar_no', 'desc' );
 
