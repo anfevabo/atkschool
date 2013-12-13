@@ -50,6 +50,7 @@ class page_store_itemoutward extends Page {
 			$ism=$this->add('Model_Item_Issue');
 			$ism->addCondition('student_id',$_GET['student_id']);
 			$ism->addCondition('month',$this->api->recall('issue_month'));
+			$ism->getElement('rate')->setvalueList($this->api->recall('rates_selected',array('-')));
 			// $t->addCondition('is_stationory',1);
 
 			// $ism->debug();
@@ -65,10 +66,7 @@ class page_store_itemoutward extends Page {
 				$year = ($month > (int)date('m',strtotime($cur_sesssion['end_date'])))? date('Y',strtotime($cur_sesssion['start_date'])) : date('Y',strtotime($cur_sesssion['end_date']));
 				// echo $month . " :: " . (int)date('m',strtotime($cur_sesssion['end_date']));
 				$crud->form->getElement('date')->set(date("$year-$month-28	")); //TODO year must be between session
-				if($crud->form->isSubmitted()){
-					if(strpos($crud->form->get('rate'),","))
-						$crud->form->displayError('Please enter only one rate','rate');
-				}
+				
 				$crud->form->getElement('item_id')->setAttr('class','hindi');
 				$item_field=$crud->form->getElement('item_id');
 				$crud->form->getElement('item_id')->model->addCondition('category_id',1);
@@ -77,14 +75,26 @@ class page_store_itemoutward extends Page {
 
 				if($_GET['changed_item']){
 					$itm=$this->add('Model_Item_Inward');
-					$q=$itm->dsql()->del('field')->field('DISTINCT(rate) collected_rate')->where('item_id',$_GET['changed_item']);
+					$q=$itm->dsql()->del('field')
+						->field('DISTINCT(rate) collected_rate')
+						->field('inward_date')
+						->join('bill_master','bill_id')
+						->where('item_id',$_GET['changed_item'])->order('inward_date','desc');
+					$default_rate=false;
 					$r_array=array();
 					foreach($q as $junk){
+						if(!$default_rate) $default_rate = $junk['collected_rate'];
 						$r_array += array($junk['collected_rate']=>$junk['collected_rate']);
 					}
-
-					$rate_field->set(implode(",",$r_array));
+					$this->api->memorize('rates_selected',$r_array);
+					$rate_field->setValueList($r_array)->validateNotNull("rate is must")->set($default_rate);
+					// $rate_field->set(implode(",",$r_array));
 				} 
+
+				if($crud->form->isSubmitted()){
+					if(strpos($crud->form->get('rate'),","))
+						$crud->form->displayError('Please enter only one rate','rate');
+				}
 
 				$item_field->js('change',$crud->form->js()->atk4_form('reloadField','rate',array($this->api->url(),'changed_item'=>$item_field->js()->val())));
 

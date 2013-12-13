@@ -31,7 +31,7 @@ class page_store_reports extends Page{
     $this->api->stickyGET( 'class' );
     $this->api->stickyGET( 'category' );
 
-    $m=$this->add( 'Model_Student' );
+    $m=$this->add( 'Model_Students_Current' );
     $m->addCondition( 'ishostler', true );
     $m->addExpression( "father_name" )->set( function( $m, $q ) {
         return $m->refSQL( "scholar_id" )->fieldQuery( "father_name" );

@@ -9,6 +9,8 @@ class View_ReceiptAll extends View {
 		parent::init();
 		$st=$this->add('Model_Hosteler');
 		$st->addCondition('store_no',$this->store_no);
+		$st->addCondition('session_id',$this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
+		 
 		$st->tryLoadAny();
 		if(!$st->loaded()) {
 			$this->destroy();

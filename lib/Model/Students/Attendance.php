@@ -1,6 +1,6 @@
 <?php
 class Model_Students_Attendance extends Model_Table{
-	var $table="student_attendance";
+ 	var $table="student_attendance";
 	function init(){
 		parent::init();
 

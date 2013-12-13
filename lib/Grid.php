@@ -57,6 +57,19 @@ class Grid extends Grid_Advanced
       $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
     }
 
+    function format_attendance2($field){
+      if($this->current_row[$field] == 1) {
+          $color='green';
+          $this->current_row[$field]='present';
+        }
+      else{
+          $color='red';
+          $this->current_row[$field]='absent';
+      }
+
+      $this->current_row_html[$field]= '<div style="color:'.$color.'">'.$this->current_row[$field].'</div>';
+    }
+
     function format_picture($field){
       $this->current_row_html[$field] = '<img src="upload/'.$this->current_row[$field].'" width="30%" height="30%"/>';
     }

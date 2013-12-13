@@ -16,6 +16,11 @@ class Model_Hosteler extends Model_Student{
 		$this->hasMany('Item_Issue','student_id');
 		$this->hasMany('Students_Disease','student_id');
 
+		// $this->addExpression('father_name')->set(function($m,$q){
+		// 	return $m->refSQL('scholar_id')->fieldQuery('father_name');
+		// });
+
+
 		$this->addExpression('attendance_status')->set(function ($m,$q){
 			return $m->refSQL('Students_Movement')->fieldQuery('purpose')->limit(1)->order('date','desc')->where('purpose','in',array('inward','outward'));
 		})->display('attendance');

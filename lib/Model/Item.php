@@ -32,7 +32,7 @@ class Model_Item extends Model_Table{
 
 		$this->addExpression("TotalIssued")->set(function ($m,$q){
 				return $m->refSQL("Item_Issue")->sum('quantity');
-		})->caption('Total Issue Qty');;
+		})->caption('Total Issue Qty');
 
 		$this->addExpression("instock")->set('id')->display(array("grid"=>'instock'));
 

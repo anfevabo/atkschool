@@ -46,9 +46,10 @@ class page_hostel_attendancereport extends Page{
 					$having=" having present=".$_GET['attendance_status'];
 				}
 				// if($_GET['purpose']) $where.="purpose=".$_GET['purpose']." AND";
-				if(strlen($where)>0) $where = " WHERE s.session_id=".($this->add('Model_Sessions_Current')->tryLoadAny()->get('id'))." AND $where";
+				if(strlen($where)>0 OR strlen($having)>0) $where = " WHERE s.session_id=".($this->add('Model_Sessions_Current')->tryLoadAny()->get('id'))." AND $where";
 				$group=implode(",", $group_by);
 				if(count($group_by)>0) $group = " GROUP BY $group";
+
 			}
 			$where = trim($where," AND ");
 			$q="
@@ -58,7 +59,8 @@ class page_hostel_attendancereport extends Page{
 	            	cm.name class_name, 
 	            	sum(is_present) present,
 	            	count(s.id) total_students,
-	            	sm.hname student_name
+	            	sm.fname student_name,
+	            	sm.father_name
 								FROM 
 								`student` s 
 									join  hostel_allotement hm on s.id=hm.student_id 
@@ -75,6 +77,8 @@ class page_hostel_attendancereport extends Page{
 									";
 									
 			$query = $this->api->db->dsql()->expr($q);
+
+			// $grid->add('Text',null,'quick_search')->set($q);
 			
 
 			$grid->addColumn('sno','sno');
@@ -86,10 +90,11 @@ class page_hostel_attendancereport extends Page{
 			// if(in_array("cm.name", $group_by)) 
 				$grid->addColumn('text','class_name');
 			if(in_array("s.id", $group_by))
-				$grid->addColumn('hindi','student_name');
+				$grid->addColumn('student_name');
+				$grid->addColumn('hindi','father_name');
 			$grid->addColumn('text','total_students');
 			$grid->addColumn('text','present');
-			$grid->addFormatter('present','attendance');
+			$grid->addFormatter('present','attendance2');
 			// $grid->addFormatter('student_name','hindi');
 		}else{
 			$grid=$this->add('Grid');

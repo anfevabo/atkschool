@@ -38,7 +38,7 @@ class Model_Student extends Model_Table{
 
                 $this->addExpression("father_name")->set(function($m,$q){
                         return $m->refSQL('scholar_id')->fieldQuery('father_name');
-                });
+                })->display('hindi');
 
 
                 

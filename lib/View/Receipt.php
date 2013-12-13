@@ -8,6 +8,8 @@ class View_Receipt extends View {
 		parent::init();
 		$st=$this->add('Model_Hosteler');
 		$st->addCondition('store_no',$this->store_no);
+		$st->addCondition('store_no',$this->store_no);
+		
 		$st->tryLoadAny();
 		$sc=$st->ref('scholar_id');
 		

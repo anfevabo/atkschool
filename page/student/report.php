@@ -19,6 +19,9 @@ class page_student_report extends Page{
 																		"SC"=>"SC",
 																		"TAD"=>"TAD(ST)",
 																		"OBC"=>"OBC",
+                                                                        "EBC"=>"EBC",
+                                                                        "SBC"=>"SBC",
+                                                                        "EBC(SBC)"=>"EBC(SBC)",
 																		"SOBC"=>"SPECIAL OBC",
 																		"MINORITY"=>"MINORITY"))->set('-1');
 	
@@ -92,7 +95,10 @@ class page_student_report extends Page{
             {
                 $m->addCondition('category',array('ST','TAD'));
                 //$m->addCondition('category','TAD');
-            } 
+            }elseif ($_GET['filter_category']=='EBC(SBC)') {
+                $m->addCondition('category',array('EBC','SBC'));
+                # code...
+            }
             else
             $m->addCondition('category',$_GET['filter_category']);
         }
