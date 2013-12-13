@@ -79,6 +79,7 @@ class page_student_marks extends Page{
 			$student_join_marks->addField('class_id');
 			$student_join_marks->addField('session_id');
 			$student_marks->addCondition('class_id', $form->get('class'));
+			$student_marks->addCondition('examsub_map_id', $examclassubjectmap->id);
 			$student_marks->addCondition('session_id', $this->add('Model_Sessions_Current')->tryLoadAny()->get('id'));
 
 			$students_in_marks_table_for_this_class= $student_marks->count()->getOne();
@@ -88,6 +89,7 @@ class page_student_marks extends Page{
 			$class->load($form->get('class'));
 			$total_students_in_class=$class->ref('Students_Current')->count()->getOne();
 
+// throw new Exception($students_in_marks_table_for_this_class."  ".$total_students_in_class, 1);
 
 
 			if ($total_students_in_class != $students_in_marks_table_for_this_class) {
