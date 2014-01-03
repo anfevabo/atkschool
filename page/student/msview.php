@@ -158,6 +158,7 @@ class page_student_msview extends Page {
 		$this->api->add('H1',null,'header')->setAttr('align','center')->setHTML('<span class="hindi" style="font-size: 25px">cky fou; efUnj mPp ek/;fed fo|ky; mn;iqj </span>');
 		$fv=$this->add('View_MS_Front',null,'marksheet_front');
 		$fv->setModel($this->add('Model_Student')->load($_GET['student'])->ref('scholar_id'));
+		$fv->template->trySet('session',$this->add('Model_Sessions_Current')->tryLoadAny()->get('name'));
 
 		$att_model=$this->add('Model_Students_Attendance');
         // $att_model->addCondition('class_id',$form->get('class'));

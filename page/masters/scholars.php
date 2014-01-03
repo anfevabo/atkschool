@@ -22,7 +22,7 @@ class page_masters_scholars extends Page {
 
 
 			if ( $crud->grid ) {
-				$crud->grid->addQuickSearch( array( 'fname', 'scholar_no' ) );
+				$crud->grid->addQuickSearch( array( 'fname', 'scholar_no','category' ) );
 			}
 
 			

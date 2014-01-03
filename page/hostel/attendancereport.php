@@ -60,6 +60,7 @@ class page_hostel_attendancereport extends Page{
 	            	sum(is_present) present,
 	            	count(s.id) total_students,
 	            	sm.fname student_name,
+	            	sm.hname student_name_hindi,
 	            	sm.father_name
 								FROM 
 								`student` s 
@@ -91,6 +92,7 @@ class page_hostel_attendancereport extends Page{
 				$grid->addColumn('text','class_name');
 			if(in_array("s.id", $group_by))
 				$grid->addColumn('student_name');
+				$grid->addColumn('hindi','student_name_hindi');
 				$grid->addColumn('hindi','father_name');
 			$grid->addColumn('text','total_students');
 			$grid->addColumn('text','present');
