@@ -9,7 +9,7 @@ class page_masters_party extends Page{
 		if($crud->grid){
 			$crud->grid->addColumn('sno','sno');
 		}
-		$crud->setModel('Party',array('sno','ename','name','contact','address'),array('sno','ename','name','contact','address'));
+		$crud->setModel('Party',array('sno','ename','name','contact','address','is_mesh_supplier'),array('sno','ename','name','contact','address','is_mesh_supplier'));
 	
 	}
 }
