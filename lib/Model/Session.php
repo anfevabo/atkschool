@@ -27,6 +27,7 @@ class Model_Session extends Model_Table{
         $this->hasMany('FeeClassMapping','session_id');             
         $this->hasMany('MarksheetDesigner','session_id');             
         $this->hasMany('Staff_Movement','session_id');             
+        $this->hasMany('Model_Mesh_ItemInward','session_id');             
     }
     
     function markCurrent(){

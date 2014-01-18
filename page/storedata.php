@@ -9,6 +9,6 @@ class page_storedata extends Page {
 		$tabs->addTabURL('store_iteminward','Item Inward');
 		$tabs->addTabURL('store_itemoutward','Stationory Item Outward');
 		$tabs->addTabURL('store_stock','Item Stocks');
-		// $tabs->addTabURL('store_all','All Stocks');
+		$tabs->addTabURL('store_mesh','Mesh Item Inward');
 	}
 }

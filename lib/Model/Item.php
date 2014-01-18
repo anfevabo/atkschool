@@ -26,7 +26,7 @@ class Model_Item extends Model_Table{
 			$itm->addCondition('item_id',$m->getField('id'));
 			return $itm->sum('quantity');
 
-		})->caption('Total In Qty');
+		})->caption('Current Stock');
 
 		// $this->debug();
 
@@ -37,6 +37,7 @@ class Model_Item extends Model_Table{
 		$this->addExpression("instock")->set('id')->display(array("grid"=>'instock'));
 
 	    		$this->addHook('beforeDelete',$this);
+	    		$this->add('dynamic_model/Controller_AutoCreator');
 	   	}
 	function beforeDelete(){
 		if($this->ref('Item_Inward')->count()->getOne())
