@@ -41,7 +41,7 @@ class page_store_stock extends Page {
 
 		$item_mesh->addExpression('total_outward')->set(function($m,$q){
 			return $m->refSQL('Mesh_ItemConsume')->sum('quantity');
-		});
+		})->caption('Total Consume');
 
 		$this->grid->addMethod('format_tstock',function($g,$field){
 			$g->current_row[$field]=$g->current_row['total_inward']-$g->current_row['total_outward'];
@@ -51,12 +51,15 @@ class page_store_stock extends Page {
 			$g->current_row[$field]=$g->current_row['current_inward']-$g->current_row['total_outward'];
 		});
 		$this->grid->setModel($item_mesh,array('name','total_inward','current_inward','total_outward'));
-		$this->grid->addColumn('ctstock','current_stock') 
-		;
+		// $this->grid->addColumn('ctstock','current_stock') ;
 
 		$this->grid->addMethod('format_prevstock',function($g,$field){
-			$g->current_row[$field]=$g->current_row['total_stock']-$g->current_row['current_stock'];
+			$current_stock=$g->current_row['current_inward']-$g->current_row['total_outward'];
+			$g->current_row[$field]=$g->current_row['total_stock']-$current_stock;
 		});
+		$this->grid->addColumn('totalqty','total_current_stock');
+		// $this->grid->removeColumn('inward');
+		// $this->grid->removeColumn('outward');
 
 
 
@@ -64,6 +67,7 @@ class page_store_stock extends Page {
 		$this->grid->addColumn('prevstock','previouse_total_stock');
 		$this->grid->removeColumn('total_inward');
 		$this->grid->removeColumn('current_inward');
+		// $this->grid->removeColumn('current_stock');
 	}
 
 	function handleOthers(){
@@ -88,7 +92,7 @@ class page_store_stock extends Page {
 		$this->grid->setModel($item,array('name','LastPurchasePrice','inward','outward','TotalIssued','TotalInward'));
 		
 		$this->grid->addMethod('format_stock',function($g,$field){
-			$g->current_row[$field]=$g->current_row['inward']-$g->current_row['outward'];
+			$g->current_row[$field]=$g->current_row['current_inward']-$g->current_row['outward'];
 		});
 		$this->grid->addColumn('stock','previouse_stock');
 

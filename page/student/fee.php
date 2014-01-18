@@ -54,6 +54,7 @@ class page_student_fee extends Page{
 		$this->api->stickyGET('student_id');
 		$fa=$this->add('Model_Fees_Applicable');
 		$fa->addCondition('student_id',$_GET['student_id']);
+
 		
 		$this->add('Button','add_fast_fee')->setLabel('Very Fast Deposit')->js('click',$this->js()->univ()->frameURL('Fee Deposit (Very Fast method)',$this->api->url('./new_fast',array('student_id'=>$_GET['student_id']))));
 		$this->add('Button','add_fee')->setLabel('Fast Deposit')->js('click',$this->js()->univ()->frameURL('Fee Deposit (Fast/auto method)',$this->api->url('./new',array('student_id'=>$_GET['student_id']))));
@@ -77,7 +78,11 @@ class page_student_fee extends Page{
 
 	function page_deposit_new_fast(){
 		$this->api->stickyGET('student_id');
+		$fa=$this->add('Model_Fees_Applicable');
+		$fa->addCondition('student_id',$_GET['student_id']);
+		$total_due_fee = $fa->sum('due')->getOne();
 		
+		$this->add('View_Info')->set("Total Due Amount :".$total_due_fee);
 		$form = $this->add('Form');
 
 		$form->addField('line','amount_submitted')->setNotNull();
@@ -174,15 +179,25 @@ class page_student_fee extends Page{
 		$f=$this->add('Model_FeesHead');
 		$field_fee=$form->addField('dropdown','fee_head')->setEmptyText("----");
 		$field_fee->setModel($f);
-
 		$form->addField('line','amount_submitted')->setNotNull();
+		$field_amount=$form->addField('line','amount_due');
+		if($_GET['feehead_id']){
+		$fa=$this->add('Model_Fees_Applicable');
+		$fa->addCondition('student_id',$_GET['student_id']);
+		$fa->addCondition('feehead_id',$_GET['feehead_id']);
+		$total_due_fee = $fa->sum('due')->getOne();
+		$field_amount->set($total_due_fee);	
+		}
+
+
+
 		// $form->addField('line','due_amount');
 		// $form->addField('text','remarks');
 		$form->addField('line','receipt_number');
 		$form->addField('text','remarks');
 		$form->addField('DatePicker','submitted_on')->set(date('Y-m-d'));
 		$form->addSubmit('Receive');
-
+		$field_fee->js('change',$form->js()->atk4_form('reloadField','amount_due',array($this->api->url(),'feehead_id'=>$field_fee->js()->val())));	
 		if($form->isSubmitted()){
 			try{			
 				$form->api->db->beginTransaction();
