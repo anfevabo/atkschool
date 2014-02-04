@@ -87,7 +87,7 @@ class page_school_scholars extends Page {
             $crud->form->setFormClass('stacked atk-row');
             $o=$crud->form->add('Order')
                 ->move($crud->form->addSeparator('noborder span6'),'first')
-                ->move($crud->form->addSeparator('noborder span5'),'middle')
+                ->move($form->addSeparator('noborder span5'),'middle')
                 ->now();
             
             // $crud->form->getElement('hname')->setAttr('class','hindi');

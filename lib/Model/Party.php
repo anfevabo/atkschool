@@ -12,7 +12,7 @@ class Model_Party extends Model_Table{
 		$this->addField('is_mesh_supplier')->type('boolean')->defaultValue(false);
 
 		$this->hasMany('Bill','party_id');
-		$this->hasMany('Mesh_ItemConsume','party_id');
+		// $this->hasMany('Mesh_ItemConsume','party_id');
 		$this->hasMany('Mesh_ItemInward','party_id');
 		$this->addHook('beforeDelete',$this);
 
