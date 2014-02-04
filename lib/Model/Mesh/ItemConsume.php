@@ -29,4 +29,6 @@ class Model_Mesh_ItemConsume extends Model_Table{
 				// $this->api->js()->univ()->errorMessage('There is no sufficient Item');
 		}
 	}
-}
+
+		
+	}

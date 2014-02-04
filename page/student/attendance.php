@@ -20,7 +20,7 @@ class page_student_attendance extends Page{
             							'5'=>'May',
             							'6'=>'Jun',
             							'7'=>'July',
-            							'8'=>'Augst',
+            							'8'=>'August',
             							'9'=>'September',
             							'10'=>'Octomber',
             							'11'=>'November',

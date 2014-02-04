@@ -12,6 +12,7 @@ class Model_Item extends Model_Table{
 		$this->addField('is_stationory')->type('boolean')->system(true);
 		$this->addField('stock')->system(true);
 		$this->hasMany('Item_Inward','item_id');
+		$this->hasMany('Consume','item_id');
 		$this->hasMany('Item_Issue','item_id');
 
 
